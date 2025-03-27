@@ -25,16 +25,18 @@ export default function MainLayout({ children }) {
                             Help
                         </Link>
                     </div>
-                    <div className="relative w-full max-w-md mx-auto">
-                        <input
-                            type="text"
-                            placeholder="Seacrh ..."
-                            className="w-full text-sky-600 pl-2  bg-white rounded-2xl border border-gray-500 shadow-sm focus:border-emerald-200 transition"
-                        />
-                        <img
-                            src="https://img.icons8.com/?size=25&id=KPmthqkeTgDN&format=png&color=000000"
-                            className="absolute right-3 top-1 "
-                        />
+                    <div>
+                        <div className="relative w-full max-w-md mx-auto">
+                            <input
+                                type="text"
+                                placeholder="Seacrh ..."
+                                className="w-full text-sky-600 pl-2  bg-white rounded-2xl border border-gray-500 shadow-sm focus:border-emerald-200 transition"
+                            />
+                            <img
+                                src="https://img.icons8.com/?size=25&id=KPmthqkeTgDN&format=png&color=000000"
+                                className="absolute right-3 top-1 "
+                            />
+                        </div>
                     </div>
                     <Link href="#">
                         <img
@@ -60,12 +62,22 @@ export default function MainLayout({ children }) {
                     </div>
                 </div>
 
-                <div>
-                    <Link href="#">Smartphones</Link>
-                    <Link href="#">Laptops</Link>
-                    <Link href="#">Tablets</Link>
-                    <Link href="#">Smartwatches</Link>
-                    <Link href="#">Headphones</Link>
+                <div className="flex justify-between px-4 md:px-8 lg:px-16 bg-sky-700 text-emerald-100">
+                    <Link href="#" className="hover:underline">
+                        Smartphones
+                    </Link>
+                    <Link href="#" className="hover:underline">
+                        Laptops
+                    </Link>
+                    <Link href="#" className="hover:underline">
+                        Tablets
+                    </Link>
+                    <Link href="#" className="hover:underline">
+                        Smartwatches
+                    </Link>
+                    <Link href="#" className="hover:underline">
+                        Headphones
+                    </Link>
                 </div>
             </header>
             <main>{children}</main>
