@@ -71,7 +71,7 @@ export default function Login() {
                 <div className="text-center mt-2">
                     Don't have an account? Click
                     <Link
-                        href={route("/")}
+                        href={route("register.create")}
                         className="text-sky-700 underline px-1 hover:text-sky-500"
                     >
                         here

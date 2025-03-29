@@ -54,7 +54,7 @@ export default function MainLayout({ children }) {
                         </Link>
                         <span>|</span>
                         <Link
-                            href="#"
+                            href={route("register.create")}
                             className="hover:underline hover:text-emerald-100"
                         >
                             Register
