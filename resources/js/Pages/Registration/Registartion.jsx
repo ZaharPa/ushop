@@ -1,35 +1,44 @@
 import { Link } from "@inertiajs/react";
+import InputField from "../../Components/InputField";
 
 export default function Registration() {
     return (
-        <div className="w-3/4 lg:w-1/2 mx-auto mt-10 p-4 bg-sky-100 shadow-lg rounded-lg text-lg">
+        <div className="form-block">
             <h1 className="text-2xl text-center p-2 mb-6">Registration</h1>
-            <form>
-                <div>
-                    <span>Name</span>
-                    <input type="text" name="name" required />
-                </div>
+            <form className="flex flex-col space-y-4 text-emerald-900">
+                <InputField label="Name" name="name" value={""} />
 
-                <div>
-                    <span>Email</span>
-                    <input type="email" name="email" required />
-                </div>
+                <InputField
+                    label="Email"
+                    type="email"
+                    name="email"
+                    value={""}
+                />
 
-                <div>
-                    <span>Password</span>
-                    <input type="password" name="password" required />
-                </div>
+                <InputField
+                    label="Password"
+                    type="password"
+                    name="password"
+                    value={""}
+                />
 
-                <div>
-                    <span>Confrim password</span>
-                    <input type="password" name="password_confrim" required />
-                </div>
+                <InputField
+                    label="Confrim-Pass"
+                    type="password"
+                    name="password_confrim"
+                    value={""}
+                />
 
-                <button type="submit">Register</button>
+                <button type="submit" className="btn-primary mt-4">
+                    Register
+                </button>
 
-                <div>
+                <div className="text-center mt-2">
                     Do you have an account? Click{" "}
-                    <Link href={route("login")}>here</Link> to sign in
+                    <Link href={route("login")} className="emphasis-text">
+                        here
+                    </Link>{" "}
+                    to sign in
                 </div>
             </form>
         </div>
