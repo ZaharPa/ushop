@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegistrationConrtoller;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'create'])->name('/');
@@ -11,3 +13,20 @@ Route::post('login', [AuthController::class, 'store'])->name('login.store');
 
 Route::resource('register', RegistrationConrtoller::class)
     ->only(['create', 'store']);
+
+Route::get('/email/verify', function () {
+    return inertia('Registration/VerifyEmail');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect()->route('/')
+        ->with('success', 'Email verified successfully!');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('success', 'Verification email sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
