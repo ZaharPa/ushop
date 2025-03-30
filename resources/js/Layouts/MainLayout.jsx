@@ -1,6 +1,7 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 export default function MainLayout({ children }) {
+    const { flash } = usePage().props;
     return (
         <>
             <header>
@@ -80,7 +81,14 @@ export default function MainLayout({ children }) {
                     </Link>
                 </div>
             </header>
-            <main>{children}</main>
+            <main>
+                {flash.success && (
+                    <div className=" w-fit mx-auto border border-dashed border-emerald-400 font-medium text-center p-6 m-3 bg-emerald-50 text-emerald-900 text-lg">
+                        {flash.success}
+                    </div>
+                )}
+                {children}
+            </main>
         </>
     );
 }
