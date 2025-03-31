@@ -68,13 +68,6 @@ export default function Registration() {
                         setData("password_confirmation", e.target.value)
                     }
                 />
-                <div className="text-center">
-                    {errors.password_confirmation && (
-                        <span className="text-red-500">
-                            {errors.password_confirmation}
-                        </span>
-                    )}
-                </div>
 
                 <button
                     type="submit"

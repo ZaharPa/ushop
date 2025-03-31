@@ -32,9 +32,14 @@ class AuthController extends Controller
         return redirect()->intended('/');
     }
 
-
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('/')
+            ->with('success', 'Logged out successFully!');
     }
 }

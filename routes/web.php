@@ -10,11 +10,17 @@ Route::get('/', [AuthController::class, 'create'])->name('/');
 
 Route::get('login', [AuthController::class, 'create'])->name('login');
 Route::post('login', [AuthController::class, 'store'])->name('login.store');
+Route::delete('logout', [AuthController::class, 'destroy'])->name('logout');
 
 Route::resource('register', RegistrationConrtoller::class)
     ->only(['create', 'store']);
 
 Route::get('/email/verify', function () {
+    if (auth()->user()?->hasVerifiedEmail()) {
+        return redirect()->route('/')
+            ->with('success', 'Email have already been verified!');
+    }
+
     return inertia('Registration/VerifyEmail');
 })->middleware('auth')->name('verification.notice');
 

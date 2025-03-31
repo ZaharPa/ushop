@@ -1,7 +1,8 @@
 import { Link, usePage } from "@inertiajs/react";
 
 export default function MainLayout({ children }) {
-    const { flash } = usePage().props;
+    const { flash, auth } = usePage().props;
+
     return (
         <>
             <header>
@@ -46,21 +47,32 @@ export default function MainLayout({ children }) {
                             alt="Cart"
                         />
                     </Link>
-                    <div className="flex gap-2">
+                    {auth.user ? (
                         <Link
-                            href={route("login")}
+                            href={route("logout")}
+                            method="delete"
+                            as="button"
                             className="hover:underline hover:text-emerald-100"
                         >
-                            Login
+                            Log Out
                         </Link>
-                        <span>|</span>
-                        <Link
-                            href={route("register.create")}
-                            className="hover:underline hover:text-emerald-100"
-                        >
-                            Register
-                        </Link>
-                    </div>
+                    ) : (
+                        <div className="flex gap-2">
+                            <Link
+                                href={route("login")}
+                                className="hover:underline hover:text-emerald-100"
+                            >
+                                Login
+                            </Link>
+                            <span>|</span>
+                            <Link
+                                href={route("register.create")}
+                                className="hover:underline hover:text-emerald-100"
+                            >
+                                Register
+                            </Link>
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex justify-between px-4 md:px-8 lg:px-16 bg-sky-700 text-emerald-100">
