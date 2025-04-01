@@ -1,5 +1,6 @@
 import { Link, useForm } from "@inertiajs/react";
 import InputField from "../../Components/InputField";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Registration() {
     const { data, setData, post, processing, errors } = useForm({
@@ -7,6 +8,7 @@ export default function Registration() {
         email: "",
         password: "",
         password_confirmation: "",
+        captcha: "",
     });
 
     const handleSubmit = (e) => {
@@ -68,6 +70,15 @@ export default function Registration() {
                         setData("password_confirmation", e.target.value)
                     }
                 />
+
+                <ReCAPTCHA
+                    sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                    onChange={(token) => setData("captcha", token)}
+                />
+
+                {errors.captcha && (
+                    <span className="text-red-500">{errors.captcha}</span>
+                )}
 
                 <button
                     type="submit"

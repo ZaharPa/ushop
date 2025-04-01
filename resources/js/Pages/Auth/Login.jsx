@@ -1,11 +1,13 @@
 import { Link, useForm } from "@inertiajs/react";
 import InputField from "../../Components/InputField";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Login() {
     const { data, setData, post, processing, errors } = useForm({
         email: "",
         password: "",
         remember: false,
+        captcha: "",
     });
 
     const handleSubmit = (e) => {
@@ -52,6 +54,14 @@ export default function Login() {
                         <span className="text-red-500">{errors.email}</span>
                     )}
                 </div>
+
+                <ReCAPTCHA
+                    sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                    onChange={(token) => setData("captcha", token)}
+                />
+                {errors.captcha && (
+                    <span className="text-red-500">{errors.captcha}</span>
+                )}
 
                 <button
                     type="submit"
