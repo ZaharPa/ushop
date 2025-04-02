@@ -47,7 +47,7 @@ class RegistrationConrtoller extends Controller
         Auth::login($user);
         event(new Registered($user));
 
-        return redirect()->route('/')
+        return redirect()->route('main')
             ->with('success', 'Account created. Verification email was sent!');
     }
 }

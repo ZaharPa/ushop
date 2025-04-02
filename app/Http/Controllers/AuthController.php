@@ -46,7 +46,8 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended('/');
+        return redirect()->intended('/')
+            ->with('success', 'Logged in successfully!');
     }
 
     public function destroy(Request $request)
@@ -56,7 +57,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('/')
+        return redirect()->route('main')
             ->with('success', 'Logged out successFully!');
     }
 }

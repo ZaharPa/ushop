@@ -8,7 +8,7 @@ export default function MainLayout({ children }) {
             <header>
                 <div className="flex justify-center gap-2 md:gap-8 lg:gap-16 bg-sky-500 text-emerald-200 shadow-xs text-lg py-1">
                     <Link
-                        href={route("/")}
+                        href={route("main")}
                         className="text-xl font-bold hover:text-emerald-100 hover:underline"
                     >
                         USHOP
