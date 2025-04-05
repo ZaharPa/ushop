@@ -59,7 +59,7 @@ export default function MainLayout({ children }) {
                     ) : (
                         <div className="flex gap-2">
                             <Link
-                                href={route("login")}
+                                to={route("login")}
                                 className="hover:underline hover:text-emerald-100"
                             >
                                 Login
