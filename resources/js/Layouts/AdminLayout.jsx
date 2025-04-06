@@ -7,8 +7,14 @@ export default function AdminLayout({ children }) {
             <aside className="w-64 bg-sky-900 text-emerald-300 h-screen fixed p-4 flex flex-col text-center gap-4">
                 <AdminLinks label="Dashboard" routeName="admin.dashboard" />
                 <AdminLinks label="Layouts" routeName="main" />
-                <AdminLinks label="Products" routeName="main" />
-                <AdminLinks label="Categories" routeName="main" />
+                <AdminLinks
+                    label="Products"
+                    routeName="admin.categories.index"
+                />
+                <AdminLinks
+                    label="Categories"
+                    routeName="admin.categories.index"
+                />
                 <AdminLinks label="Users" routeName="main" />
                 <AdminLinks label="Orders" routeName="main" />
                 <AdminLinks label="Discount" routeName="main" />

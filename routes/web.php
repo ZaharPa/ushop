@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainPageController;
@@ -39,6 +40,12 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('success', 'Verification email sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::middleware(['auth', 'verified', 'is_admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', DashboardController::class)->name('admin.dashboard');
-});
+Route::middleware(['auth', 'verified', 'is_admin'])
+    ->prefix('admin')
+    ->as('admin.')
+    ->group(function () {
+        Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+        Route::resource('categories', CategoriesController::class)
+            ->only(['index']);
+    });
