@@ -1,5 +1,4 @@
 import AdminLinks from "@/Components/AdminLinks";
-import { Link } from "@inertiajs/react";
 
 export default function AdminLayout({ children }) {
     return (

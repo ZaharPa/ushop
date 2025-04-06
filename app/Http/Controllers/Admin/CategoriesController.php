@@ -8,13 +8,10 @@ use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return inertia('Admin/Categories', [
-            'categories' => Category::all(),
+            'categories' => Category::latest()->paginate(5),
         ]);
     }
 
