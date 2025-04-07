@@ -47,5 +47,5 @@ Route::middleware(['auth', 'verified', 'is_admin'])
         Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
         Route::resource('categories', CategoriesController::class)
-            ->only(['index']);
+            ->only(['index', 'store', 'update', 'destroy']);
     });

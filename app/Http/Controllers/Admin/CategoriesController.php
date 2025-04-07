@@ -15,51 +15,39 @@ class CategoriesController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:50',
+        ]);
+
+        Category::create([
+            'name' => $request->name
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Category created successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:50',
+        ]);
+
+        $category->update([
+            'name' => $request->name
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Category updated successfully!');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function destroy(Category $category)
     {
-        //
-    }
+        $category->delete();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->back()
+            ->with('success', 'Category deleted successfully!');
     }
 }
