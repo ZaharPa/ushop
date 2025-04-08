@@ -12,19 +12,26 @@ export default function Categories() {
 
     const { data, setData, post, put, processing, errors, reset } = useForm({
         name: "",
+        image: null,
     });
 
     const { delete: deleteCategory } = useForm();
 
     const handleNewCategory = () => {
         setChosenCategory(null);
-        setData("name", "");
+        setData({
+            name: "",
+            image: null,
+        });
         setShowForm(true);
     };
 
     const handleChange = (category) => {
         setChosenCategory(category);
-        setData({ name: category.name });
+        setData({
+            name: category.name,
+            image: category.image,
+        });
         setShowForm(true);
     };
 
@@ -33,6 +40,7 @@ export default function Categories() {
 
         if (chosenCategory) {
             put(route("admin.categories.update", chosenCategory.id), {
+                forceFormData: true,
                 onSuccess: () => {
                     reset();
                     setChosenCategory(null);
@@ -40,6 +48,7 @@ export default function Categories() {
             });
         } else {
             post(route("admin.categories.store"), {
+                forceFormData: true,
                 onSuccess: () => reset(),
             });
         }
@@ -68,6 +77,8 @@ export default function Categories() {
                         <span>
                             {category.id} - {category.name}
                         </span>
+                        <img src={category.image_url} alt="image" />
+                        {console.log(category.image_url)}
                         <button
                             onClick={() => handleChange(category)}
                             className="bg-blue-500 text-gray-50 m-2 px-2 py-1 rounded-lg hover:bg-emerald-600"
@@ -109,6 +120,23 @@ export default function Categories() {
                         {errors.name && (
                             <div className="text-red-500 my-1">
                                 {errors.name}
+                            </div>
+                        )}
+
+                        <div>
+                            <span>Photo - </span>
+                            <input
+                                type="file"
+                                onChange={(e) =>
+                                    setData("image", e.target.files[0])
+                                }
+                                className="px-1 border border-gray-600 rounded-lg mt-2"
+                            />
+                        </div>
+
+                        {errors.photo && (
+                            <div className="text-red-500 my-1">
+                                {errors.photo}
                             </div>
                         )}
 
