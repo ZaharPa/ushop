@@ -23,7 +23,11 @@ class CategoriesController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $imagePath = $request->file('image')->store('categories', 'public');
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('categories', 'public');
+        } else {
+            $imagePath = null;
+        }
 
         Category::create([
             'name' => $request->name,
@@ -36,6 +40,7 @@ class CategoriesController extends Controller
 
     public function update(Request $request, Category $category)
     {
+        dd($request->all());
         $request->validate([
             'name' => 'required|string|max:50',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',

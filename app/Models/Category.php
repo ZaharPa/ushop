@@ -15,6 +15,10 @@ class Category extends Model
         'name'
     ];
 
+    protected $appends = [
+        'image_url'
+    ];
+
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);

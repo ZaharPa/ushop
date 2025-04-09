@@ -37,7 +37,7 @@ export default function Categories() {
 
     const handleSumbit = (e) => {
         e.preventDefault();
-
+        console.log(data);
         if (chosenCategory) {
             put(route("admin.categories.update", chosenCategory.id), {
                 forceFormData: true,
@@ -73,12 +73,15 @@ export default function Categories() {
             </button>
             <ul>
                 {categories.data.map((category) => (
-                    <li key={category.id}>
+                    <li key={category.id} className="">
                         <span>
                             {category.id} - {category.name}
                         </span>
-                        <img src={category.image_url} alt="image" />
-                        {console.log(category.image_url)}
+                        <img
+                            src={category.image_url}
+                            alt="image"
+                            className="w-24 "
+                        />
                         <button
                             onClick={() => handleChange(category)}
                             className="bg-blue-500 text-gray-50 m-2 px-2 py-1 rounded-lg hover:bg-emerald-600"
