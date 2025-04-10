@@ -1,11 +1,23 @@
 import { Link, usePage } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 
 export default function MainLayout({ children }) {
     const { flash, auth } = usePage().props;
+    const [showFlash, setShowFlash] = useState(true);
+
+    useEffect(() => {
+        if (flash.success) {
+            const timer = setTimeout(() => {
+                setShowFlash(false);
+            }, 4000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [flash.success]);
 
     return (
         <>
-            <header>
+            <header className="sticky top-0 z-40">
                 <div className="flex justify-center gap-2 md:gap-8 lg:gap-16 bg-sky-500 text-emerald-200 shadow-xs text-lg py-1">
                     <Link
                         href={route("main")}
@@ -94,8 +106,8 @@ export default function MainLayout({ children }) {
                 </div>
             </header>
             <main>
-                {flash.success && (
-                    <div className=" w-fit mx-auto border border-dashed border-emerald-400 font-medium text-center p-6 m-3 bg-emerald-50 text-emerald-900 text-lg">
+                {flash.success && showFlash && (
+                    <div className="fixed top-25 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 border border-dashed border-emerald-400 font-medium text-center p-6 m-3 bg-emerald-50 text-emerald-900 text-lg">
                         {flash.success}
                     </div>
                 )}

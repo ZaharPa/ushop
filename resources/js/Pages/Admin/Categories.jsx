@@ -10,7 +10,7 @@ export default function Categories() {
     const [showForm, setShowForm] = useState(false);
     const [chosenCategory, setChosenCategory] = useState(null);
 
-    const { data, setData, post, put, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         image: null,
     });
@@ -41,10 +41,10 @@ export default function Categories() {
         if (chosenCategory) {
             const formData = new FormData();
             formData.append("name", data.name);
-            console.log(data.image);
+            formData.append("_method", "put");
+
             if (data.image) {
                 formData.append("image", data.image);
-                formData.append("_method", "put");
             }
             router.post(
                 route("admin.categories.update", chosenCategory.id),
@@ -54,6 +54,7 @@ export default function Categories() {
                     onSuccess: () => {
                         reset();
                         setChosenCategory(null);
+                        setShowForm(false);
                     },
                 }
             );
@@ -82,16 +83,16 @@ export default function Categories() {
             <button onClick={handleNewCategory} className="btn-primary">
                 Add New Category
             </button>
-            <ul>
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                 {categories.data.map((category) => (
-                    <li key={category.id} className="">
-                        <span>
+                    <li key={category.id}>
+                        <span className="text-lg font-medium">
                             {category.id} - {category.name}
                         </span>
                         <img
                             src={category.image_url}
                             alt="image"
-                            className="w-24 "
+                            className="w-24 rounded"
                         />
                         <button
                             onClick={() => handleChange(category)}
