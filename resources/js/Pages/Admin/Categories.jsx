@@ -1,6 +1,6 @@
 import Pagination from "@/Components/Pagination";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { useForm, usePage } from "@inertiajs/react";
+import { router, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import { route } from "ziggy-js";
 
@@ -39,13 +39,24 @@ export default function Categories() {
         e.preventDefault();
         console.log(data);
         if (chosenCategory) {
-            put(route("admin.categories.update", chosenCategory.id), {
-                forceFormData: true,
-                onSuccess: () => {
-                    reset();
-                    setChosenCategory(null);
-                },
-            });
+            const formData = new FormData();
+            formData.append("name", data.name);
+            console.log(data.image);
+            if (data.image) {
+                formData.append("image", data.image);
+                formData.append("_method", "put");
+            }
+            router.post(
+                route("admin.categories.update", chosenCategory.id),
+                formData,
+                {
+                    forceFormData: true,
+                    onSuccess: () => {
+                        reset();
+                        setChosenCategory(null);
+                    },
+                }
+            );
         } else {
             post(route("admin.categories.store"), {
                 forceFormData: true,
@@ -96,7 +107,11 @@ export default function Categories() {
 
             {showForm && (
                 <div className="bg-gray-200 rounded p-2 mt-4 border-2 border-dotted border-sky-700">
-                    <form onSubmit={handleSumbit} className="text-center ">
+                    <form
+                        onSubmit={handleSumbit}
+                        encType="multipart/form-data"
+                        className="text-center "
+                    >
                         <h2 className="text-2xl font-medium mt-5 mb-2 text-center">
                             {chosenCategory
                                 ? "Edit Category"

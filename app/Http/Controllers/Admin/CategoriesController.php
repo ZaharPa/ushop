@@ -40,13 +40,12 @@ class CategoriesController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        dd($request->all());
         $request->validate([
             'name' => 'required|string|max:50',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('image') && $category->image != null) {
             Storage::disk('public')->delete($category->image);
         }
 
