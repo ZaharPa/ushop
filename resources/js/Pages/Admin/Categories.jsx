@@ -13,6 +13,7 @@ export default function Categories() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         image: null,
+        parent_id: "",
     });
 
     const { delete: deleteCategory } = useForm();
@@ -22,7 +23,9 @@ export default function Categories() {
         setData({
             name: "",
             image: null,
+            parent_id: "",
         });
+        reset();
         setShowForm(true);
     };
 
@@ -31,6 +34,7 @@ export default function Categories() {
         setData({
             name: category.name,
             image: category.image,
+            parent_id: category.parent_id,
         });
         setShowForm(true);
     };
@@ -41,6 +45,7 @@ export default function Categories() {
         if (chosenCategory) {
             const formData = new FormData();
             formData.append("name", data.name);
+            formData.append("parent_id", data.parent_id);
             formData.append("_method", "put");
 
             if (data.image) {
@@ -84,24 +89,33 @@ export default function Categories() {
                 Add New Category
             </button>
             <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-                {categories.data.map((category) => (
-                    <li key={category.id}>
-                        <span className="text-lg font-medium">
-                            {category.id} - {category.name}
-                        </span>
-                        <img
-                            src={category.image_url}
-                            alt="image"
-                            className="w-24 rounded"
-                        />
-                        <button
-                            onClick={() => handleChange(category)}
-                            className="bg-blue-500 text-gray-50 m-2 px-2 py-1 rounded-lg hover:bg-emerald-600"
-                        >
-                            Choose
-                        </button>
-                    </li>
-                ))}
+                {categories.data.map((category) => {
+                    const parentCategory = categories.data.find(
+                        (parent) => parent.id === category.parent_id
+                    );
+
+                    return (
+                        <li key={category.id}>
+                            <span className="text-lg font-medium">
+                                {category.id} - {category.name}
+                            </span>
+                            <img
+                                src={category.image_url}
+                                alt="image"
+                                className="w-24 rounded"
+                            />
+                            {category.parent_id && (
+                                <div>Parent - {parentCategory.name}</div>
+                            )}
+                            <button
+                                onClick={() => handleChange(category)}
+                                className="bg-blue-500 text-gray-50 m-2 px-2 py-1 rounded-lg hover:bg-emerald-600"
+                            >
+                                Choose
+                            </button>
+                        </li>
+                    );
+                })}
             </ul>
 
             <Pagination links={categories.links} />
@@ -156,6 +170,33 @@ export default function Categories() {
                         {errors.photo && (
                             <div className="text-red-500 my-1">
                                 {errors.photo}
+                            </div>
+                        )}
+
+                        <div>
+                            <span>Parent category - </span>
+                            <select
+                                value={data.parent_id || ""}
+                                onChange={(e) =>
+                                    setData("parent_id", e.target.value)
+                                }
+                                className="px-1 border border-gray-600 rounded-lg mt-2"
+                            >
+                                <option value="">None</option>
+                                {categories.data.map((category) => (
+                                    <option
+                                        key={category.id}
+                                        value={category.id}
+                                    >
+                                        {category.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {errors.parent_id && (
+                            <div className="text-red-500 my-1">
+                                {errors.parent_id}
                             </div>
                         )}
 

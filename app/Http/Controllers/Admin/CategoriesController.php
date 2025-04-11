@@ -21,6 +21,7 @@ class CategoriesController extends Controller
         $request->validate([
             'name' => 'required|string|max:50',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'parent_id' => 'nullable|exists:categories,id',
         ]);
 
         if ($request->hasFile('image')) {
@@ -32,6 +33,7 @@ class CategoriesController extends Controller
         Category::create([
             'name' => $request->name,
             'image' => $imagePath,
+            'parent_id' => $request->parent_id,
         ]);
 
         return redirect()->back()
@@ -40,9 +42,12 @@ class CategoriesController extends Controller
 
     public function update(Request $request, Category $category)
     {
+        dd($request->all());
+
         $request->validate([
             'name' => 'required|string|max:50',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'parent_id' => 'nullable|exists:categories,id',
         ]);
 
         if ($request->hasFile('image') && $category->image != null) {
@@ -51,9 +56,10 @@ class CategoriesController extends Controller
 
         $category->update([
             'name' => $request->name,
+            'parent_id' => $request->parent_id,
             'image' => $request->hasFile('image')
                 ? $request->file('image')->store('categories', 'public')
-                : $category->image
+                : $category->image,
         ]);
 
         return redirect()->back()
