@@ -42,8 +42,6 @@ class CategoriesController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        dd($request->all());
-
         $request->validate([
             'name' => 'required|string|max:50',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -62,7 +60,7 @@ class CategoriesController extends Controller
                 : $category->image,
         ]);
 
-        return redirect()->back()
+        return redirect()->route('admin.categories.index')
             ->with('success', 'Category updated successfully!');
     }
 

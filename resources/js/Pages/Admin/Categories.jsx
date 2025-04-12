@@ -5,14 +5,14 @@ import { useState } from "react";
 import { route } from "ziggy-js";
 
 export default function Categories() {
-    const { categories } = usePage().props;
+    const { categories, errors } = usePage().props;
 
     const [showForm, setShowForm] = useState(false);
     const [chosenCategory, setChosenCategory] = useState(null);
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, reset } = useForm({
         name: "",
-        image: null,
+        image: "",
         parent_id: "",
     });
 
@@ -22,7 +22,7 @@ export default function Categories() {
         setChosenCategory(null);
         setData({
             name: "",
-            image: null,
+            image: "",
             parent_id: "",
         });
         reset();
@@ -33,15 +33,13 @@ export default function Categories() {
         setChosenCategory(category);
         setData({
             name: category.name,
-            image: category.image,
-            parent_id: category.parent_id,
+            parent_id: category.parent_id || "",
         });
         setShowForm(true);
     };
 
     const handleSumbit = (e) => {
         e.preventDefault();
-        console.log(data);
         if (chosenCategory) {
             const formData = new FormData();
             formData.append("name", data.name);
@@ -51,6 +49,7 @@ export default function Categories() {
             if (data.image) {
                 formData.append("image", data.image);
             }
+
             router.post(
                 route("admin.categories.update", chosenCategory.id),
                 formData,
@@ -167,9 +166,9 @@ export default function Categories() {
                             />
                         </div>
 
-                        {errors.photo && (
+                        {errors.image && (
                             <div className="text-red-500 my-1">
-                                {errors.photo}
+                                {errors.image}
                             </div>
                         )}
 
