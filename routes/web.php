@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\RegistrationConrtoller;
@@ -47,5 +48,8 @@ Route::middleware(['auth', 'verified', 'is_admin'])
         Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
         Route::resource('categories', CategoriesController::class)
+            ->only(['index', 'store', 'update', 'destroy']);
+
+        Route::resource('user', UserController::class)
             ->only(['index', 'store', 'update', 'destroy']);
     });
