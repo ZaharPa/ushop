@@ -21,7 +21,25 @@
             disabled:cursor-not-allowed disabled:bg-emerald-600 disabled:text-emerald-100
     }
 
+    .btn-delete {
+        @apply border border-gray-600 rounded-lg bg-red-500 text-gray-50 font-semibold w-fit self-center px-3 py-1 cursor-pointer hover:bg-red-300 hover:text-red-600
+            disabled:cursor-not-allowed disabled:bg-red-700 disabled:text-gray-200
+    }
+
+    .btn-reset {
+        @apply border border-gray-700 rounded-lg bg-gray-600 text-gray-50 font-semibold w-fit self-center px-3 py-1 cursor-pointer hover:bg-gray-400
+            disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-600
+    }
+
     .emphasis-text {
         @apply text-sky-700 underline px-1 hover:text-sky-500
+    }
+
+    .btn-admin {
+        @apply bg-blue-500 text-gray-50 m-2 px-2 py-1 rounded-lg hover:bg-emerald-600
+    }
+
+    .h2-center {
+        @apply text-2xl text-center font-medium mb-4 mt-2
     }
 }

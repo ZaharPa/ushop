@@ -108,7 +108,7 @@ export default function Categories() {
                             )}
                             <button
                                 onClick={() => handleChange(category)}
-                                className="bg-blue-500 text-gray-50 m-2 px-2 py-1 rounded-lg hover:bg-emerald-600"
+                                className="btn-admin"
                             >
                                 Choose
                             </button>
@@ -124,9 +124,9 @@ export default function Categories() {
                     <form
                         onSubmit={handleSumbit}
                         encType="multipart/form-data"
-                        className="text-center "
+                        className="text-center"
                     >
-                        <h2 className="text-2xl font-medium mt-5 mb-2 text-center">
+                        <h2 className="h2-center">
                             {chosenCategory
                                 ? "Edit Category"
                                 : "Add New Category"}
@@ -213,7 +213,7 @@ export default function Categories() {
                                     onClick={() =>
                                         handleDelete(chosenCategory.id)
                                     }
-                                    className="btn-primary bg-red-500 text-gray-50 hover:bg-red-300"
+                                    className="btn-delete"
                                 >
                                     Delete
                                 </button>
@@ -225,7 +225,7 @@ export default function Categories() {
                                     setShowForm(false);
                                     reset();
                                 }}
-                                className="btn-primary bg-gray-600 text-gray-50 hover:bg-gray-400"
+                                className="btn-reset"
                             >
                                 Reset
                             </button>
