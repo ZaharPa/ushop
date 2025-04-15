@@ -1,15 +1,22 @@
 import Pagination from "@/Components/Pagination";
+import UserRow from "@/Components/UserRow";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function User() {
-    const { users, errors } = usePage().props;
+    const { users, deletedUsers, errors } = usePage().props;
 
-    const [showForm, setShowForm] = useState(false);
     const [chosenUser, setChosenUser] = useState(null);
 
-    const { data, setData, post, processing, reset } = useForm({
+    const {
+        data,
+        setData,
+        put,
+        delete: deleteUser,
+        processing,
+        reset,
+    } = useForm({
         name: "",
     });
 
@@ -18,54 +25,83 @@ export default function User() {
         setData({
             name: user.name,
         });
-        setShowForm(true);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        put(route("admin.user.update", chosenUser.id), {
+            onSuccess: () => {
+                setChosenUser(null);
+                reset();
+            },
+        });
+    };
+
+    const handleDelete = (userId) => {
+        if (window.confirm("Are you sure want to delete this category?")) {
+            deleteUser(route("admin.user.destroy", userId), {
+                onSuccess: () => {
+                    setChosenUser(null);
+                    reset();
+                },
+            });
+        }
+    };
+
+    const handleRestore = (userId) => {
+        put(route("admin.user.restore", userId), {
+            onSuccess: () => {
+                reset();
+            },
+        });
     };
 
     return (
         <AdminLayout>
             <h2 className="h2-center">Users list</h2>
-            <ul className="w-full">
-                <li className="grid grid-cols-11 text-center font-medium text-lg mb-2 gap-4">
-                    <div className="col-span-1">Id</div>
-                    <div className="col-span-4">Name</div>
-                    <div className="col-span-4">Email</div>
-                    <div className="col-span-2"></div>
-                </li>
-                {users.data.map((user) => (
-                    <li
-                        key={user.id}
-                        className="grid grid-cols-11 text-center mt-2 gap-4"
-                    >
-                        <div className="col-span-1">{user.id}</div>
-                        <div className="col-span-4">{user.name}</div>
-                        <div className="col-span-4">{user.email}</div>
-                        <div className="col-span-2 flex">
-                            <button
-                                onClick={() => handleChange(user)}
-                                className="btn-admin"
-                            >
-                                Edit
-                            </button>
-                            <button
-                                type="button"
-                                // onClick={() => handleDelete(user.id)}
-                                className="btn-delete"
-                            >
-                                Delete
-                            </button>
-                        </div>
+            <div>
+                <ul className="w-full">
+                    <li className="grid grid-cols-10 lg:grid-cols-11 text-center font-medium text-lg mb-2 gap-4">
+                        <div className="col-span-1">Id</div>
+                        <div className="col-span-3 lg:col-span-4">Name</div>
+                        <div className="col-span-4">Email</div>
+                        <div className="col-span-2"></div>
                     </li>
-                ))}
-            </ul>
+                    {users.data.map((user) => (
+                        <UserRow
+                            key={user.id}
+                            user={user}
+                            actions={
+                                <>
+                                    <button
+                                        onClick={() => handleChange(user)}
+                                        className="btn-admin"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleDelete(user.id)}
+                                        className="btn-delete"
+                                    >
+                                        Delete
+                                    </button>
+                                </>
+                            }
+                        />
+                    ))}
+                </ul>
+            </div>
 
-            {users.links && <Pagination links={users.links} />}
+            {users.links && (
+                <div className="flex justify-center mt-2 mb-4">
+                    <Pagination links={users.links} />
+                </div>
+            )}
 
-            {showForm && (
+            {chosenUser && (
                 <div className="bg-gray-200 rounded p-2 mt-4 border-2 border-dotted border-sky-700">
-                    <form
-                        // onSubmit={handleSubmit}
-                        className="text-center"
-                    >
+                    <form onSubmit={handleSubmit} className="text-center">
                         <h2 className="h2-center">Edit User Name</h2>
 
                         <div>Id - {chosenUser.id}</div>
@@ -76,9 +112,9 @@ export default function User() {
                                 type="text"
                                 value={data.name}
                                 size={data.name.length}
-                                // onChange={(e) =>
-                                //     setData("name", e.target.value)
-                                // }
+                                onChange={(e) =>
+                                    setData("name", e.target.value)
+                                }
                                 className="px-1 border border-gray-600 rounded-lg mt-2"
                             />
                         </div>
@@ -102,7 +138,6 @@ export default function User() {
                                 type="button"
                                 onClick={() => {
                                     setChosenUser(null);
-                                    setShowForm(false);
                                     reset();
                                 }}
                                 className="btn-reset"
@@ -111,6 +146,34 @@ export default function User() {
                             </button>
                         </div>
                     </form>
+                </div>
+            )}
+
+            {deletedUsers && (
+                <ul className="pt-6">
+                    <li>
+                        <h2 className="h2-center"> Deleted Users list</h2>
+                    </li>
+                    {deletedUsers.data.map((user) => (
+                        <UserRow
+                            key={user.id}
+                            user={user}
+                            actions={
+                                <button
+                                    onClick={() => handleRestore(user.id)}
+                                    className="btn-admin"
+                                >
+                                    Restore
+                                </button>
+                            }
+                        />
+                    ))}
+                </ul>
+            )}
+
+            {deletedUsers.links && (
+                <div className="flex justify-center mt-4">
+                    <Pagination links={deletedUsers.links} />
                 </div>
             )}
         </AdminLayout>

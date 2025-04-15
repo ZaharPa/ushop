@@ -51,5 +51,7 @@ Route::middleware(['auth', 'verified', 'is_admin'])
             ->only(['index', 'store', 'update', 'destroy']);
 
         Route::resource('user', UserController::class)
-            ->only(['index', 'store', 'update', 'destroy']);
+            ->only(['index', 'update', 'destroy']);
+        Route::put('user/{user}/restore', [UserController::class, 'restore'])
+            ->name('user.restore')->withTrashed();
     });
