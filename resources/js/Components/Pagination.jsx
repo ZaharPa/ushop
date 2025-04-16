@@ -1,19 +1,60 @@
 import { Link } from "@inertiajs/react";
 
 export default function Pagination({ links }) {
-    return (
-        <div className="flex flex-wrap gap-2 mt-4">
-            {links.map((link, i) => (
+    if (!links || links.length <= 3) return null;
+
+    const renderLinks = () => {
+        const visableLinks = [];
+        const first = links[0];
+        const last = links[links.length - 1];
+        const current = links.find((link) => link.active);
+        const currentIndex = links.indexOf(current);
+
+        if (first.url) {
+            visableLinks.push(first);
+        }
+
+        for (let i = 1; i < links.length - 1; i++) {
+            const page = links[i];
+            const label = page.label;
+
+            const isNearCurrent =
+                Math.abs(i - currentIndex) <= 1 ||
+                i === 1 ||
+                i === links.length - 2;
+
+            if (isNearCurrent) {
+                visableLinks.push(page);
+            } else if (visableLinks[visableLinks.length - 1].label !== "...") {
+                visableLinks.push({ label: "...", url: null });
+            }
+        }
+
+        if (last.url) {
+            visableLinks.push(last);
+        }
+
+        return visableLinks.map((link, i) =>
+            link.url ? (
                 <Link
                     key={i}
-                    href={link.url || ""}
+                    href={link.url}
                     dangerouslySetInnerHTML={{ __html: link.label }}
                     className={`px-4 py-2 rounded text-gray-50
-                        hover:bg-emerald-400 hover:text-gray-800 transition duration-200 ${
-                            link.active ? "bg-emerald-500" : "bg-sky-700 "
-                        }`}
+                            hover:bg-emerald-400 hover:text-gray-800 transition duration-200 ${
+                                link.active ? "bg-emerald-500" : "bg-sky-700 "
+                            }`}
                 />
-            ))}
-        </div>
-    );
+            ) : (
+                <span
+                    key={i}
+                    className="px-4 py-2 rounded bg-gray-300 text-gray-700"
+                >
+                    ...
+                </span>
+            )
+        );
+    };
+
+    return <div className="flex flex-wrap gap-2 mt-4">{renderLinks()}</div>;
 }

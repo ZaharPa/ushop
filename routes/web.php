@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainPageController;
@@ -54,4 +55,7 @@ Route::middleware(['auth', 'verified', 'is_admin'])
             ->only(['index', 'update', 'destroy']);
         Route::put('user/{user}/restore', [UserController::class, 'restore'])
             ->name('user.restore')->withTrashed();
+
+        Route::resource('product', ProductController::class)
+            ->except(['show']);
     });
