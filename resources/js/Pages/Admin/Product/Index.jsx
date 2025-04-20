@@ -1,13 +1,16 @@
 import FilterProduct from "@/Components/FilterProduct";
 import Pagination from "@/Components/Pagination";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 export default function Index() {
     const { products, filters } = usePage().props;
 
     return (
         <AdminLayout>
+            <Link href={route("admin.product.create")} className="btn-primary">
+                Add new Product
+            </Link>
             <h2 className="h2-center">Product List</h2>
             <ul className="w-full">
                 <li>

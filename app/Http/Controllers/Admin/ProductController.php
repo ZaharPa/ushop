@@ -30,7 +30,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        //
+        return inertia('Admin/Product/Create');
     }
 
     public function store(Request $request)
