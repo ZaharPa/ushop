@@ -30,7 +30,9 @@ class ProductController extends Controller
 
     public function create()
     {
-        return inertia('Admin/Product/Create');
+        return inertia('Admin/Product/Create', [
+            'categories' => Category::all(),
+        ]);
     }
 
     public function store(Request $request)
