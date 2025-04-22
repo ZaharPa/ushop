@@ -37,8 +37,25 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:50',
+            'description' => 'required|string',
+            'price' => 'required|integer|min:1|max:10000000000',
+            'category_id' => 'nullable|exists:categories,id',
+        ]);
+
+
+        Product::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'category_id' => $request->category_id,
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Product created successfully!');
     }
+
 
     public function edit(string $id)
     {
