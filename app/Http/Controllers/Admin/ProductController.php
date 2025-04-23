@@ -40,7 +40,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:50',
             'description' => 'required|string',
-            'price' => 'required|integer|min:1|max:10000000000',
+            'price' => 'required|numeric|min:0.01|max:10000000000',
             'category_id' => 'nullable|exists:categories,id',
         ]);
 
@@ -52,20 +52,33 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
         ]);
 
-        return redirect()->back()
+        return redirect()->intended('/admin/product')
             ->with('success', 'Product created successfully!');
     }
 
 
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        //
+        return inertia('Admin/Product/Edit', [
+            'product' => $product,
+            'categories' => Category::all(),
+        ]);
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        $product->update(
+            $request->validate([
+                'name' => 'required|string|max:50',
+                'description' => 'required|string',
+                'price' => 'required|numeric|min:0.01|max:10000000000',
+                'category_id' => 'nullable|exists:categories,id',
+            ])
+        );
+
+        return redirect()->intended('/admin/product')
+            ->with('success', 'Product update successfully');
     }
 
     public function destroy(string $id)

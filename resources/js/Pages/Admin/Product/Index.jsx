@@ -40,9 +40,13 @@ export default function Index() {
                         </div>
                         <div className="col-span-2">{product.price}</div>
                         <div className="col-span-1">
-                            <button type="button" className="btn-admin">
+                            <Link
+                                href={route("admin.product.edit", product.id)}
+                                type="button"
+                                className="btn-admin"
+                            >
                                 Edit
-                            </button>
+                            </Link>
                         </div>
                     </li>
                 ))}
