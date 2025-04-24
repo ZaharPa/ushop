@@ -81,8 +81,19 @@ class ProductController extends Controller
             ->with('success', 'Product update successfully');
     }
 
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        $product->deleteOrFail();
+
+        return redirect()->intended('/admin/product')
+            ->with('success', 'Product delete successfully');
+    }
+
+    public function restore(Product $product)
+    {
+        $product->restore();
+
+        return redirect()->intended('/admin/product')
+            ->with('success', 'Product restore successfully');
     }
 }
