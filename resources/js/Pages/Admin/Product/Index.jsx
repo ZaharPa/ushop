@@ -30,7 +30,7 @@ export default function Index() {
                 {products.data.map((product) => (
                     <li
                         key={product.id}
-                        className="grid grid-cols-9 gap-2 mt-1 text-center"
+                        className="grid grid-cols-9 gap-2 text-center mt-4"
                     >
                         <div>{product.id}</div>
                         <div className="col-span-2">photo</div>

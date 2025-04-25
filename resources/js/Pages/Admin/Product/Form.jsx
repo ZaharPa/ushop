@@ -6,7 +6,7 @@ export default function Form({
     processing,
     reset,
     categories,
-    isDelete = false,
+    handleDelete = false,
 }) {
     return (
         <form
@@ -90,9 +90,9 @@ export default function Form({
                     Reset
                 </button>
 
-                {isDelete && (
+                {handleDelete && (
                     <button
-                        onClick={() => reset()}
+                        onClick={handleDelete}
                         type="button"
                         className="btn-delete"
                     >
