@@ -1,3 +1,4 @@
+import ConfrimModal from "@/Components/ConfrimModal";
 import Pagination from "@/Components/Pagination";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { router, useForm, usePage } from "@inertiajs/react";
@@ -8,6 +9,7 @@ export default function Categories() {
     const { categories, errors } = usePage().props;
 
     const [showForm, setShowForm] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
     const [chosenCategory, setChosenCategory] = useState(null);
 
     const { data, setData, post, processing, reset } = useForm({
@@ -71,15 +73,22 @@ export default function Categories() {
     };
 
     const handleDelete = (categoryId) => {
-        if (window.confirm("Are you sure you want to delete this category?")) {
-            deleteCategory(route("admin.categories.destroy", categoryId), {
-                onSuccess: () => {
-                    setChosenCategory(null);
-                    setShowForm(false);
-                    reset();
-                },
-            });
-        }
+        setShowConfirm(true);
+    };
+
+    const confirmDelete = () => {
+        deleteCategory(route("admin.categories.destroy", chosenCategory.id), {
+            onSuccess: () => {
+                setChosenCategory(null);
+                setShowForm(false);
+                reset();
+            },
+        });
+        setShowConfirm(false);
+    };
+
+    const cancelDelete = () => {
+        setShowConfirm(false);
     };
 
     return (
@@ -233,6 +242,13 @@ export default function Categories() {
                     </form>
                 </div>
             )}
+
+            <ConfrimModal
+                show={showConfirm}
+                onConfrim={confirmDelete}
+                onCancel={cancelDelete}
+                message="Are you sure want to delete this category?"
+            />
         </AdminLayout>
     );
 }
