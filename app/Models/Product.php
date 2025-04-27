@@ -18,7 +18,6 @@ class Product extends Model
         'name',
         'description',
         'category_id',
-        'price'
     ];
 
     public function category(): BelongsTo
@@ -36,12 +35,6 @@ class Product extends Model
         return $query->when(
             $filters['name'] ?? false,
             fn($query, $value) => $query->where('name', 'like', '%' . $value . '%')
-        )->when(
-            $filters['priceFrom'] ?? false,
-            fn($query, $value) => $query->where('price', '>=', $value)
-        )->when(
-            $filters['priceTo'] ?? false,
-            fn($query, $value) => $query->where('price', '<=', $value)
         )->when(
             $filters['category'] ?? false,
             fn($query, $value) => $query->where('category_id', '=', $value)

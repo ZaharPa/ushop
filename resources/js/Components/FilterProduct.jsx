@@ -5,8 +5,6 @@ export default function FilterProduct({ filters, pageRoute }) {
 
     const { data, setData, get, processing, reset } = useForm({
         name: filters.name || "",
-        priceFrom: filters.priceFrom || "",
-        priceTo: filters.priceTo || "",
         category: filters.category || "",
     });
 
@@ -22,8 +20,6 @@ export default function FilterProduct({ filters, pageRoute }) {
     const handleReset = () => {
         setData({
             name: "",
-            priceFrom: "",
-            priceTo: "",
             category: "",
         });
 
@@ -44,10 +40,10 @@ export default function FilterProduct({ filters, pageRoute }) {
                 placeholder="Name product"
                 value={data.name}
                 onChange={(e) => setData("name", e.target.value)}
-                className="input-admin w-full"
+                className="input-admin w-3/5"
             />
             <select
-                className="input-admin"
+                className="w-1/4 input-admin"
                 value={data.category}
                 onChange={(e) => setData("category", e.target.value)}
             >
@@ -58,20 +54,6 @@ export default function FilterProduct({ filters, pageRoute }) {
                     </option>
                 ))}
             </select>
-            <input
-                type="text"
-                placeholder="Price From"
-                value={data.priceFrom}
-                onChange={(e) => setData("priceFrom", e.target.value)}
-                className="input-admin"
-            />
-            <input
-                type="text"
-                placeholder="Price To"
-                value={data.priceTo}
-                onChange={(e) => setData("priceTo", e.target.value)}
-                className="input-admin"
-            />
             <div className="flex gap-3">
                 <button
                     type="submit"

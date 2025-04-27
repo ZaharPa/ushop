@@ -15,7 +15,6 @@ export default function Edit() {
         name: product.name,
         description: product.description,
         category_id: product.category_id,
-        price: product.price,
     });
 
     const handleSubmit = (e) => {
@@ -25,7 +24,6 @@ export default function Edit() {
         formData.append("name", data.name);
         formData.append("description", data.description);
         formData.append("category_id", data.category_id);
-        formData.append("price", data.price);
         formData.append("_method", "put");
 
         router.post(route("admin.product.update", product.id), formData, {

@@ -19,18 +19,17 @@ export default function Index() {
                         pageRoute={"admin.product.index"}
                     />
                 </li>
-                <li className="grid grid-cols-9 gap-4 mb-2 text-center font-medium text-lg">
+                <li className="grid grid-cols-7 gap-4 mb-2 text-center font-medium text-lg">
                     <div>Id</div>
                     <div className="col-span-2">Photo</div>
                     <div className="col-span-2">Name</div>
                     <div>Category</div>
-                    <div className="col-span-2">Price</div>
                     <div></div>
                 </li>
                 {products.data.map((product) => (
                     <li
                         key={product.id}
-                        className="grid grid-cols-9 gap-2 text-center mt-4"
+                        className="grid grid-cols-7 gap-2 text-center mt-4"
                     >
                         <div>{product.id}</div>
                         <div className="col-span-2">photo</div>
@@ -38,7 +37,6 @@ export default function Index() {
                         <div className="col-span-1">
                             {product.category?.name}
                         </div>
-                        <div className="col-span-2">{product.price}</div>
                         <div className="col-span-1">
                             <Link
                                 href={route("admin.product.edit", product.id)}

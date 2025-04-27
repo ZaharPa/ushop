@@ -8,7 +8,6 @@ export default function Create() {
         name: "",
         description: "",
         category_id: "",
-        price: "",
     });
 
     const handleSubmit = (e) => {

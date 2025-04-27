@@ -14,8 +14,6 @@ class ProductController extends Controller
         $filters = $request->only([
             'name',
             'category',
-            'priceFrom',
-            'priceTo'
         ]);
 
         return inertia('Admin/Product/Index', [
@@ -40,7 +38,6 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:50',
             'description' => 'required|string',
-            'price' => 'required|numeric|min:0.01|max:10000000000',
             'category_id' => 'nullable|exists:categories,id',
         ]);
 
@@ -48,7 +45,6 @@ class ProductController extends Controller
         Product::create([
             'name' => $request->name,
             'description' => $request->description,
-            'price' => $request->price,
             'category_id' => $request->category_id,
         ]);
 
@@ -72,7 +68,6 @@ class ProductController extends Controller
             $request->validate([
                 'name' => 'required|string|max:50',
                 'description' => 'required|string',
-                'price' => 'required|numeric|min:0.01|max:10000000000',
                 'category_id' => 'nullable|exists:categories,id',
             ])
         );

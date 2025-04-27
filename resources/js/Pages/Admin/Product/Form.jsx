@@ -41,20 +41,6 @@ export default function Form({
             )}
 
             <div className="col-span-1">
-                <input
-                    type="text"
-                    value={data.price}
-                    onChange={(e) => setData("price", e.target.value)}
-                    placeholder="Price"
-                    className="input-admin"
-                />
-            </div>
-
-            {errors.price && (
-                <div className="text-red-500 my-1">{errors.price}</div>
-            )}
-
-            <div className="col-span-1">
                 <select
                     value={data.category_id}
                     onChange={(e) => setData("category_id", e.target.value)}
