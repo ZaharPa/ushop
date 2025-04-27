@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -18,16 +17,16 @@ class Product extends Model
         'name',
         'description',
         'category_id',
+        'photo',
+    ];
+
+    protected $appends = [
+        'photo'
     ];
 
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
-    }
-
-    public function images(): HasMany
-    {
-        return $this->hasMany(ProductImage::class);
     }
 
     public function scopeFilter(Builder $query, array $filters): Builder
@@ -39,5 +38,12 @@ class Product extends Model
             $filters['category'] ?? false,
             fn($query, $value) => $query->where('category_id', '=', $value)
         );
+    }
+
+    public function getPhotoUrlAttribute()
+    {
+        return $this->photo
+            ? asset('storage/' . $this->photo)
+            : asset('storage/categories/default.png');
     }
 }
