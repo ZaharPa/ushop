@@ -44,7 +44,7 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            $imagePath = $request->file('image')->store('categories', 'public');
+            $imagePath = $request->file('photo')->store('products', 'public');
         } else {
             $imagePath = null;
         }
@@ -88,7 +88,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'category_id' => $request->category_id,
             'photo' => $request->hasFile('photo')
-                ? $request->file('photo')->store('categories', 'public')
+                ? $request->file('photo')->store('products', 'public')
                 : $product->photo,
         ]);
 

@@ -3,16 +3,18 @@ import { useForm, usePage } from "@inertiajs/react";
 import Form from "./Form";
 
 export default function Create() {
-    const { categories } = usePage().props;
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { categories, errors } = usePage().props;
+    const { data, setData, post, processing, reset } = useForm({
         name: "",
         description: "",
         category_id: "",
+        photo: "",
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route("admin.product.store"), {
+            forceFormData: true,
             onSuccess: () => reset(),
         });
     };

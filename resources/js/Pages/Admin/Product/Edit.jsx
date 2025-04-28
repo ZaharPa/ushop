@@ -3,13 +3,12 @@ import Form from "./Form";
 import { router, useForm, usePage } from "@inertiajs/react";
 
 export default function Edit() {
-    const { product, categories } = usePage().props;
+    const { product, categories, errors } = usePage().props;
     const {
         data,
         setData,
         delete: deleteProduct,
         processing,
-        errors,
         reset,
     } = useForm({
         name: product.name,
@@ -24,10 +23,16 @@ export default function Edit() {
         formData.append("name", data.name);
         formData.append("description", data.description);
         formData.append("category_id", data.category_id);
+
+        if (data.photo) {
+            formData.append("photo", data.photo);
+        }
+
         formData.append("_method", "put");
 
         router.post(route("admin.product.update", product.id), formData, {
             forceFormData: true,
+            onSuccess: () => reset(),
         });
     };
 
@@ -43,7 +48,7 @@ export default function Edit() {
 
     return (
         <AdminLayout>
-            <h2 className="h2-center">Edit Category</h2>
+            <h2 className="h2-center">Edit Product</h2>
             <Form
                 handleSubmit={(e) => handleSubmit(e)}
                 data={data}
@@ -53,6 +58,7 @@ export default function Edit() {
                 errors={errors}
                 categories={categories}
                 handleDelete={(e) => handleDelete()}
+                photo_url={product.photo_url}
             />
         </AdminLayout>
     );

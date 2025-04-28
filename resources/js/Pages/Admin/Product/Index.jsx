@@ -32,7 +32,13 @@ export default function Index() {
                         className="grid grid-cols-7 gap-2 text-center mt-4"
                     >
                         <div>{product.id}</div>
-                        <div className="col-span-2">photo</div>
+                        <div className="col-span-2 flex justify-center">
+                            <img
+                                src={product.photo_url}
+                                alt="Photo"
+                                className="h-32"
+                            />
+                        </div>
                         <div className="col-span-2">{product.name}</div>
                         <div className="col-span-1">
                             {product.category?.name}

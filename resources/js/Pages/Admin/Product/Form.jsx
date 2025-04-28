@@ -7,10 +7,12 @@ export default function Form({
     reset,
     categories,
     handleDelete = false,
+    photo_url = "",
 }) {
     return (
         <form
             onSubmit={handleSubmit}
+            encType="multipart/form-data"
             className="grid grid-cols-2 gap-5 items-center"
         >
             <div className="flex flex-col col-span-2">
@@ -57,6 +59,24 @@ export default function Form({
 
             {errors.category_id && (
                 <div className="text-red-500 my-1">{errors.category_id}</div>
+            )}
+
+            <div className="col-span-1">
+                <input
+                    type="file"
+                    onChange={(e) => setData("photo", e.target.files[0])}
+                    className="input-admin"
+                />
+            </div>
+
+            {errors.photo && (
+                <div className="text-red-500 my-1">{errors.photo}</div>
+            )}
+
+            {photo_url && (
+                <div className="col-span-2 flex justify-center h-60">
+                    <img src={photo_url} />
+                </div>
             )}
 
             <div className="flex gap-4 justify-center col-span-2">

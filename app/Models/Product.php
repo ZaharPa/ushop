@@ -21,7 +21,7 @@ class Product extends Model
     ];
 
     protected $appends = [
-        'photo'
+        'photo_url'
     ];
 
     public function category(): BelongsTo
@@ -44,6 +44,6 @@ class Product extends Model
     {
         return $this->photo
             ? asset('storage/' . $this->photo)
-            : asset('storage/categories/default.png');
+            : asset('storage/products/default.png');
     }
 }
