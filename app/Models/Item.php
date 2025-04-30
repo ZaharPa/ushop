@@ -23,11 +23,11 @@ class Item extends Model
         return $this->hasMany(ItemPhoto::class);
     }
 
-    public function attributes(): BelongsToMany
+    public function attributeValues(): BelongsToMany
     {
-        return $this->belongsToMany(Attribute::class)
+        return $this->belongsToMany(AttributeValue::class)
             ->using(AttributeItem::class)
-            ->withPivot('attribute_value_id')
+            ->withPivot('id')
             ->withTimestamps();
     }
 }

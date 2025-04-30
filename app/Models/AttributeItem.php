@@ -2,13 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class AttributeItem extends Model
+class AttributeItem extends Pivot
 {
+    public $incrementing = true;
+
+    public function item(): BelongsTo
+    {
+        return $this->belongsTo(Item::class);
+    }
+
     public function value(): BelongsTo
     {
-        return $this->belongsTo(AttributeValue::class, 'attribute_value_id');
+        return $this->belongsTo(AttributeValue::class);
     }
 }
