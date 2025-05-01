@@ -19,6 +19,11 @@ class Attribute extends Model
             ->withTimestamps();
     }
 
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
     public function values(): HasMany
     {
         return $this->hasMany(AttributeValue::class);
