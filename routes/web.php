@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\RegistrationConrtoller;
@@ -61,5 +61,5 @@ Route::middleware(['auth', 'verified', 'is_admin'])
             ->except(['show']);
 
         Route::resource('attribute', AttributeController::class)
-            ->only('index');
+            ->only(['index', 'store']);
     });

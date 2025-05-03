@@ -12,6 +12,8 @@ class Attribute extends Model
     /** @use HasFactory<\Database\Factories\AttributeFactory> */
     use HasFactory;
 
+    protected $fillable = ['name'];
+
     public function items(): BelongsToMany
     {
         return $this->belongsToMany(Item::class)
