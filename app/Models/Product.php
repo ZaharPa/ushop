@@ -35,6 +35,11 @@ class Product extends Model
         return $this->hasMany(Item::class);
     }
 
+    public function productFeatures(): HasMany
+    {
+        return $this->hasMany(ProductFeature::class);
+    }
+
     public function scopeFilter(Builder $query, array $filters): Builder
     {
         return $query->when(
