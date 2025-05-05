@@ -14,6 +14,7 @@ export default function AdminLayout({ children }) {
                     label="Attributes"
                     routeName="admin.attribute.index"
                 />
+                <AdminLinks label="Features" routeName="admin.feature.index" />
                 <AdminLinks label="Products" routeName="admin.product.index" />
                 <AdminLinks label="Items" routeName="main" />
                 <AdminLinks label="Users" routeName="admin.user.index" />

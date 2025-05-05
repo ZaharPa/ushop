@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AttributeController;
+use App\Http\Controllers\Admin\FeatureController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\RegistrationConrtoller;
@@ -61,5 +62,8 @@ Route::middleware(['auth', 'verified', 'is_admin'])
             ->except(['show']);
 
         Route::resource('attribute', AttributeController::class)
+            ->only(['index', 'store']);
+
+        Route::resource('feature', FeatureController::class)
             ->only(['index', 'store']);
     });

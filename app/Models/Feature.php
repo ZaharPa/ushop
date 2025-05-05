@@ -12,6 +12,8 @@ class Feature extends Model
     /** @use HasFactory<\Database\Factories\FeatureFactory> */
     use HasFactory;
 
+    protected $fillable = ['name'];
+
     public function productFeatures(): HasMany
     {
         return $this->hasMany(ProductFeature::class);
