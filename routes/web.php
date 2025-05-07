@@ -65,5 +65,5 @@ Route::middleware(['auth', 'verified', 'is_admin'])
             ->only(['index', 'store']);
 
         Route::resource('feature', FeatureController::class)
-            ->only(['index', 'store']);
+            ->only(['index', 'store', 'update', 'destroy']);
     });

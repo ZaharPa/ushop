@@ -30,13 +30,25 @@ class FeatureController extends Controller
             ->with('success', 'Feature added successfully');
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Feature $feature)
     {
-        //
+        $request->validate([
+            'name' => 'required|string'
+        ]);
+
+        $feature->update([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Feature update successfully');
     }
 
-    public function destroy(string $id)
+    public function destroy(Feature $feature)
     {
-        //
+        $feature->delete();
+
+        return redirect()->back()
+            ->with('success', 'Feature deleted successfully');
     }
 }
