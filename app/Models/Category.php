@@ -29,7 +29,7 @@ class Category extends Model
 
     public function features(): BelongsToMany
     {
-        return $this->belongsToMany(Feature::class);
+        return $this->belongsToMany(Feature::class, 'category_features');
     }
 
 

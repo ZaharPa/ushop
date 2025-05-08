@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Feature;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,7 +13,8 @@ class CategoriesController extends Controller
     public function index()
     {
         return inertia('Admin/Categories', [
-            'categories' => Category::latest()->paginate(5),
+            'categories' => Category::with('features')->latest()->paginate(5),
+            'features' => Feature::all(),
         ]);
     }
 
@@ -46,6 +48,8 @@ class CategoriesController extends Controller
             'name' => 'required|string|max:50',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'parent_id' => 'nullable|exists:categories,id',
+            'features' => 'nullable|array',
+            'features.*' => 'integer|exists:features,id',
         ]);
 
         if ($request->hasFile('image') && $category->image != null) {
@@ -59,6 +63,8 @@ class CategoriesController extends Controller
                 ? $request->file('image')->store('categories', 'public')
                 : $category->image,
         ]);
+
+        $category->features()->sync($request->features ?? []);
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'Category updated successfully!');

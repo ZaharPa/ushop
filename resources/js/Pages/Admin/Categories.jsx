@@ -6,7 +6,7 @@ import { useState } from "react";
 import { route } from "ziggy-js";
 
 export default function Categories() {
-    const { categories, errors } = usePage().props;
+    const { categories, features, errors } = usePage().props;
 
     const [showForm, setShowForm] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
@@ -16,6 +16,7 @@ export default function Categories() {
         name: "",
         image: "",
         parent_id: "",
+        features: [],
     });
 
     const { delete: deleteCategory } = useForm();
@@ -26,6 +27,7 @@ export default function Categories() {
             name: "",
             image: "",
             parent_id: "",
+            features: [],
         });
         reset();
         setShowForm(true);
@@ -36,6 +38,7 @@ export default function Categories() {
         setData({
             name: category.name,
             parent_id: category.parent_id || "",
+            features: category.features?.map((f) => f.id) || [],
         });
         setShowForm(true);
     };
@@ -47,6 +50,10 @@ export default function Categories() {
             formData.append("name", data.name);
             formData.append("parent_id", data.parent_id);
             formData.append("_method", "put");
+
+            data.features.forEach((f, i) =>
+                formData.append(`features[${i}]`, f)
+            );
 
             if (data.image) {
                 formData.append("image", data.image);
@@ -73,6 +80,8 @@ export default function Categories() {
     };
 
     const handleDelete = (categoryId) => {
+        const category = categories.data.find((c) => c.id === categoryId);
+        setChosenCategory(category);
         setShowConfirm(true);
     };
 
@@ -89,6 +98,15 @@ export default function Categories() {
 
     const cancelDelete = () => {
         setShowConfirm(false);
+    };
+
+    const handleFeatureToggle = (featureId) => {
+        setData((prevData) => {
+            const newFeatures = prevData.features.includes(featureId)
+                ? prevData.features.filter((id) => id !== featureId)
+                : [...prevData.features, featureId];
+            return { ...prevData, features: newFeatures };
+        });
     };
 
     return (
@@ -200,6 +218,32 @@ export default function Categories() {
                                     </option>
                                 ))}
                             </select>
+                        </div>
+
+                        <div>
+                            <label>Features</label>
+                            <div>
+                                {features.map((feature) => (
+                                    <div key={feature.id}>
+                                        <input
+                                            type="checkbox"
+                                            id={`feature-${feature.id}`}
+                                            checked={data.features.includes(
+                                                feature.id
+                                            )}
+                                            onChange={() =>
+                                                handleFeatureToggle(feature.id)
+                                            }
+                                        />
+                                        <label
+                                            htmlFor={`feature-${feature.id}`}
+                                        >
+                                            {feature.name}{" "}
+                                            {console.log(data.features)}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
                         {errors.parent_id && (
