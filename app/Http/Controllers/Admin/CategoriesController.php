@@ -24,6 +24,8 @@ class CategoriesController extends Controller
             'name' => 'required|string|max:50',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'parent_id' => 'nullable|exists:categories,id',
+            'features' => 'nullable|array',
+            'features.*' => 'integer|exists:features,id',
         ]);
 
         if ($request->hasFile('image')) {
@@ -32,11 +34,14 @@ class CategoriesController extends Controller
             $imagePath = null;
         }
 
-        Category::create([
+        $category = Category::create([
             'name' => $request->name,
             'image' => $imagePath,
             'parent_id' => $request->parent_id,
         ]);
+
+        $category->features()->sync($request->features ?? []);
+
 
         return redirect()->back()
             ->with('success', 'Category created successfully!');
@@ -75,6 +80,8 @@ class CategoriesController extends Controller
         if ($category->image) {
             Storage::disk('public')->delete($category->image);
         }
+
+        $category->features()->detach();
 
         $category->delete();
 

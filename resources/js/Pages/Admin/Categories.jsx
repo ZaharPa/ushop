@@ -220,11 +220,14 @@ export default function Categories() {
                             </select>
                         </div>
 
-                        <div>
-                            <label>Features</label>
-                            <div>
+                        <div className="mt-2">
+                            <label className="text-lg">Features</label>
+                            <div className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-x-5 gap-y-2 mt-1">
                                 {features.map((feature) => (
-                                    <div key={feature.id}>
+                                    <div
+                                        key={feature.id}
+                                        className="flex items-center text-center cursor-pointer select-none"
+                                    >
                                         <input
                                             type="checkbox"
                                             id={`feature-${feature.id}`}
@@ -234,9 +237,11 @@ export default function Categories() {
                                             onChange={() =>
                                                 handleFeatureToggle(feature.id)
                                             }
+                                            className="hidden peer"
                                         />
                                         <label
                                             htmlFor={`feature-${feature.id}`}
+                                            className="w-full px-2 py-1 border border-gray-400 rounded-md peer-checked:text-white peer-checked:bg-blue-600 transition-colors"
                                         >
                                             {feature.name}{" "}
                                             {console.log(data.features)}
