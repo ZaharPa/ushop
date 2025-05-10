@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 export default function Form({
     handleSubmit,
     data,
@@ -9,6 +11,30 @@ export default function Form({
     handleDelete = false,
     photo_url = "",
 }) {
+    const [features, setFeatures] = useState([]);
+
+    useEffect(() => {
+        if (data.category_id) {
+            fetch(route("admin.category.features", data.category_id))
+                .then((res) => res.json())
+                .then(setFeatures)
+                .catch(() => setFeatures([]));
+        } else {
+            setFeatures([]);
+        }
+    }, [data.category_id]);
+
+    const handleFeatureToggle = (featureId) => {
+        setData((prevData) => {
+            const newFeatures = prevData.features.includes(featureId)
+                ? prevData.features.filter((id) => id !== featureId)
+                : [...prevData.features, featureId];
+            return { ...prevData, features: newFeatures };
+        });
+    };
+
+    console.log(features);
+
     return (
         <form
             onSubmit={handleSubmit}
@@ -78,6 +104,32 @@ export default function Form({
                     <img src={photo_url} />
                 </div>
             )}
+
+            <div className="col-span-2">
+                <label className="text-lg">Features</label>
+                <div className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-x-5 gap-y-2 mt-1">
+                    {features.map((feature) => (
+                        <div
+                            key={feature.id}
+                            className="flex items-center text-center cursor-pointer select-none"
+                        >
+                            <input
+                                type="checkbox"
+                                id={`feature-${feature.id}`}
+                                checked={data.features.includes(feature.id)}
+                                onChange={() => handleFeatureToggle(feature.id)}
+                                className="hidden peer"
+                            />
+                            <label
+                                htmlFor={`feature-${feature.id}`}
+                                className="w-full px-2 py-1 border border-gray-400 rounded-md peer-checked:text-white peer-checked:bg-blue-600 transition-colors"
+                            >
+                                {feature.name}
+                            </label>
+                        </div>
+                    ))}
+                </div>
+            </div>
 
             <div className="flex gap-4 justify-center col-span-2">
                 <button

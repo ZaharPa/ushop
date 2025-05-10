@@ -243,8 +243,7 @@ export default function Categories() {
                                             htmlFor={`feature-${feature.id}`}
                                             className="w-full px-2 py-1 border border-gray-400 rounded-md peer-checked:text-white peer-checked:bg-blue-600 transition-colors"
                                         >
-                                            {feature.name}{" "}
-                                            {console.log(data.features)}
+                                            {feature.name}
                                         </label>
                                     </div>
                                 ))}
