@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductFeature extends Model
 {
+    protected $table = 'product_features';
+
+    protected $fillable = ['product_id', 'feature_id', 'value'];
 
     public function feature(): BelongsTo
     {

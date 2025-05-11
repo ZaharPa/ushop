@@ -30,7 +30,7 @@ class ProductController extends Controller
     public function create()
     {
         return inertia('Admin/Product/Create', [
-            'categories' => Category::all(),
+            'categories' => Category::all(['id', 'name']),
         ]);
     }
 
@@ -63,6 +63,8 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
+        $product->load('features');
+
         return inertia('Admin/Product/Edit', [
             'product' => $product,
             'categories' => Category::all(),

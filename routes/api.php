@@ -5,4 +5,4 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/admin/categories/{category}/features', CategoryFeatureController::class)
-    ->middleware('auth:sanctum')->name('admin.category.features');
+    ->name('admin.category.features');

@@ -15,10 +15,15 @@ export default function Form({
 
     useEffect(() => {
         if (data.category_id) {
-            fetch(route("admin.category.features", data.category_id))
+            fetch(route("admin.category.features", data.category_id), {
+                credentials: "same-origin",
+            })
                 .then((res) => res.json())
-                .then(setFeatures)
-                .catch(() => setFeatures([]));
+                .then((data) => setFeatures(data))
+                .catch((error) => {
+                    console.log("Error fetching error: ", error);
+                    setFeatures([]);
+                });
         } else {
             setFeatures([]);
         }
@@ -33,7 +38,15 @@ export default function Form({
         });
     };
 
-    console.log(features);
+    const handleFeatureValueChange = (featureId, value) => {
+        setData((prevData) => ({
+            ...prevData,
+            feature_values: {
+                ...prevData.feature_values,
+                [featureId]: value,
+            },
+        }));
+    };
 
     return (
         <form
@@ -126,6 +139,23 @@ export default function Form({
                             >
                                 {feature.name}
                             </label>
+
+                            {data.features.includes(feature.id) && (
+                                <input
+                                    type="text"
+                                    value={
+                                        data.feature_values[feature.id] || ""
+                                    }
+                                    onChange={(e) =>
+                                        handleFeatureValueChange(
+                                            feature.id,
+                                            e.target.value
+                                        )
+                                    }
+                                    placeholder={`Enter value for ${feature.name}`}
+                                    className="mt-2"
+                                />
+                            )}
                         </div>
                     ))}
                 </div>

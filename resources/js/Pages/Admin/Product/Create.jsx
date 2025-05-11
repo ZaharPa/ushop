@@ -9,6 +9,8 @@ export default function Create() {
         description: "",
         category_id: "",
         photo: "",
+        features: [],
+        feature_values: {},
     });
 
     const handleSubmit = (e) => {

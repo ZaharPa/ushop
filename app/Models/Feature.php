@@ -14,6 +14,13 @@ class Feature extends Model
 
     protected $fillable = ['name'];
 
+    public function features(): BelongsToMany
+    {
+        return $this->belongsToMany(Feature::class, 'product_features')
+            ->withPivot('value')
+            ->withTimestamps();
+    }
+
     public function productFeatures(): HasMany
     {
         return $this->hasMany(ProductFeature::class);
