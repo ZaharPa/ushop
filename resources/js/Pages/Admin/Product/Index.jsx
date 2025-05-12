@@ -5,7 +5,7 @@ import { Link, usePage } from "@inertiajs/react";
 
 export default function Index() {
     const { products, filters } = usePage().props;
-
+    console.log(products);
     return (
         <AdminLayout>
             <Link href={route("admin.product.create")} className="btn-primary">
@@ -22,8 +22,9 @@ export default function Index() {
                 <li className="grid grid-cols-7 gap-4 mb-2 text-center font-medium text-lg">
                     <div>Id</div>
                     <div className="col-span-2">Photo</div>
-                    <div className="col-span-2">Name</div>
+                    <div>Name</div>
                     <div>Category</div>
+                    <div>Features</div>
                     <div></div>
                 </li>
                 {products.data.map((product) => (
@@ -39,9 +40,16 @@ export default function Index() {
                                 className="h-32"
                             />
                         </div>
-                        <div className="col-span-2">{product.name}</div>
+                        <div className="col-span-1">{product.name}</div>
                         <div className="col-span-1">
                             {product.category?.name}
+                        </div>
+                        <div className="col-span-1 flex flex-col gap-1">
+                            {product.features.map((feature) => (
+                                <li key={feature.id}>
+                                    {feature.name} {feature.pivot.value}
+                                </li>
+                            ))}
                         </div>
                         <div className="col-span-1">
                             <Link

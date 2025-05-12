@@ -14,6 +14,12 @@ export default function Edit() {
         name: product.name,
         description: product.description,
         category_id: product.category_id,
+        features: product.features?.map((f) => f.id) || [],
+        feature_values:
+            product.features?.reduce((acc, f) => {
+                acc[f.id] = f.pivot?.value || "";
+                return acc;
+            }, {}) || {},
     });
 
     const handleSubmit = (e) => {
@@ -23,6 +29,8 @@ export default function Edit() {
         formData.append("name", data.name);
         formData.append("description", data.description);
         formData.append("category_id", data.category_id);
+        formData.append("features", JSON.stringify(data.features));
+        formData.append("feature_values", JSON.stringify(data.feature_values));
 
         if (data.photo) {
             formData.append("photo", data.photo);

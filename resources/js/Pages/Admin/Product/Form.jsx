@@ -124,7 +124,7 @@ export default function Form({
                     {features.map((feature) => (
                         <div
                             key={feature.id}
-                            className="flex items-center text-center cursor-pointer select-none"
+                            className="flex flex-col items-start text-center shadow-sm cursor-pointer select-none"
                         >
                             <input
                                 type="checkbox"
@@ -152,8 +152,8 @@ export default function Form({
                                             e.target.value
                                         )
                                     }
-                                    placeholder={`Enter value for ${feature.name}`}
-                                    className="mt-2"
+                                    placeholder={`Enter value`}
+                                    className="mt-2 pl-1 border border-sky-700 rounded-lg w-full"
                                 />
                             )}
                         </div>

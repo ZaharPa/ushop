@@ -20,7 +20,7 @@ class ProductController extends Controller
         return inertia('Admin/Product/Index', [
             'filters' => $filters,
             'categories' => Category::all(),
-            'products' => Product::with('category')
+            'products' => Product::with(['category', 'features'])
                 ->filter($filters)
                 ->latest()
                 ->paginate(10),
@@ -41,6 +41,8 @@ class ProductController extends Controller
             'description' => 'required|string',
             'category_id' => 'nullable|exists:categories,id',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'features' => 'nullable|array',
+            'feature_values' => 'nullable|array',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -49,12 +51,25 @@ class ProductController extends Controller
             $imagePath = null;
         }
 
-        Product::create([
+        $product = Product::create([
             'name' => $request->name,
             'description' => $request->description,
             'category_id' => $request->category_id,
             'photo' => $imagePath,
         ]);
+
+        $features = $request->features ?? [];
+        $featureValues = $request->feature_values ?? [];
+
+        $syncData = [];
+
+        foreach ($features as $featureId) {
+            $value = $featureValues[$featureId] ?? '';
+
+            $syncData[$featureId] = ['value' => (string) $value];
+        }
+
+        $product->features()->sync($syncData);
 
         return redirect()->intended('/admin/product')
             ->with('success', 'Product created successfully!');
@@ -79,6 +94,8 @@ class ProductController extends Controller
             'description' => 'required|string',
             'category_id' => 'nullable|exists:categories,id',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'features' => 'nullable|json',
+            'feature_values' => 'nullable|json',
         ]);
 
         if ($request->hasFile('photo') && $product->photo != null) {
@@ -93,6 +110,19 @@ class ProductController extends Controller
                 ? $request->file('photo')->store('products', 'public')
                 : $product->photo,
         ]);
+
+        $features = json_decode($request->features, true) ?? [];
+        $featureValues = json_decode($request->feature_values, true) ?? [];
+
+        $syncData = [];
+
+        foreach ($features as $featureId) {
+            $value = $featureValues[$featureId] ?? '';
+
+            $syncData[$featureId] = ['value' => is_array($value) ? json_encode($value) : (string) $value];
+        }
+
+        $product->features()->sync($syncData);
 
         return redirect()->intended('/admin/product')
             ->with('success', 'Product update successfully');
