@@ -31,13 +31,25 @@ class AttributeController extends Controller
             ->with('success', 'Attribute created successfully!');
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Attribute $attribute)
     {
-        //
+        $request->validate([
+            'attribute' => 'required|string|max:50'
+        ]);
+
+        $attribute->update([
+            'name' => $request->attribute,
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Attribute update successfully');
     }
 
-    public function destroy(string $id)
+    public function destroy(Attribute $attribute)
     {
-        //
+        $attribute->delete();
+
+        return redirect()->back()
+            ->with('success', 'Attribute deleted successfully');
     }
 }

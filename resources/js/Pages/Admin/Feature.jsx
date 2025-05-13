@@ -106,7 +106,15 @@ export default function Feature() {
                         {chosenFeature ? "Update" : "Add"}
                     </button>
 
-                    <button type="reset" onClick={reset} className="btn-reset">
+                    <button
+                        type="reset"
+                        onClick={() => {
+                            reset();
+                            setChosenFeature();
+                            setData("name", "");
+                        }}
+                        className="btn-reset"
+                    >
                         Reset
                     </button>
                 </div>

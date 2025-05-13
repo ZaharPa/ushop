@@ -62,7 +62,7 @@ Route::middleware(['auth', 'verified', 'is_admin'])
             ->except(['show']);
 
         Route::resource('attribute', AttributeController::class)
-            ->only(['index', 'store']);
+            ->only(['index', 'store', 'update', 'destroy']);
 
         Route::resource('feature', FeatureController::class)
             ->only(['index', 'store', 'update', 'destroy']);
