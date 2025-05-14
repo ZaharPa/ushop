@@ -27,6 +27,16 @@ class ProductController extends Controller
         ]);
     }
 
+    public function listOfDeleted()
+    {
+        return inertia('Admin/Product/DeletedProducts', [
+            'products' => Product::with(['category', 'features'])
+                ->onlyTrashed()
+                ->latest()
+                ->paginate(10)
+        ]);
+    }
+
     public function create()
     {
         return inertia('Admin/Product/Create', [
@@ -135,7 +145,6 @@ class ProductController extends Controller
         }
 
         $product->deleteOrFail();
-
         return redirect()->intended('/admin/product')
             ->with('success', 'Product delete successfully');
     }

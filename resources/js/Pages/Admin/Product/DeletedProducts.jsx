@@ -1,37 +1,14 @@
-import FilterProduct from "@/Components/FilterProduct";
 import Pagination from "@/Components/Pagination";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Link, usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 
-export default function Index() {
-    const { products, filters } = usePage().props;
+export default function DeletedProducts() {
+    const { products } = usePage().props;
 
     return (
         <AdminLayout>
-            <div className="flex justify-between px-2">
-                <Link
-                    href={route("admin.product.create")}
-                    className="btn-primary"
-                >
-                    Add new Product
-                </Link>
-
-                <Link
-                    href={route("admin.product.deleteProducts")}
-                    className="btn-reset"
-                >
-                    List of Deleted Products
-                </Link>
-            </div>
-
-            <h2 className="h2-center">Product List</h2>
+            <h2 className="h2-center">Deleted Products List</h2>
             <ul className="w-full">
-                <li>
-                    <FilterProduct
-                        filters={filters}
-                        pageRoute={"admin.product.index"}
-                    />
-                </li>
                 <li className="grid grid-cols-7 gap-4 mb-2 text-center font-medium text-lg">
                     <div>Id</div>
                     <div className="col-span-2">Photo</div>
@@ -65,13 +42,20 @@ export default function Index() {
                             ))}
                         </div>
                         <div className="col-span-1">
-                            <Link
-                                href={route("admin.product.edit", product.id)}
+                            <button
                                 type="button"
+                                onClick={() => {
+                                    router.put(
+                                        route(
+                                            "admin.product.restore",
+                                            product.id
+                                        )
+                                    );
+                                }}
                                 className="btn-admin"
                             >
-                                Edit
-                            </Link>
+                                Restore
+                            </button>
                         </div>
                     </li>
                 ))}

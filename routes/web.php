@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\Admin\FeatureController;
+use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\RegistrationConrtoller;
@@ -59,7 +60,10 @@ Route::middleware(['auth', 'verified', 'is_admin'])
             ->name('user.restore')->withTrashed();
 
         Route::resource('product', ProductController::class)
-            ->except(['show']);
+            ->except('show');
+        Route::get('product/deletedList', [ProductController::class, 'listOfDeleted'])->name('product.deleteProducts');
+        Route::put('product/{product}/restore', [ProductController::class, 'restore'])
+            ->name('product.restore')->withTrashed();
 
         Route::resource('attribute', AttributeController::class)
             ->only(['index', 'store', 'update', 'destroy']);

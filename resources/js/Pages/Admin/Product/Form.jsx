@@ -1,3 +1,4 @@
+import ConfrimModal from "@/Components/ConfrimModal";
 import { useEffect, useState } from "react";
 
 export default function Form({
@@ -12,6 +13,7 @@ export default function Form({
     photo_url = "",
 }) {
     const [features, setFeatures] = useState([]);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     useEffect(() => {
         if (data.category_id) {
@@ -180,7 +182,9 @@ export default function Form({
 
                 {handleDelete && (
                     <button
-                        onClick={handleDelete}
+                        onClick={() => {
+                            setShowConfirm(true);
+                        }}
                         type="button"
                         className="btn-delete"
                     >
@@ -188,6 +192,15 @@ export default function Form({
                     </button>
                 )}
             </div>
+
+            <ConfrimModal
+                show={showConfirm}
+                onConfrim={handleDelete}
+                onCancel={() => {
+                    setShowConfirm(false);
+                }}
+                message="Are you sure want to delete this product?"
+            />
         </form>
     );
 }

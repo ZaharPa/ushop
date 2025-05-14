@@ -6,7 +6,11 @@ export default function ConfrimModal({ show, onConfrim, onCancel, message }) {
             <div className="bg-white p-6 rounded shadow-sm">
                 <p>{message}</p>
                 <div className="flex justify-end gap-4 mt-4">
-                    <button onClick={onConfrim} className="btn-delete">
+                    <button
+                        onClick={onConfrim}
+                        type="button"
+                        className="btn-delete"
+                    >
                         Yes
                     </button>
                     <button onClick={onCancel} className="btn-reset">

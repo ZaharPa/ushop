@@ -45,13 +45,11 @@ export default function Edit() {
     };
 
     const handleDelete = () => {
-        if (window.confirm("Are you sure you want to delete this category?")) {
-            deleteProduct(route("admin.product.destroy", product.id), {
-                onSuccess: () => {
-                    reset();
-                },
-            });
-        }
+        deleteProduct(route("admin.product.destroy", product.id), {
+            onSuccess: () => {
+                reset();
+            },
+        });
     };
 
     return (
