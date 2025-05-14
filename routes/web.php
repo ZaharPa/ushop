@@ -70,4 +70,7 @@ Route::middleware(['auth', 'verified', 'is_admin'])
 
         Route::resource('feature', FeatureController::class)
             ->only(['index', 'store', 'update', 'destroy']);
+
+        Route::resource('item', ItemController::class)
+            ->except('show');
     });
