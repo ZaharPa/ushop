@@ -14,13 +14,6 @@ class Attribute extends Model
 
     protected $fillable = ['name'];
 
-    public function items(): BelongsToMany
-    {
-        return $this->belongsToMany(Item::class)
-            ->withPivot('value_id')
-            ->withTimestamps();
-    }
-
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
