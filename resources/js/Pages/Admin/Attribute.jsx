@@ -9,6 +9,7 @@ export default function Attribute() {
 
     const [showConfirm, setShowConfirm] = useState(false);
     const [chosenAttribute, setChosenAttribute] = useState(null);
+    const [valueName, setValueName] = useState(null);
 
     const {
         data,
@@ -49,36 +50,49 @@ export default function Attribute() {
         });
     };
 
+    const addValue = (e, attributeId) => {
+        e.preventDefault();
+
+        post(route("admin.attribute.newValue", attributeId), {
+            data: { name: valueName },
+            onSuccess: () => {
+                reset();
+                setValueName(null);
+            },
+        });
+    };
     return (
         <AdminLayout>
             <h2 className="h2-center">Attributes</h2>
 
-            <ul className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <ul className="flex flex-col">
                 {attributes.data.map((attribute) => (
-                    <li
-                        key={attribute.id}
-                        className="flex justify-center items-center gap-2"
-                    >
-                        <span>{attribute.name}</span>
+                    <li key={attribute.id}>
+                        <div className="flex justify-between mx-4 items-center gap-2">
+                            <span>{attribute.name}</span>
+                            <div>
+                                <button
+                                    onClick={() => {
+                                        setData("attribute", attribute.name);
+                                        setChosenAttribute(attribute);
+                                    }}
+                                    className="btn-admin py-0"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setShowConfirm(true);
+                                        setChosenAttribute(attribute);
+                                    }}
+                                    className="btn-delete py-0"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
                         <div>
-                            <button
-                                onClick={() => {
-                                    setData("attribute", attribute.name);
-                                    setChosenAttribute(attribute);
-                                }}
-                                className="btn-admin py-0"
-                            >
-                                Edit
-                            </button>
-                            <button
-                                onClick={() => {
-                                    setShowConfirm(true);
-                                    setChosenAttribute(attribute);
-                                }}
-                                className="btn-delete py-0"
-                            >
-                                Delete
-                            </button>
+                            {attribute.value} <button>Add value</button>
                         </div>
                     </li>
                 ))}
