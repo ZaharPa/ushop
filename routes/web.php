@@ -69,7 +69,7 @@ Route::middleware(['auth', 'verified', 'is_admin'])
         Route::resource('attribute', AttributeController::class)
             ->only(['index', 'store', 'update', 'destroy']);
         Route::post('/admin/attribute/{attribute}/value', [AttributeValueController::class, 'store'])
-            ->name('admin.attribute.newValue');
+            ->name('attribute.newValue');
 
         Route::resource('feature', FeatureController::class)
             ->only(['index', 'store', 'update', 'destroy']);

@@ -9,6 +9,8 @@ export default function Attribute() {
 
     const [showConfirm, setShowConfirm] = useState(false);
     const [chosenAttribute, setChosenAttribute] = useState(null);
+
+    const [valueFormVisibleId, setValueFormVisibleId] = useState(null);
     const [valueName, setValueName] = useState(null);
 
     const {
@@ -53,7 +55,7 @@ export default function Attribute() {
     const addValue = (e, attributeId) => {
         e.preventDefault();
 
-        post(route("admin.attribute.newValue", attributeId), {
+        post(route("admin.attribute.newValue", { attribute: attributeId }), {
             data: { name: valueName },
             onSuccess: () => {
                 reset();
@@ -92,7 +94,33 @@ export default function Attribute() {
                             </div>
                         </div>
                         <div>
-                            {attribute.value} <button>Add value</button>
+                            {attribute.value}
+                            <button
+                                onClick={() =>
+                                    setValueFormVisibleId(attribute.id)
+                                }
+                            >
+                                Add value
+                            </button>
+                            {valueFormVisibleId === attribute.id && (
+                                <form
+                                    onSubmit={(e) => addValue(e, attribute.id)}
+                                >
+                                    <input
+                                        value={valueName}
+                                        onChange={(e) =>
+                                            setValueName(e.target.value)
+                                        }
+                                        placeholder="New value"
+                                    />
+                                    <button
+                                        type="submit"
+                                        className="cursor-pointer"
+                                    >
+                                        Save
+                                    </button>
+                                </form>
+                            )}
                         </div>
                     </li>
                 ))}
