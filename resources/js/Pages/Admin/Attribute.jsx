@@ -1,7 +1,7 @@
 import ConfrimModal from "@/Components/ConfrimModal";
 import Pagination from "@/Components/Pagination";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { useForm, usePage } from "@inertiajs/react";
+import { router, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function Attribute() {
@@ -12,6 +12,7 @@ export default function Attribute() {
 
     const [valueFormVisibleId, setValueFormVisibleId] = useState(null);
     const [valueName, setValueName] = useState(null);
+    const [valueToDelete, setValueToDelete] = useState(null);
 
     const {
         data,
@@ -54,15 +55,39 @@ export default function Attribute() {
 
     const addValue = (e, attributeId) => {
         e.preventDefault();
-
-        post(route("admin.attribute.newValue", { attribute: attributeId }), {
-            data: { name: valueName },
-            onSuccess: () => {
-                reset();
-                setValueName(null);
-            },
-        });
+        router.post(
+            route("admin.attribute.newValue", { attribute: attributeId }),
+            {
+                name: valueName,
+                onSuccess: () => {
+                    reset();
+                    setValueName(null);
+                },
+            }
+        );
     };
+
+    const confirmDeleteValue = (valueId, attributeId) => {
+        setValueToDelete(valueId);
+        setShowConfirm(true);
+        setChosenAttribute(attributeId);
+    };
+
+    const deleteValue = () => {
+        router.delete(
+            route("admin.attribute.removeValue", {
+                attribute: chosenAttribute,
+                value: valueToDelete,
+            }),
+            {
+                onSuccess: () => {
+                    setValueToDelete(null);
+                    setShowConfirm(false);
+                },
+            }
+        );
+    };
+
     return (
         <AdminLayout>
             <h2 className="h2-center">Attributes</h2>
@@ -70,57 +95,83 @@ export default function Attribute() {
             <ul className="flex flex-col">
                 {attributes.data.map((attribute) => (
                     <li key={attribute.id}>
-                        <div className="flex justify-between mx-4 items-center gap-2">
-                            <span>{attribute.name}</span>
-                            <div>
-                                <button
-                                    onClick={() => {
-                                        setData("attribute", attribute.name);
-                                        setChosenAttribute(attribute);
-                                    }}
-                                    className="btn-admin py-0"
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        setShowConfirm(true);
-                                        setChosenAttribute(attribute);
-                                    }}
-                                    className="btn-delete py-0"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </div>
-                        <div>
-                            {attribute.value}
-                            <button
-                                onClick={() =>
-                                    setValueFormVisibleId(attribute.id)
-                                }
-                            >
-                                Add value
-                            </button>
-                            {valueFormVisibleId === attribute.id && (
-                                <form
-                                    onSubmit={(e) => addValue(e, attribute.id)}
-                                >
-                                    <input
-                                        value={valueName}
-                                        onChange={(e) =>
-                                            setValueName(e.target.value)
-                                        }
-                                        placeholder="New value"
-                                    />
+                        <div className="shadow-xl mb-4">
+                            <div className="flex justify-between mx-4 items-center gap-2 shadow-xs">
+                                <span>{attribute.name}</span>
+                                <div>
                                     <button
-                                        type="submit"
-                                        className="cursor-pointer"
+                                        onClick={() => {
+                                            setData(
+                                                "attribute",
+                                                attribute.name
+                                            );
+                                            setChosenAttribute(attribute);
+                                        }}
+                                        className="btn-admin py-0"
                                     >
-                                        Save
+                                        Edit
                                     </button>
-                                </form>
-                            )}
+                                    <button
+                                        onClick={() => {
+                                            setShowConfirm(true);
+                                            setChosenAttribute(attribute);
+                                        }}
+                                        className="btn-delete py-0"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <div className="mx-4 flex mb-1">
+                                    {attribute.values.map((value) => (
+                                        <div
+                                            key={value.id}
+                                            onClick={() =>
+                                                confirmDeleteValue(
+                                                    value.id,
+                                                    attribute.id
+                                                )
+                                            }
+                                        >
+                                            <span className="cursor-pointer hover:text-red-500">
+                                                {value.value}
+                                            </span>
+                                            <span className="mx-1">|</span>
+                                        </div>
+                                    ))}
+                                    <button
+                                        onClick={() =>
+                                            setValueFormVisibleId(attribute.id)
+                                        }
+                                        className="text-blue-700 cursor-pointer"
+                                    >
+                                        Add value
+                                    </button>
+                                </div>
+                                {valueFormVisibleId === attribute.id && (
+                                    <form
+                                        onSubmit={(e) =>
+                                            addValue(e, attribute.id)
+                                        }
+                                    >
+                                        <input
+                                            value={valueName}
+                                            onChange={(e) =>
+                                                setValueName(e.target.value)
+                                            }
+                                            placeholder="New value"
+                                            className="border border-gray-400 rounded-2xl mb-1 mx-2 placeholder:text-sm placeholder:pl-2"
+                                        />
+                                        <button
+                                            type="submit"
+                                            className="btn-primary p-1 text-sm"
+                                        >
+                                            Save
+                                        </button>
+                                    </form>
+                                )}
+                            </div>
                         </div>
                     </li>
                 ))}
@@ -165,11 +216,16 @@ export default function Attribute() {
 
             <ConfrimModal
                 show={showConfirm}
-                onConfrim={deleteAttribute}
-                onCancel={() => {
-                    setShowConfirm(false), reset();
+                onConfrim={() => {
+                    if (valueToDelete) deleteValue();
+                    else deleteAttribute();
                 }}
-                message="Are you sure want to delete this attribute?"
+                onCancel={() => {
+                    setShowConfirm(false);
+                    setValueToDelete(null);
+                    reset();
+                }}
+                message="Are you sure want to delete?"
             />
         </AdminLayout>
     );

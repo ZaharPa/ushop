@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\Admin\FeatureController;
 use App\Http\Controllers\Admin\ItemController;
-use App\Http\Controllers\AttributeValueController;
+use App\Http\Controllers\Admin\AttributeValueController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\RegistrationConrtoller;
@@ -70,6 +70,8 @@ Route::middleware(['auth', 'verified', 'is_admin'])
             ->only(['index', 'store', 'update', 'destroy']);
         Route::post('/admin/attribute/{attribute}/value', [AttributeValueController::class, 'store'])
             ->name('attribute.newValue');
+        Route::delete('/admin/attribute/{attribute}/value/{value}/destroy', [AttributeValueController::class, 'destroy'])
+            ->name('attribute.removeValue');
 
         Route::resource('feature', FeatureController::class)
             ->only(['index', 'store', 'update', 'destroy']);

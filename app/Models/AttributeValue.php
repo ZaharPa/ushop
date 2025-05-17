@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class AttributeValue extends Model
 {
+    protected $fillable = ['value', 'attribute_id'];
+
     public function attribute(): BelongsTo
     {
         return $this->belongsTo(Attribute::class);

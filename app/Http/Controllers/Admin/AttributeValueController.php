@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Attribute;
+use App\Models\AttributeValue;
 use Illuminate\Http\Request;
 
 class AttributeValueController extends Controller
@@ -17,8 +19,14 @@ class AttributeValueController extends Controller
         return back()->with('success', 'Value added successfully!');
     }
 
-    public function destroy(string $id)
+    public function destroy(Attribute $attribute, AttributeValue $value)
     {
-        //
+        if ($value->attribute_id !== $attribute->id) {
+            abort(404);
+        }
+
+        $value->delete();
+
+        return back()->with('success', 'Value remove successfully!');
     }
 }
