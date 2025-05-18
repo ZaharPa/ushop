@@ -3,7 +3,7 @@ import { Link, usePage } from "@inertiajs/react";
 
 export default function Index() {
     const { products, items } = usePage().props;
-
+    console.log(usePage().props);
     return (
         <AdminLayout>
             <Link href={route("admin.item.create")} className="btn-primary">
@@ -27,9 +27,9 @@ export default function Index() {
                         <div>{item.quantity}</div>
                         <div className="col-span-2">
                             {item.attribute_values?.map((value) => (
-                                <li key={value.id}>
+                                <div key={value.id}>
                                     <div>{value}</div>
-                                </li>
+                                </div>
                             ))}
                         </div>
                         <div>
