@@ -144,7 +144,9 @@ export default function Categories() {
                 })}
             </ul>
 
-            <Pagination links={categories.links} />
+            <div className="flex justify-center">
+                <Pagination links={categories.links} />
+            </div>
 
             {showForm && (
                 <div className="bg-gray-200 rounded p-2 mt-4 border-2 border-dotted border-sky-700">

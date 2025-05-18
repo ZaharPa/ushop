@@ -1,5 +1,5 @@
 import ConfrimModal from "@/Components/ConfrimModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Form({
     handleSubmit,
@@ -13,6 +13,7 @@ export default function Form({
     handleDelete = false,
 }) {
     const [showConfirm, setShowConfirm] = useState(false);
+    const [previewPhotos, setPreviewPhotos] = useState([]);
 
     const handleAttributeToggle = (attributeId) => {
         setData((prevData) => {
@@ -23,6 +24,13 @@ export default function Form({
         });
     };
 
+    const handlePhotoChange = (e) => {
+        const files = Array.from(e.target.files);
+        setData("photos", files);
+
+        const previews = files.map((file) => URL.createObjectURL(file));
+        setPreviewPhotos(previews);
+    };
     return (
         <form
             onSubmit={handleSubmit}
@@ -49,6 +57,7 @@ export default function Form({
             )}
 
             <div className="col-span-1">
+                <div>Price</div>
                 <input
                     type="number"
                     placeholder="Price"
@@ -63,6 +72,7 @@ export default function Form({
             )}
 
             <div className="col-span-1">
+                <div>Quantity</div>
                 <input
                     type="number"
                     placeholder="Quantity"
@@ -85,7 +95,7 @@ export default function Form({
                             className="flex flex-col items-start text-center shadow-sm cursor-pointer select-none"
                         >
                             <label>{attribute.name}</label>
-                            <div>
+                            <div className="flex gap-2 my-1">
                                 {attribute.values.map((value) => (
                                     <div key={value.id}>
                                         <input
@@ -101,7 +111,7 @@ export default function Form({
                                         />
                                         <label
                                             htmlFor={`attribute-${value.id}`}
-                                            className="w-full px-2 py-1 border border-gray-400 rounded-md peer-checked:text-white peer-checked:bg-blue-600 transition-colors"
+                                            className="w-full px-2 py-1 border border-gray-400 rounded-md peer-checked:text-white peer-checked:bg-blue-600 transition-colors cursor-pointer"
                                         >
                                             {value.value}
                                         </label>
@@ -113,9 +123,32 @@ export default function Form({
                 </div>
             </div>
 
-            {errors.quantity && (
-                <div className="text-red-500 my-1">{errors.quantity}</div>
+            {errors.attribute_values && (
+                <div className="text-red-500 my-1">
+                    {errors.attribute_values}
+                </div>
             )}
+
+            <div className="col-span-2">
+                <div>Photos</div>
+                <input type="file" multiple onChange={handlePhotoChange} />
+
+                <div className="mt-2 flex flex-wrap gap-2">
+                    {previewPhotos.map((src, index) => (
+                        <img
+                            key={index}
+                            src={src}
+                            alt={`preview-${index}`}
+                            className="w-20 h-20 object-cover rounded"
+                        />
+                    ))}
+                </div>
+            </div>
+
+            {errors.photos && (
+                <div className="text-red-500 my-1">{errors.photos}</div>
+            )}
+
             <div className="flex gap-4 justify-center col-span-2">
                 <button
                     type="submit"
