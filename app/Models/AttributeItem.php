@@ -9,6 +9,11 @@ class AttributeItem extends Pivot
 {
     public $incrementing = true;
 
+    protected $fillable = [
+        'item_id',
+        'attribute_value_id',
+    ];
+
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);

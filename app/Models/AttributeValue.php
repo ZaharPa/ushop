@@ -17,7 +17,7 @@ class AttributeValue extends Model
 
     public function items(): BelongsToMany
     {
-        return $this->belongsToMany(Item::class)
+        return $this->belongsToMany(Item::class, 'attribute_items')
             ->using(AttributeItem::class)
             ->withTimestamps()
             ->withPivot('id');

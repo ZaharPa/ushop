@@ -28,13 +28,13 @@ export default function Index() {
                         <div className="col-span-2">
                             {item.attribute_values?.map((value) => (
                                 <div key={value.id}>
-                                    <div>{value}</div>
+                                    <div>{value.value}</div>
                                 </div>
                             ))}
                         </div>
                         <div>
                             <Link
-                                href={route("admin.item.delete", item.id)}
+                                href={route("admin.item.destroy", item.id)}
                                 type="button"
                                 className="btn-delete"
                             >

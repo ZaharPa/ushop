@@ -14,7 +14,7 @@ class ItemController extends Controller
     {
         return inertia('Admin/Item/Index', [
             'products' => Product::all(),
-            'items' => Item::with(['product', 'attribute_value'])
+            'items' => Item::with(['product', 'attributeValues'])
                 ->latest()
                 ->paginate(15)
         ]);
@@ -30,7 +30,36 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'attribute_values' => 'nullable|array',
+            'attribute_values.*' => 'exists:attribute_values,id',
+            'photo' => 'nullable|array',
+            'photo.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $item = Item::create([
+            'product_id' => $request->product_id,
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+        ]);
+
+        if ($request->filled('attribute_values')) {
+            $item->attributeValues()->attach($request->attribute_values);
+        }
+
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photo) {
+                $item->photos()->create([
+                    'path' => $photo->store('items', 'public'),
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.item.index')
+            ->with('success', 'Item created successfully.');
     }
 
     public function edit(string $id)

@@ -13,6 +13,12 @@ class Item extends Model
     /** @use HasFactory<\Database\Factories\ItemFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'product_id',
+        'price',
+        'quantity',
+    ];
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
@@ -25,7 +31,7 @@ class Item extends Model
 
     public function attributeValues(): BelongsToMany
     {
-        return $this->belongsToMany(AttributeValue::class)
+        return $this->belongsToMany(AttributeValue::class, 'attribute_items')
             ->using(AttributeItem::class)
             ->withPivot('id')
             ->withTimestamps();

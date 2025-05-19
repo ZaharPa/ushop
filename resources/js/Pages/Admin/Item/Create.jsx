@@ -5,7 +5,7 @@ import Form from "./Form";
 export default function Create() {
     const { products, attributes, errors } = usePage().props;
 
-    const { data, setData, processing, reset } = useForm({
+    const { data, setData, post, processing, reset } = useForm({
         product_id: "",
         price: "",
         quantity: "",
@@ -13,7 +13,15 @@ export default function Create() {
         photos: [],
     });
 
-    const handleSubmit = () => {};
+    const handleSubmit = () => {
+        post(route("admin.item.store"), {
+            forceFormData: true,
+            onSuccess: () => {
+                URL.revokeObjectURL(data.photos);
+                reset();
+            },
+        });
+    };
     return (
         <AdminLayout>
             <h2 className="h2-center">New Item</h2>
