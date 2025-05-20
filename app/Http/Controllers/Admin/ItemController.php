@@ -14,7 +14,7 @@ class ItemController extends Controller
     {
         return inertia('Admin/Item/Index', [
             'products' => Product::all(),
-            'items' => Item::with(['product', 'attributeValues'])
+            'items' => Item::with(['product', 'attributeValues.attribute'])
                 ->latest()
                 ->paginate(15)
         ]);
@@ -62,9 +62,13 @@ class ItemController extends Controller
             ->with('success', 'Item created successfully.');
     }
 
-    public function edit(string $id)
+    public function edit(Item $item)
     {
-        //s
+        return inertia('Admin/Item/Edit', [
+            'item' => $item->load(['product', 'attributeValues.attribute', 'photos']),
+            'products' => Product::all(['id', 'name']),
+            'attributes' => Attribute::with('values:id,value,attribute_id')->get(['id', 'name']),
+        ]);
     }
 
     public function update(Request $request, string $id)
