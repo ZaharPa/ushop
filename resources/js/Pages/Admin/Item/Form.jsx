@@ -32,7 +32,7 @@ export default function Form({
         if (handleDelete) {
             setNewPhotos((prev) => [...prev, ...files]);
         } else {
-            setData("photos", [...data.photos, ...files]);
+            setData("photos", [...(data.photos || []), ...files]);
         }
     };
 
@@ -184,6 +184,31 @@ export default function Form({
                             </button>
                         </div>
                     ))}
+
+                    {!handleDelete &&
+                        data.photos.map((file, index) => (
+                            <div key={index} className="relative">
+                                <img
+                                    src={URL.createObjectURL(file)}
+                                    alt={`photo-${index}`}
+                                    className="w-20 h-20 object-cover rounded"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        setData(
+                                            "phtos",
+                                            data.photos.filter(
+                                                (_, i) => i !== index
+                                            )
+                                        )
+                                    }
+                                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 text-xs"
+                                >
+                                    &times;
+                                </button>
+                            </div>
+                        ))}
                 </div>
             </div>
 

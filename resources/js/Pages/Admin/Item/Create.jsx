@@ -21,7 +21,6 @@ export default function Create() {
             forceFormData: true,
             onSuccess: () => {
                 setNewPhotos([]);
-                reset();
             },
         });
     };

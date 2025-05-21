@@ -7,6 +7,7 @@ use App\Models\Attribute;
 use App\Models\Item;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -58,8 +59,8 @@ class ItemController extends Controller
             }
         }
 
-        return redirect()->route('admin.item.index')
-            ->with('success', 'Item created successfully.');
+        return redirect()->intended('/admin/item')
+            ->with('success', 'Item created successfully!');
     }
 
     public function edit(Item $item)
@@ -71,9 +72,39 @@ class ItemController extends Controller
         ]);
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Item $item)
     {
-        //
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'attribute_values' => 'nullable|array',
+            'attribute_values.*' => 'exists:attribute_values,id',
+            'old_photos' => 'nullable|array',
+            'old_photos.*' => 'exists:item_photos,id',
+            'photos' => 'nullable|array',
+            'photos.*' => 'image|mimes:jpeg,jpg,png|max:2048',
+        ]);
+
+        $item->update($request->only('product_id', 'price', 'quantity'));
+        $item->attributeValues()->sync($request->input('attribute_values', []));
+
+        $oldPhotos = $request->input('old_photos', []);
+        $item->photos()->whereNotIn('id', $oldPhotos)->get()->each(function ($photo) {
+            Storage::disk('public')->delete($photo->path);
+            $photo->delete();
+        });
+
+        if ($request->hasFile('photos') && is_array($request->file('photos'))) {
+            foreach ($request->file('photos') as $photo) {
+                $item->photos()->create([
+                    'path' => $photo->store('items', 'public'),
+                ]);
+            }
+        }
+
+        return redirect()->intended('/admin/item')
+            ->with('success', 'Item updated successfully!');
     }
 
     public function destroy(string $id)

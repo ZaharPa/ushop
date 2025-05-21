@@ -21,7 +21,7 @@ export default function Edit() {
         quantity: item.quantity,
         attribute_values: item.attribute_values?.map((av) => av.id) || [],
     });
-    console.log(oldPhotos);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -29,10 +29,10 @@ export default function Edit() {
         formData.append("product_id", data.product_id);
         formData.append("price", data.price);
         formData.append("quantity", data.quantity);
-        formData.append(
-            "attribute_values",
-            JSON.stringify(data.attribute_values)
-        );
+
+        data.attribute_values.forEach((id, i) => {
+            formData.append(`attribute_values[${i}]`, id);
+        });
 
         oldPhotos.forEach((photo, i) => {
             formData.append(`old_photos[${i}]`, photo.id);
@@ -46,7 +46,6 @@ export default function Edit() {
 
         router.post(route("admin.item.update", item.id), formData, {
             forceFormData: true,
-            onSuccess: () => reset(),
         });
     };
 
