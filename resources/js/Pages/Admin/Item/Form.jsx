@@ -11,9 +11,12 @@ export default function Form({
     products,
     attributes,
     handleDelete = false,
+    oldPhotos = [],
+    setOldPhotos = () => {},
+    newPhotos = [],
+    setNewPhotos = () => {},
 }) {
     const [showConfirm, setShowConfirm] = useState(false);
-    const [previewPhotos, setPreviewPhotos] = useState([]);
 
     const handleAttributeToggle = (attributeId) => {
         setData((prevData) => {
@@ -26,11 +29,21 @@ export default function Form({
 
     const handlePhotoChange = (e) => {
         const files = Array.from(e.target.files);
-        setData("photos", files);
-
-        const previews = files.map((file) => URL.createObjectURL(file));
-        setPreviewPhotos(previews);
+        if (handleDelete) {
+            setNewPhotos((prev) => [...prev, ...files]);
+        } else {
+            setData("photos", [...data.photos, ...files]);
+        }
     };
+
+    const handleOldPhotoDelete = (id) => {
+        setOldPhotos((prev) => prev.filter((photo) => photo.id !== id));
+    };
+
+    const handleNewPhotoDelete = (index) => {
+        setNewPhotos((prev) => prev.filter((_, i) => i !== index));
+    };
+
     return (
         <form
             onSubmit={handleSubmit}
@@ -133,21 +146,46 @@ export default function Form({
                 <div>Photos</div>
                 <input type="file" multiple onChange={handlePhotoChange} />
 
+                {errors.photos && (
+                    <div className="text-red-500 my-1">{errors.photos}</div>
+                )}
+
                 <div className="mt-2 flex flex-wrap gap-2">
-                    {previewPhotos.map((src, index) => (
-                        <img
-                            key={index}
-                            src={src}
-                            alt={`preview-${index}`}
-                            className="w-20 h-20 object-cover rounded"
-                        />
+                    {oldPhotos.map((photo) => (
+                        <div key={photo.id} className="relative">
+                            <img
+                                src={photo.photo_url}
+                                alt={`oldPhoto-${photo.id}`}
+                                className="w-20 h-20 object-cover rounded"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => handleOldPhotoDelete(photo.id)}
+                                className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 text-xs"
+                            >
+                                &times;
+                            </button>
+                        </div>
+                    ))}
+
+                    {newPhotos.map((file, index) => (
+                        <div key={index} className="relative">
+                            <img
+                                src={URL.createObjectURL(file)}
+                                alt={`newPhoto-${index}`}
+                                className="w-20 h-20 object-cover rounded"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => handleNewPhotoDelete(index)}
+                                className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 text-xs"
+                            >
+                                &times;
+                            </button>
+                        </div>
                     ))}
                 </div>
             </div>
-
-            {errors.photos && (
-                <div className="text-red-500 my-1">{errors.photos}</div>
-            )}
 
             <div className="flex gap-4 justify-center col-span-2">
                 <button

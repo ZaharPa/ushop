@@ -36,7 +36,7 @@ class ItemController extends Controller
             'quantity' => 'required|integer',
             'attribute_values' => 'nullable|array',
             'attribute_values.*' => 'exists:attribute_values,id',
-            'photo' => 'nullable|array',
+            'photos' => 'nullable|array',
             'photo.*' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 

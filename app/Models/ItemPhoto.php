@@ -12,8 +12,17 @@ class ItemPhoto extends Model
         'item_id',
     ];
 
+    protected $appends = [
+        'photo_url'
+    ];
+
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);
+    }
+
+    public function getPhotoUrlAttribute()
+    {
+        return asset('storage/' . $this->path);
     }
 }

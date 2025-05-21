@@ -2,8 +2,8 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, usePage } from "@inertiajs/react";
 
 export default function Index() {
-    const { products, items } = usePage().props;
-    console.log(usePage().props);
+    const { items } = usePage().props;
+
     return (
         <AdminLayout>
             <Link href={route("admin.item.create")} className="btn-primary">
@@ -24,7 +24,6 @@ export default function Index() {
                         key={item.id}
                         className="grid grid-cols-7 gap-4 mb-2 text-center"
                     >
-                        {console.log(item)}
                         <div>{item.id}</div>
                         <div>{item.product.name}</div>
                         <div>{item.price}</div>

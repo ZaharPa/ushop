@@ -1,6 +1,7 @@
 import AdminLayout from "@/Layouts/AdminLayout";
 import { router, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
+import Form from "./Form";
 
 export default function Edit() {
     const { item, products, attributes, errors } = usePage().props;
@@ -20,7 +21,7 @@ export default function Edit() {
         quantity: item.quantity,
         attribute_values: item.attribute_values?.map((av) => av.id) || [],
     });
-
+    console.log(oldPhotos);
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -50,7 +51,7 @@ export default function Edit() {
     };
 
     const handleDelete = () => {
-        deleteProduct(route("admin.item.destroy", item.id), {
+        DeleteItem(route("admin.item.destroy", item.id), {
             onSuccess: () => {
                 reset();
             },
@@ -59,7 +60,6 @@ export default function Edit() {
 
     return (
         <AdminLayout>
-            {" "}
             <h2 className="h2-center">Edit Item</h2>
             <Form
                 handleSubmit={(e) => handleSubmit(e)}
@@ -69,6 +69,12 @@ export default function Edit() {
                 reset={reset}
                 errors={errors}
                 handleDelete={(e) => handleDelete()}
+                products={products}
+                attributes={attributes}
+                oldPhotos={oldPhotos}
+                setOldPhotos={setOldPhotos}
+                newPhotos={newPhotos}
+                setNewPhotos={setNewPhotos}
             />
         </AdminLayout>
     );
