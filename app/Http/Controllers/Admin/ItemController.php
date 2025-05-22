@@ -107,8 +107,15 @@ class ItemController extends Controller
             ->with('success', 'Item updated successfully!');
     }
 
-    public function destroy(string $id)
+    public function destroy(Item $item)
     {
-        //
+        $item->photos()->each(function ($photo) {
+            Storage::disk('public')->delete($photo->path);
+        });
+
+        $item->delete();
+
+        return redirect()->intended('/admin/item')
+            ->with('success', 'Item deleted successfully!');
     }
 }
