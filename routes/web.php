@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\FeatureController;
 use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\AttributeValueController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\RegistrationConrtoller;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -78,4 +79,7 @@ Route::middleware(['auth', 'verified', 'is_admin'])
 
         Route::resource('item', ItemController::class)
             ->except('show');
+
+        Route::resource('discount', DiscountController::class)
+            ->only(['index', 'store', 'update', 'destroy']);
     });

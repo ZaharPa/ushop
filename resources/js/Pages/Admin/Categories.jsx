@@ -149,7 +149,7 @@ export default function Categories() {
             </div>
 
             {showForm && (
-                <div className="bg-gray-200 rounded p-2 mt-4 border-2 border-dotted border-sky-700">
+                <div className="dotted-form">
                     <form
                         onSubmit={handleSumbit}
                         encType="multipart/form-data"

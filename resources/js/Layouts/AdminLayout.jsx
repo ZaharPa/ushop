@@ -19,7 +19,7 @@ export default function AdminLayout({ children }) {
                 <AdminLinks label="Items" routeName="admin.item.index" />
                 <AdminLinks label="Users" routeName="admin.user.index" />
                 <AdminLinks label="Orders" routeName="main" />
-                <AdminLinks label="Discount" routeName="main" />
+                <AdminLinks label="Discount" routeName="admin.discount.index" />
                 <AdminLinks label="Settings" routeName="main" />
             </aside>
             <main className="ml-64 p-6 bg-gray-100 min-h-screen w-full">
