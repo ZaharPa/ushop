@@ -19,8 +19,7 @@ export default function Discount() {
         reset,
     } = useForm({
         item_id: "",
-        image: "",
-        percent: "",
+        percentage: "",
         start_date: "",
         end_date: "",
     });
@@ -29,13 +28,54 @@ export default function Discount() {
         setChosenDiscount(null);
         setData({
             item_id: "",
-            image: "",
-            percent: "",
+            percentage: "",
             start_date: "",
             end_date: "",
         });
         reset();
         setShowForm(true);
+    };
+
+    const handleChange = (discount) => {
+        setChosenDiscount(discount);
+        setData({
+            item_id: discount.item_id,
+            percentage: discount.percentage,
+            start_date: discount.start_date,
+            end_date: discount.end_date,
+        });
+
+        setShowForm(true);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (chosenDiscount) {
+            put(route("admin.discount.update", chosenDiscount.id), {
+                onSuccess: () => {
+                    setShowForm(false);
+                    setChosenDiscount(null);
+                    reset();
+                },
+            });
+        } else {
+            post(route("admin.discount.store"), {
+                onSuccess: () => {
+                    setShowForm(false);
+                    reset();
+                },
+            });
+        }
+    };
+
+    const handleDelete = () => {
+        deleteData(route("admin.discount.destroy", chosenDiscount.id), {
+            onSuccess: () => {
+                setShowForm(false);
+                setChosenDiscount(null);
+                reset();
+            },
+        });
     };
 
     return (
@@ -45,31 +85,36 @@ export default function Discount() {
             </button>
             <h2 className="h2-center">Discounts</h2>
             <ul>
-                <li className="flex justify-between px-2 py-2 font-medium">
+                <li className="grid grid-cols-7 gap-4 mb-2 text-center font-medium text-lg">
                     <div>Id</div>
-                    <div>Item</div>
+                    <div className="col-span-2">Item</div>
                     <div>Percent</div>
                     <div>Start</div>
                     <div>End</div>
                     <div></div>
                 </li>
-                <li>
-                    {discounts.data.map((discount) => (
-                        <div
-                            key={discount.id}
-                            className="flex justify-between px-2 py-2"
-                        >
-                            <div>{discount.Id}</div>
-                            <div>{discount.item.name}</div>
-                            <div>{discount.percent}</div>
-                            <div>{discount.start_date}</div>
-                            <div>{discount.end_date}</div>
-                            <div>
-                                <button className="btn-admin">Edit</button>
-                            </div>
+                {discounts.data.map((discount) => (
+                    <li
+                        key={discount.id}
+                        className="grid grid-cols-7 gap-4 mb-2 text-center"
+                    >
+                        <div>{discount.id}</div>
+                        <div className="col-span-2">
+                            {discount.item.product.name} - {discount.item.id}
                         </div>
-                    ))}
-                </li>
+                        <div>{discount.percentage}</div>
+                        <div>{discount.start_date}</div>
+                        <div>{discount.end_date}</div>
+                        <div>
+                            <button
+                                onClick={() => handleChange(discount)}
+                                className="btn-admin"
+                            >
+                                Edit
+                            </button>
+                        </div>
+                    </li>
+                ))}
             </ul>
 
             <div className="flex justify-center">
@@ -78,7 +123,10 @@ export default function Discount() {
 
             {showForm && (
                 <div className="dotted-form">
-                    <form className="text-center flex flex-col gap-2">
+                    <form
+                        onSubmit={handleSubmit}
+                        className="text-center flex flex-col gap-2"
+                    >
                         <h2 className="h2-center text-lg">
                             {chosenDiscount
                                 ? "Edit Discount"
@@ -111,19 +159,19 @@ export default function Discount() {
                         )}
 
                         <div>
-                            <span>Percent - </span>
+                            <span>Percentage - </span>
                             <input
                                 type="number"
-                                value={data.percent}
+                                value={data.percentage}
                                 onChange={(e) =>
-                                    setData("percent", e.target.value)
+                                    setData("percentage", e.target.value)
                                 }
                                 className="input-admin"
                             />
                         </div>
-                        {errors.percent && (
+                        {errors.percentage && (
                             <div className="text-red-500 my-1">
-                                {errors.percent}
+                                {errors.percentage}
                             </div>
                         )}
 
@@ -170,7 +218,11 @@ export default function Discount() {
                             </button>
 
                             {chosenDiscount && (
-                                <button type="button" className="btn-delete">
+                                <button
+                                    onClick={handleDelete}
+                                    type="button"
+                                    className="btn-delete"
+                                >
                                     Delete
                                 </button>
                             )}
