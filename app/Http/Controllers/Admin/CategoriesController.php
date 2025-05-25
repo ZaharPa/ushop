@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Feature;
 use Illuminate\Http\Request;
@@ -13,8 +14,9 @@ class CategoriesController extends Controller
     public function index()
     {
         return inertia('Admin/Categories', [
-            'categories' => Category::with('features')->latest()->paginate(5),
+            'categories' => Category::with('features', 'attributes')->latest()->paginate(5),
             'features' => Feature::all(),
+            'attributes' => Attribute::all(),
         ]);
     }
 
@@ -26,6 +28,8 @@ class CategoriesController extends Controller
             'parent_id' => 'nullable|exists:categories,id',
             'features' => 'nullable|array',
             'features.*' => 'integer|exists:features,id',
+            'attributes' => 'nullable|array',
+            'attributes.*' => 'integer|exists:attributes,id',
         ]);
 
         if ($request->hasFile('image')) {
@@ -41,7 +45,7 @@ class CategoriesController extends Controller
         ]);
 
         $category->features()->sync($request->features ?? []);
-
+        $category->attributes()->sync($request->input('attributes' ?? []));
 
         return redirect()->back()
             ->with('success', 'Category created successfully!');
@@ -55,6 +59,8 @@ class CategoriesController extends Controller
             'parent_id' => 'nullable|exists:categories,id',
             'features' => 'nullable|array',
             'features.*' => 'integer|exists:features,id',
+            'attributes' => 'nullable|array',
+            'attributes.*' => 'integer|exists:attributes,id'
         ]);
 
         if ($request->hasFile('image') && $category->image != null) {
@@ -69,7 +75,9 @@ class CategoriesController extends Controller
                 : $category->image,
         ]);
 
+
         $category->features()->sync($request->features ?? []);
+        $category->attributes()->sync($request->input('attributes' ?? []));
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'Category updated successfully!');
@@ -82,6 +90,7 @@ class CategoriesController extends Controller
         }
 
         $category->features()->detach();
+        $category->attributes()->detach();
 
         $category->delete();
 

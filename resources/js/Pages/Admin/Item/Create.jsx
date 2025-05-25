@@ -4,7 +4,7 @@ import Form from "./Form";
 import { useState } from "react";
 
 export default function Create() {
-    const { products, attributes, errors } = usePage().props;
+    const { products, errors } = usePage().props;
 
     const [newPhotos, setNewPhotos] = useState([]);
 
@@ -36,7 +36,6 @@ export default function Create() {
                 processing={processing}
                 reset={reset}
                 products={products}
-                attributes={attributes}
                 newPhotos={newPhotos}
                 setNewPhotos={setNewPhotos}
             />

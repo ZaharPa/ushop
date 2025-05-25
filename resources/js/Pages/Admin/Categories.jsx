@@ -6,7 +6,7 @@ import { useState } from "react";
 import { route } from "ziggy-js";
 
 export default function Categories() {
-    const { categories, features, errors } = usePage().props;
+    const { categories, features, attributes, errors } = usePage().props;
 
     const [showForm, setShowForm] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
@@ -17,6 +17,7 @@ export default function Categories() {
         image: "",
         parent_id: "",
         features: [],
+        attributes: [],
     });
 
     const { delete: deleteCategory } = useForm();
@@ -28,6 +29,7 @@ export default function Categories() {
             image: "",
             parent_id: "",
             features: [],
+            attributes: [],
         });
         reset();
         setShowForm(true);
@@ -39,6 +41,8 @@ export default function Categories() {
             name: category.name,
             parent_id: category.parent_id || "",
             features: category.features?.map((f) => f.id) || [],
+            attributes: category.attributes?.map((a) => a.id) || [],
+            image: null,
         });
         setShowForm(true);
     };
@@ -53,6 +57,10 @@ export default function Categories() {
 
             data.features.forEach((f, i) =>
                 formData.append(`features[${i}]`, f)
+            );
+
+            data.attributes.forEach((a, i) =>
+                formData.append(`attributes[${i}]`, a)
             );
 
             if (data.image) {
@@ -106,6 +114,15 @@ export default function Categories() {
                 ? prevData.features.filter((id) => id !== featureId)
                 : [...prevData.features, featureId];
             return { ...prevData, features: newFeatures };
+        });
+    };
+
+    const handleAttributeToggle = (attributeId) => {
+        setData((prevData) => {
+            const newAttribute = prevData.attributes.includes(attributeId)
+                ? prevData.attributes.filter((id) => id !== attributeId)
+                : [...prevData.attributes, attributeId];
+            return { ...prevData, attributes: newAttribute };
         });
     };
 
@@ -252,9 +269,47 @@ export default function Categories() {
                             </div>
                         </div>
 
-                        {errors.parent_id && (
+                        {errors.features && (
                             <div className="text-red-500 my-1">
-                                {errors.parent_id}
+                                {errors.features}
+                            </div>
+                        )}
+
+                        <div className="mt-2">
+                            <label className="text-lg">Attributes</label>
+                            <div className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-x-5 gap-y-2 mt-1">
+                                {attributes.map((attribute) => (
+                                    <div
+                                        key={attribute.id}
+                                        className="flex items-center text-center cursor-pointer select-none"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            id={`attribute-${attribute.id}`}
+                                            checked={data.attributes.includes(
+                                                attribute.id
+                                            )}
+                                            onChange={() =>
+                                                handleAttributeToggle(
+                                                    attribute.id
+                                                )
+                                            }
+                                            className="hidden peer"
+                                        />
+                                        <label
+                                            htmlFor={`attribute-${attribute.id}`}
+                                            className="w-full px-2 py-1 border border-gray-400 rounded-md peer-checked:text-white peer-checked:bg-blue-600 transition-colors"
+                                        >
+                                            {attribute.name}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {errors.attributes && (
+                            <div className="text-red-500 my-1">
+                                {errors.attributes}
                             </div>
                         )}
 

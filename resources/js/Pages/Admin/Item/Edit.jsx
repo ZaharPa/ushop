@@ -4,7 +4,7 @@ import { useState } from "react";
 import Form from "./Form";
 
 export default function Edit() {
-    const { item, products, attributes, errors } = usePage().props;
+    const { item, products, errors } = usePage().props;
 
     const [oldPhotos, setOldPhotos] = useState(item.photos || []);
     const [newPhotos, setNewPhotos] = useState([]);
@@ -69,7 +69,6 @@ export default function Edit() {
                 errors={errors}
                 handleDelete={(e) => handleDelete()}
                 products={products}
-                attributes={attributes}
                 oldPhotos={oldPhotos}
                 setOldPhotos={setOldPhotos}
                 newPhotos={newPhotos}

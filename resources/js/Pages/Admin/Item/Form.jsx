@@ -1,5 +1,5 @@
 import ConfrimModal from "@/Components/ConfrimModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Form({
     handleSubmit,
@@ -9,7 +9,6 @@ export default function Form({
     processing,
     reset,
     products,
-    attributes,
     handleDelete = false,
     oldPhotos = [],
     setOldPhotos = () => {},
@@ -17,6 +16,23 @@ export default function Form({
     setNewPhotos = () => {},
 }) {
     const [showConfirm, setShowConfirm] = useState(false);
+    const [attributes, setAttributes] = useState([]);
+
+    useEffect(() => {
+        if (data.product_id) {
+            fetch(route("admin.product.attributes", data.product_id), {
+                credentials: "same-origin",
+            })
+                .then((res) => res.json())
+                .then((data) => setAttributes(data))
+                .catch((error) => {
+                    console.log("Error fetching error: ", error);
+                    setAttributes([]);
+                });
+        } else {
+            setAttributes([]);
+        }
+    }, [data.product_id]);
 
     const handleAttributeToggle = (attributeId) => {
         setData((prevData) => {
@@ -197,7 +213,7 @@ export default function Form({
                                     type="button"
                                     onClick={() =>
                                         setData(
-                                            "phtos",
+                                            "photos",
                                             data.photos.filter(
                                                 (_, i) => i !== index
                                             )
