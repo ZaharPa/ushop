@@ -85,5 +85,5 @@ Route::middleware(['auth', 'verified', 'is_admin'])
             ->only(['index', 'store', 'update', 'destroy']);
 
         Route::resource('settings', SettingController::class)
-            ->only(['index', 'update']);
+            ->only(['index', 'store', 'update', 'destroy']);
     });
