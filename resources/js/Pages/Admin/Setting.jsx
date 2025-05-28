@@ -1,6 +1,6 @@
 import Pagination from "@/Components/Pagination";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { useForm, usePage } from "@inertiajs/react";
+import { router, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function Setting() {
@@ -35,6 +35,7 @@ export default function Setting() {
             value: setting.value,
         });
         setShowForm(true);
+        console.log(data);
     };
 
     const handleSubmit = (e) => {
@@ -49,12 +50,22 @@ export default function Setting() {
     };
 
     const handleDelete = () => {
-        deleteRoute(route("admin.categories.destroy", chosenSetting.id), {
+        deleteRoute(route("admin.settings.destroy", chosenSetting.id), {
             onSuccess: () => {
                 setChosenSetting(null);
                 reset();
                 setShowForm(false);
             },
+        });
+    };
+
+    const handleFavicon = (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("favicon", e.target.favicon.files[0]);
+
+        router.post(route("admin.settings.uploadFavicon"), formData, {
+            forceFormData: true,
         });
     };
 
@@ -70,7 +81,7 @@ export default function Setting() {
                         <strong className="mr-1">{setting.key}</strong>-{" "}
                         {setting.value}
                         <button
-                            onClick={() => handleChange(setting.id)}
+                            onClick={() => handleChange(setting)}
                             className="btn-admin m-0 px-1 py-0 ml-2"
                         >
                             Edit
@@ -89,12 +100,18 @@ export default function Setting() {
                         <input
                             type="text"
                             name="key"
+                            value={data.key}
+                            onChange={(e) => setData("key", e.target.value)}
+                            size={data.key.length}
                             placeholder="Setting key"
                             className="input-admin"
                         />
                         <input
                             type="text"
                             name="value"
+                            value={data.value}
+                            onChange={(e) => setData("value", e.target.value)}
+                            size={data.value.length}
                             placeholder="Setting value"
                             className="input-admin"
                         />
@@ -124,6 +141,13 @@ export default function Setting() {
                     </div>
                 </form>
             )}
+
+            <form onSubmit={handleFavicon} className="mt-6 flex gap-4">
+                <input type="file" name="favicon" className="input-admin" />
+                <button type="submit" className="btn-primary">
+                    Upload Favicon
+                </button>
+            </form>
         </AdminLayout>
     );
 }

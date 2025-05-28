@@ -86,4 +86,6 @@ Route::middleware(['auth', 'verified', 'is_admin'])
 
         Route::resource('settings', SettingController::class)
             ->only(['index', 'store', 'update', 'destroy']);
+        Route::post('/settings/favicon', [SettingController::class, 'uploadFavicon'])
+            ->name('settings.uploadFavicon');
     });
