@@ -4,7 +4,7 @@ import { router, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function Setting() {
-    const { settings } = usePage().props;
+    const { settings, errors } = usePage().props;
 
     const [chosenSetting, setChosenSetting] = useState(null);
     const [showForm, setShowForm] = useState(false);
@@ -116,6 +116,13 @@ export default function Setting() {
                             className="input-admin"
                         />
                     </div>
+                    {errors.key && (
+                        <div className="text-red-500 my-1">{errors.key}</div>
+                    )}
+
+                    {errors.value && (
+                        <div className="text-red-500 my-1">{errors.value}</div>
+                    )}
                     <div className="flex justify-center gap-3 mt-3">
                         <button type="submit" className="btn-primary">
                             Submit
@@ -144,6 +151,9 @@ export default function Setting() {
 
             <form onSubmit={handleFavicon} className="mt-6 flex gap-4">
                 <input type="file" name="favicon" className="input-admin" />
+                {errors.favicon && (
+                    <div className="text-red-500 my-1">{errors.favicon}</div>
+                )}
                 <button type="submit" className="btn-primary">
                     Upload Favicon
                 </button>
