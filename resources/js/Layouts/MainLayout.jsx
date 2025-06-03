@@ -2,7 +2,7 @@ import { Link, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
 export default function MainLayout({ children }) {
-    const { flash, auth } = usePage().props;
+    const { flash, auth, layoutLinks } = usePage().props;
     const [showFlash, setShowFlash] = useState(true);
 
     useEffect(() => {
@@ -88,21 +88,15 @@ export default function MainLayout({ children }) {
                 </div>
 
                 <div className="flex justify-between px-4 md:px-8 lg:px-16 bg-sky-700 text-emerald-100">
-                    <Link href="#" className="hover:underline">
-                        Smartphones
-                    </Link>
-                    <Link href="#" className="hover:underline">
-                        Laptops
-                    </Link>
-                    <Link href="#" className="hover:underline">
-                        Tablets
-                    </Link>
-                    <Link href="#" className="hover:underline">
-                        Smartwatches
-                    </Link>
-                    <Link href="#" className="hover:underline">
-                        Headphones
-                    </Link>
+                    {layoutLinks.map((link) => (
+                        <Link
+                            key={link.url}
+                            href={link.url}
+                            className="hover:underline"
+                        >
+                            {link.label}
+                        </Link>
+                    ))}
                 </div>
             </header>
             <main>

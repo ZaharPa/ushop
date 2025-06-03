@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Http\Middleware\IsAdmin;
+use App\Models\LayoutLink;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,5 +41,15 @@ class AppServiceProvider extends ServiceProvider
         if ($siteEmail) {
             config(['mail.from.address' => $siteEmail]);
         }
+
+        Inertia::share([
+            'layoutLinks' => function () {
+                return Cache::rememberForever('layout_links', function () {
+                    return LayoutLink::where('is_active', true)
+                        ->orderBy('position')
+                        ->get(['label', 'url']);
+                });
+            }
+        ]);
     }
 }

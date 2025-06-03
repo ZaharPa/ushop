@@ -5,7 +5,7 @@ export default function AdminLayout({ children }) {
         <div className="flex">
             <aside className="w-64 bg-sky-900 text-emerald-300 h-screen fixed p-4 flex flex-col text-center gap-4">
                 <AdminLinks label="Dashboard" routeName="admin.dashboard" />
-                <AdminLinks label="Layouts" routeName="main" />
+                <AdminLinks label="Layouts" routeName="admin.layout.index" />
                 <AdminLinks
                     label="Categories"
                     routeName="admin.categories.index"

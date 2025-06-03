@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\FeatureController;
 use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\AttributeValueController;
 use App\Http\Controllers\Admin\DiscountController;
+use App\Http\Controllers\Admin\LayoutController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainPageController;
@@ -88,4 +89,7 @@ Route::middleware(['auth', 'verified', 'is_admin'])
             ->only(['index', 'store', 'update', 'destroy']);
         Route::post('/settings/favicon', [SettingController::class, 'uploadFavicon'])
             ->name('settings.uploadFavicon');
+
+        Route::resource('layout', LayoutController::class)
+            ->only(['index', 'store', 'update', 'destroy']);
     });
