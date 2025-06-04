@@ -33,7 +33,7 @@ class LayoutController extends Controller
         return back()->with('success', 'Layout link created successfully.');
     }
 
-    public function update(Request $request, LayoutLink $layoutLink)
+    public function update(Request $request, LayoutLink $layout)
     {
         $data = $request->validate([
             'label' => 'required|string|max:255',
@@ -42,16 +42,16 @@ class LayoutController extends Controller
             'is_active' => 'boolean',
         ]);
 
-        $layoutLink->update($data);
+        $layout->update($data);
 
         Cache::forget('layout_links');
 
         return back()->with('success', 'Layout link updated successfully.');
     }
 
-    public function destroy(LayoutLink $layoutLink)
+    public function destroy(LayoutLink $layout)
     {
-        $layoutLink->delete();
+        $layout->delete();
 
         Cache::forget('layout_links');
 
