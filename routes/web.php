@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\AttributeValueController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\LayoutController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\RegistrationConrtoller;
@@ -91,5 +92,8 @@ Route::middleware(['auth', 'verified', 'is_admin'])
             ->name('settings.uploadFavicon');
 
         Route::resource('layout', LayoutController::class)
+            ->only(['index', 'store', 'update', 'destroy']);
+
+        Route::resource('slider', SliderController::class)
             ->only(['index', 'store', 'update', 'destroy']);
     });
