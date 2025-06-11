@@ -191,7 +191,7 @@ export default function Categories() {
                                 onChange={(e) =>
                                     setData("name", e.target.value)
                                 }
-                                className="px-1 border border-gray-600 rounded-lg mt-2"
+                                className="input-admin"
                             />
                         </div>
 
@@ -201,14 +201,14 @@ export default function Categories() {
                             </div>
                         )}
 
-                        <div>
+                        <div className="my-2">
                             <span>Photo - </span>
                             <input
                                 type="file"
                                 onChange={(e) =>
                                     setData("image", e.target.files[0])
                                 }
-                                className="px-1 border border-gray-600 rounded-lg mt-2"
+                                className="input-admin"
                             />
                         </div>
 
@@ -225,7 +225,7 @@ export default function Categories() {
                                 onChange={(e) =>
                                     setData("parent_id", e.target.value)
                                 }
-                                className="px-1 border border-gray-600 rounded-lg mt-2"
+                                className="input-admin"
                             >
                                 <option value="">None</option>
                                 {categories.data.map((category) => (
@@ -260,7 +260,7 @@ export default function Categories() {
                                         />
                                         <label
                                             htmlFor={`feature-${feature.id}`}
-                                            className="w-full px-2 py-1 border border-gray-400 rounded-md peer-checked:text-white peer-checked:bg-blue-600 transition-colors"
+                                            className="w-full px-2 py-1 border border-gray-400 bg-gray-100 rounded-md peer-checked:text-white peer-checked:bg-blue-600 transition-colors"
                                         >
                                             {feature.name}
                                         </label>
@@ -298,7 +298,7 @@ export default function Categories() {
                                         />
                                         <label
                                             htmlFor={`attribute-${attribute.id}`}
-                                            className="w-full px-2 py-1 border border-gray-400 rounded-md peer-checked:text-white peer-checked:bg-blue-600 transition-colors"
+                                            className="w-full px-2 py-1 border border-gray-400 bg-gray-100 rounded-md peer-checked:text-white peer-checked:bg-blue-600 transition-colors"
                                         >
                                             {attribute.name}
                                         </label>
