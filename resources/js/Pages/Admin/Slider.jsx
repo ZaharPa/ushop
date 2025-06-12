@@ -38,7 +38,6 @@ export default function Slider() {
         setData({
             title: slide.title,
             description: slide.description,
-            image: slide.image_url,
             link: slide.link,
             position: slide.position,
             active: slide.active,
@@ -50,6 +49,8 @@ export default function Slider() {
         e.preventDefault();
         if (chosenSlide) {
             const formData = new FormData();
+            formData.append("_method", "put");
+
             formData.append("title", data.title);
             formData.append("description", data.description);
 
@@ -59,16 +60,20 @@ export default function Slider() {
 
             formData.append("link", data.link);
             formData.append("position", data.position);
-            formData.append("active", data.active);
+            formData.append("active", data.active ? 1 : 0);
 
-            router.put(route("admin.slider.update", chosenSlide.id), formData, {
-                forceFormData: true,
-                onSuccess: () => {
-                    setShowForm(false);
-                    setChosenSlide(null);
-                    reset();
-                },
-            });
+            router.post(
+                route("admin.slider.update", chosenSlide.id),
+                formData,
+                {
+                    forceFormData: true,
+                    onSuccess: () => {
+                        setShowForm(false);
+                        setChosenSlide(null);
+                        reset();
+                    },
+                }
+            );
         } else {
             post(route("admin.slider.store"), {
                 forceFormData: true,
@@ -106,10 +111,14 @@ export default function Slider() {
                 <li className="grid grid-cols-9 gap-4 mb-2 text-center font-medium text-lg">
                     <div>Id</div>
                     <div>Title</div>
-                    <div>Description</div>
+                    <div className="break-words whitespace-normal">
+                        Description
+                    </div>
                     <div>Image</div>
                     <div className="col-span-2">Link</div>
-                    <div>Position</div>
+                    <div className="break-words whitespace-normal">
+                        Position
+                    </div>
                     <div>Active</div>
                     <div></div>
                 </li>
@@ -119,16 +128,22 @@ export default function Slider() {
                         className="grid grid-cols-9 gap-4 mb-2 text-center"
                     >
                         <div>{slide.id}</div>
-                        <div>{slide.title}</div>
-                        <div>{slide.description}</div>
+                        <div className="break-words whitespace-normal">
+                            {slide.title}
+                        </div>
+                        <div className="break-words whitespace-normal">
+                            {slide.description}
+                        </div>
                         <div className="flex justify-center">
                             <img
                                 src={slide.image_url}
                                 alt="Image"
-                                className="h-24"
+                                className="w-24 h-16 object-cover"
                             />
                         </div>
-                        <div className="col-span-2">{slide.link}</div>
+                        <div className="col-span-2 break-words whitespace-normal">
+                            {slide.link}
+                        </div>
                         <div>{slide.position}</div>
                         <div>
                             <input

@@ -24,6 +24,7 @@ class SliderController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'order' => 'nullable|integer|min:0',
             'link' => 'required|url',
+            'active' => 'boolean',
         ]);
 
         $imagePath = $request->file('image')->store('slider', 'public');
@@ -33,7 +34,8 @@ class SliderController extends Controller
             'description' => $request->description,
             'image' => $imagePath,
             'order' => $request->order,
-            'link' => $request->link
+            'link' => $request->link,
+            'active' => $request->active,
         ]);
 
         return back()->with('success', 'Slide created successfully!');
@@ -47,6 +49,7 @@ class SliderController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'order' => 'nullable|integer|min:0',
             'link' => 'required|url',
+            'active' => 'boolean',
         ]);
 
         if ($request->hasFile('image')) {
@@ -61,6 +64,7 @@ class SliderController extends Controller
                 : $slider->image,
             'order' => $request->order,
             'link' => $request->link,
+            'active' => $request->active,
         ]);
 
         return back()->with('success', 'Slide updated successfully!');
