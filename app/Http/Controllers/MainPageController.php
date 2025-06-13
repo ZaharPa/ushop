@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Slider;
 use Illuminate\Http\Request;
 
 class MainPageController extends Controller
@@ -9,7 +10,9 @@ class MainPageController extends Controller
 
     public function index()
     {
-        return inertia('MainPage/Index');
+        return inertia('MainPage/Index', [
+            'slides' => Slider::all(),
+        ]);
     }
 
     public function create()

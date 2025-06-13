@@ -1,7 +1,13 @@
+import Slider from "@/Components/Slider";
+import { usePage } from "@inertiajs/react";
+
 export default function Index() {
+    const { slides } = usePage().props;
     return (
         <div>
-            <div>Slider with special offer</div>
+            <div>
+                <Slider slides={slides} />
+            </div>
 
             <div>Popular products by month</div>
 
