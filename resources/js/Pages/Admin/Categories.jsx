@@ -14,6 +14,7 @@ export default function Categories() {
 
     const { data, setData, post, processing, reset } = useForm({
         name: "",
+        slug: "",
         image: "",
         parent_id: "",
         features: [],
@@ -26,6 +27,7 @@ export default function Categories() {
         setChosenCategory(null);
         setData({
             name: "",
+            slug: "",
             image: "",
             parent_id: "",
             features: [],
@@ -39,6 +41,7 @@ export default function Categories() {
         setChosenCategory(category);
         setData({
             name: category.name,
+            slug: category.slug,
             parent_id: category.parent_id || "",
             features: category.features?.map((f) => f.id) || [],
             attributes: category.attributes?.map((a) => a.id) || [],
@@ -52,6 +55,7 @@ export default function Categories() {
         if (chosenCategory) {
             const formData = new FormData();
             formData.append("name", data.name);
+            formData.append("slug", data.slug);
             formData.append("parent_id", data.parent_id);
             formData.append("_method", "put");
 
@@ -198,6 +202,25 @@ export default function Categories() {
                         {errors.name && (
                             <div className="text-red-500 my-1">
                                 {errors.name}
+                            </div>
+                        )}
+
+                        <div>
+                            <span>Slug - </span>
+                            <input
+                                type="text"
+                                value={data.slug}
+                                size={data.slug.length}
+                                onChange={(e) =>
+                                    setData("slug", e.target.value)
+                                }
+                                className="input-admin"
+                            />
+                        </div>
+
+                        {errors.slug && (
+                            <div className="text-red-500 my-1">
+                                {errors.slug}
                             </div>
                         )}
 

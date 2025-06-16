@@ -24,6 +24,7 @@ class CategoriesController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:50',
+            'slug' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'parent_id' => 'nullable|exists:categories,id',
             'features' => 'nullable|array',
@@ -40,6 +41,7 @@ class CategoriesController extends Controller
 
         $category = Category::create([
             'name' => $request->name,
+            'slug' => $request->slug,
             'image' => $imagePath,
             'parent_id' => $request->parent_id,
         ]);
@@ -55,6 +57,7 @@ class CategoriesController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:50',
+            'slug' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'parent_id' => 'nullable|exists:categories,id',
             'features' => 'nullable|array',
@@ -69,6 +72,7 @@ class CategoriesController extends Controller
 
         $category->update([
             'name' => $request->name,
+            'slug' => $request->slug,
             'parent_id' => $request->parent_id,
             'image' => $request->hasFile('image')
                 ? $request->file('image')->store('categories', 'public')
