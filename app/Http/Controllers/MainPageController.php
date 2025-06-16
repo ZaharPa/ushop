@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,8 @@ class MainPageController extends Controller
     public function index()
     {
         return inertia('MainPage/Index', [
-            'slides' => Slider::all(),
+            'slides' => Slider::where('active', true)->orderBy('order')->get(),
+            'categories' => Category::all(),
         ]);
     }
 

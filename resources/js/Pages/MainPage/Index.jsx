@@ -1,17 +1,16 @@
+import CategorySlider from "@/Components/CategorySlider";
 import Slider from "@/Components/Slider";
 import { usePage } from "@inertiajs/react";
 
 export default function Index() {
-    const { slides } = usePage().props;
+    const { slides, categories } = usePage().props;
     return (
         <div>
-            <div>
-                <Slider slides={slides} />
-            </div>
+            <Slider slides={slides} />
 
             <div>Popular products by month</div>
 
-            <div>Buttons to see products by category</div>
+            <CategorySlider categories={categories} />
 
             <div>Some products</div>
 

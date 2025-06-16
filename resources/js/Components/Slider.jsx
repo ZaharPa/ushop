@@ -16,7 +16,7 @@ export default function Slider({ slides }) {
     const prevSlide = () => setCurrent((current - 1 + length) % length);
     const nextSlide = () => setCurrent((current + 1) % length);
     return (
-        <div className="relative w-full max-w-screen-xl mx-auto h-[400px] overflow-hidden">
+        <div className="relative w-full max-w-screen-xl mx-auto h-[300px] overflow-hidden">
             {slides.map((slide, index) => (
                 <div
                     key={slide.id}
@@ -29,12 +29,12 @@ export default function Slider({ slides }) {
                         className="w-full h-full object-cover"
                     />
 
-                    <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-1 pb-10">
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-1 pb-5">
                         <div className="max-w-4xl mx-auto text-center">
-                            <h2 className="text-3xl font-bold">
+                            <h2 className="text-2xl font-bold">
                                 {slide.title}
                             </h2>
-                            <p className="mt-2 mb-3 max-w-2xl">
+                            <p className="mt-1 mb-2 max-w-2xl">
                                 {slide.description}
                             </p>
                             {slide.link && (
@@ -60,7 +60,7 @@ export default function Slider({ slides }) {
                 <ArrowRight />
             </button>
 
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+            <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
                 {slides.map((_, index) => (
                     <button
                         key={index}
