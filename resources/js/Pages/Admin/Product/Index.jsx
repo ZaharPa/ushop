@@ -4,7 +4,7 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, usePage } from "@inertiajs/react";
 
 export default function Index() {
-    const { products, filters } = usePage().props;
+    const { products, filters, categories } = usePage().props;
 
     return (
         <AdminLayout>
@@ -30,6 +30,7 @@ export default function Index() {
                     <FilterProduct
                         filters={filters}
                         pageRoute={"admin.product.index"}
+                        categories={categories}
                     />
                 </li>
                 <li className="grid grid-cols-7 gap-4 mb-2 text-center font-medium text-lg">

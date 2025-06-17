@@ -55,7 +55,7 @@ class Product extends Model
             fn($query, $value) => $query->where('name', 'like', '%' . $value . '%')
         )->when(
             $filters['category'] ?? false,
-            fn($query, $value) => $query->where('category_id', '=', $value)
+            fn($query, $value) => $query->whereHas('category', fn($q) => $q->where('slug', $value))
         );
     }
 

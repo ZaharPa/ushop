@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\LayoutController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\RegistrationConrtoller;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -49,6 +50,8 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     return back()->with('success', 'Verification email sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
 
 Route::middleware(['auth', 'verified', 'is_admin'])
     ->prefix('admin')

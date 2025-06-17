@@ -87,7 +87,8 @@ export default function MainLayout({ children }) {
                     )}
                 </div>
 
-                <div className="flex justify-between px-4 md:px-8 lg:px-16 bg-sky-700 text-emerald-100">
+                <div className="flex justify-around px-4 md:px-8 lg:px-16 bg-sky-700 text-emerald-100">
+                    <Link href={route("catalog.index")}>Catalog</Link>
                     {layoutLinks.map((link) => (
                         <Link
                             key={link.url}

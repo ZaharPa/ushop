@@ -1,9 +1,7 @@
-import { router, useForm, usePage } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 
-export default function FilterProduct({ filters, pageRoute }) {
-    const { categories } = usePage().props;
-
-    const { data, setData, get, processing, reset } = useForm({
+export default function FilterProduct({ filters, pageRoute, categories }) {
+    const { data, setData, get, processing } = useForm({
         name: filters.name || "",
         category: filters.category || "",
     });
@@ -11,9 +9,8 @@ export default function FilterProduct({ filters, pageRoute }) {
     const handleFilter = (e) => {
         e.preventDefault();
         get(route(pageRoute), {
-            onSuccess: () => {
-                reset();
-            },
+            preserveScroll: true,
+            preserveState: true,
         });
     };
 
@@ -23,10 +20,7 @@ export default function FilterProduct({ filters, pageRoute }) {
             category: "",
         });
 
-        reset();
-
-        router.visit(route(pageRoute), {
-            replace: true,
+        get(route(pageRoute), {
             preserveState: false,
         });
     };
@@ -49,7 +43,7 @@ export default function FilterProduct({ filters, pageRoute }) {
             >
                 <option value={""}>Category</option>
                 {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
+                    <option key={category.id} value={category.slug}>
                         {category.name}
                     </option>
                 ))}
