@@ -22,6 +22,7 @@ export default function Catalog() {
                 filters={filters}
                 pageRoute="catalog.index"
                 categories={categories}
+                withPrice={true}
             />
         </div>
     );

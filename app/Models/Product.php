@@ -56,7 +56,29 @@ class Product extends Model
         )->when(
             $filters['category'] ?? false,
             fn($query, $value) => $query->whereHas('category', fn($q) => $q->where('slug', $value))
-        );
+        )->when(
+            $filters['min_price'] ?? false,
+            fn($q, $value) =>
+            $q->whereHas(
+                'items',
+                fn($q2) =>
+                $q2->where('price', '>=', $value)
+            )
+        )->when(
+            $filters['min_price'] ?? false,
+            fn($q, $value) =>
+            $q->whereHas(
+                'items',
+                fn($q2) =>
+                $q2->where('price', '>=', $value)
+            )
+        )->when($filters['sort'] ?? false, function ($q, $sort) {
+            if ($sort === 'price_asc') {
+                $q->withMin('items', 'price')->orderBy('items_min_price');
+            } elseif ($sort === 'price_desc') {
+                $q->withMin('items', 'price')->orderByDesc('items_min_price');
+            }
+        });
     }
 
     public function getPhotoUrlAttribute()

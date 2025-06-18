@@ -13,12 +13,15 @@ class CatalogController extends Controller
         $filters = $request->only([
             'name',
             'category',
+            'sort',
+            'min_price',
+            'max_price',
         ]);
 
         return inertia('Catalog', [
             'filters' => $filters,
             'categories' => Category::all(),
-            'products' => Product::with(['category', 'features'])
+            'products' => Product::with(['category', 'items'])
                 ->filter($filters)
                 ->latest()
                 ->paginate(10),
