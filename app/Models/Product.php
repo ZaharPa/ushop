@@ -65,18 +65,31 @@ class Product extends Model
                 $q2->where('price', '>=', $value)
             )
         )->when(
-            $filters['min_price'] ?? false,
+            $filters['max_price'] ?? false,
             fn($q, $value) =>
             $q->whereHas(
                 'items',
                 fn($q2) =>
-                $q2->where('price', '>=', $value)
+                $q2->where('price', '<=', $value)
             )
+        )->when(
+            !($filters['showUnavailable'] ?? false),
+            function ($q) {
+                $q->whereHas('items', fn($q2) => $q2->whereNotNull('price'));
+            }
         )->when($filters['sort'] ?? false, function ($q, $sort) {
             if ($sort === 'price_asc') {
-                $q->withMin('items', 'price')->orderBy('items_min_price');
+                $q->orderBy('items_min_price');
             } elseif ($sort === 'price_desc') {
-                $q->withMin('items', 'price')->orderByDesc('items_min_price');
+                $q->orderByDesc('items_min_price');
+            } elseif ($sort === 'name_asc') {
+                $q->orderBy('name');
+            } elseif ($sort === 'name_desc') {
+                $q->orderByDesc('name');
+            } elseif ($sort === 'newest') {
+                $q->orderByDesc('created_at');
+            } elseif ($sort === 'oldest') {
+                $q->orderBy('created_at');
             }
         });
     }

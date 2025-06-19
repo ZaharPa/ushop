@@ -12,8 +12,9 @@ export default function FilterProduct({
         sort: filters.sort || "",
         min_price: filters.min_price || "",
         max_price: filters.max_price || "",
+        showUnavailable: filters.showUnavailable || false,
     });
-
+    console.log(filters);
     const handleFilter = (e) => {
         e.preventDefault();
         get(route(pageRoute), {
@@ -29,6 +30,7 @@ export default function FilterProduct({
             sort: "",
             min_price: "",
             max_price: "",
+            showUnavailable: false,
         });
 
         get(route(pageRoute), {
@@ -86,7 +88,22 @@ export default function FilterProduct({
                         <option value="">Sort by</option>
                         <option value="price_asc">Min Price</option>
                         <option value="price_desc">Max Price</option>
+                        <option value="name_asc">A-Z</option>
+                        <option value="name_desc">Z-A</option>
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
                     </select>
+
+                    <label className="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            checked={data.showUnavailable}
+                            onChange={(e) =>
+                                setData("showUnavailable", e.target.checked)
+                            }
+                        />
+                        Show Unavailable
+                    </label>
                 </>
             )}
 

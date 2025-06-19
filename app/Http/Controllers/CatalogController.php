@@ -16,14 +16,18 @@ class CatalogController extends Controller
             'sort',
             'min_price',
             'max_price',
+            'showUnavailable',
         ]);
+
+        $filters['showUnavailable'] = filter_var($filters['showUnavailable'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
         return inertia('Catalog', [
             'filters' => $filters,
             'categories' => Category::all(),
             'products' => Product::with(['category', 'items'])
+                ->withMin('items', 'price')
                 ->filter($filters)
-                ->latest()
+                ->orderByRaw('items_min_price IS NULL, items_min_price ASC')
                 ->paginate(10),
         ]);
     }
