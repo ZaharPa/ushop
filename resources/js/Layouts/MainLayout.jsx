@@ -2,8 +2,9 @@ import { Link, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
 export default function MainLayout({ children }) {
-    const { flash, auth, layoutLinks } = usePage().props;
+    const { flash, auth, layoutLinks, categories } = usePage().props;
     const [showFlash, setShowFlash] = useState(true);
+    const [catalogOpen, setCatalogOpen] = useState(false);
 
     useEffect(() => {
         if (flash.success) {
@@ -87,8 +88,40 @@ export default function MainLayout({ children }) {
                     )}
                 </div>
 
-                <div className="flex justify-around px-4 md:px-8 lg:px-16 bg-sky-700 text-emerald-100">
-                    <Link href={route("catalog.index")}>Catalog</Link>
+                <div className="relative flex justify-around px-4 md:px-8 lg:px-16 bg-sky-700 text-emerald-100">
+                    <div
+                        className="relative"
+                        onMouseEnter={() => setCatalogOpen(true)}
+                        onMouseLeave={() => setCatalogOpen(false)}
+                    >
+                        <span className="cursor-pointer hover:underline">
+                            Catalog
+                        </span>
+
+                        {catalogOpen && (
+                            <div className="absolute top-full left-0 w-48 bg-white text-sky-800 rounded text-sm grid grid-cols-2 gap-1 ">
+                                <Link
+                                    href={route("catalog.index")}
+                                    className="col-span-2 block p-2 font-semibold  bg-teal-50 hover:bg-teal-100 hover:text-sky-900 text-center"
+                                >
+                                    All Products
+                                </Link>
+                                {(categories ?? []).map((category) => (
+                                    <Link
+                                        key={category.id}
+                                        href={
+                                            route("catalog.index") +
+                                            `?category=${category.slug}`
+                                        }
+                                        className="block p-1 bg-teal-50 hover:bg-teal-100 hover:text-sky-900 text-center"
+                                    >
+                                        {category.name}
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
                     {layoutLinks.map((link) => (
                         <Link
                             key={link.url}

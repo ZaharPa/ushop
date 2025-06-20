@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Middleware\IsAdmin;
+use App\Models\Category;
 use App\Models\LayoutLink;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
@@ -49,7 +50,9 @@ class AppServiceProvider extends ServiceProvider
                         ->orderBy('position')
                         ->get(['label', 'url']);
                 });
-            }
+            },
+
+            'categories' => fn() => Category::all(),
         ]);
     }
 }
