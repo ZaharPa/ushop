@@ -24,7 +24,10 @@ class CatalogController extends Controller
         return inertia('Catalog', [
             'filters' => $filters,
             'categories' => Category::all(),
-            'products' => Product::with(['category', 'items'])
+            'products' => Product::with([
+                'category',
+                'items' => fn($q) => $q->orderBy('price'),
+            ])
                 ->withMin('items', 'price')
                 ->filter($filters)
                 ->orderByRaw('items_min_price IS NULL, items_min_price ASC')

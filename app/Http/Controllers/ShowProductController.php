@@ -15,12 +15,13 @@ class ShowProductController extends Controller
         $product->load([
             'category',
             'features',
-            'items.atributesValues.attribute',
+            'items.attributeValues.attribute',
+            'items.photos',
         ]);
 
         $item->load([
-            'atributesValues.attribute',
-            'images',
+            'attributeValues.attribute',
+            'photos',
         ]);
 
         return inertia('ShowProduct', [

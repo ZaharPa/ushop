@@ -10,10 +10,12 @@ export default function ShowProduct() {
             </h1>
             <p className="text-gray-500 mb-3">{product.category.name}</p>
             <p className="text-xl text-sky-700 font-semibold mb-2">
-                ${item.price.toFixed(2)}
+                ${item.price}
             </p>
 
-            {item.photos.lenght > 0 && (
+            <p className="text-gray-700 mb-4">{product.description}</p>
+
+            {item.photos.length > 0 && (
                 <div className="flex gap-3 overflow-x-auto mb-6">
                     {item.photos.map((photo) => (
                         <img
@@ -43,6 +45,21 @@ export default function ShowProduct() {
                 </div>
             )}
 
+            {item.attribute_values.length > 0 && (
+                <div className="mb-4">
+                    <h3 className="text-lg font-semibold text-sky-700 mb-2">
+                        Product Features
+                    </h3>
+                    {item.attribute_values.map((attr) => (
+                        <div key={attr.id}>
+                            <div>
+                                {attr.attribute.name} - {attr.value}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+
             <h2 className="text-xl font-semibold text-sky-800 mb-2">
                 Other Variants
             </h2>
@@ -57,7 +74,13 @@ export default function ShowProduct() {
                                 : "bg-white hover:bg-sky-100"
                         }`}
                     >
-                        {variant.name} - ${variant.price.toFixed(2)}
+                        {Array.isArray(variant.photos) && variant.photos[0] && (
+                            <img
+                                src={variant.photos[0].photo_url}
+                                className="inline-block h-12 w-12 mr-2 rounded object-cover"
+                            />
+                        )}
+                        ${variant.price}
                     </Link>
                 ))}
             </div>
