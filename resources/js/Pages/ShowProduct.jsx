@@ -1,31 +1,148 @@
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 
 export default function ShowProduct() {
     const { product, item } = usePage().props;
 
+    const [selectedPhoto, setSelectedPhoto] = useState(
+        item.photos.length > 0 ? item.photos[0] : null
+    );
+    const [showModal, setShowModal] = useState(false);
+
+    const attributeOptions = {};
+    product.items.forEach((i) => {
+        i.attribute_values.forEach((v) => {
+            const attrId = v.attribute.id;
+            if (!attributeOptions[attrId]) {
+                attributeOptions[attrId] = {};
+            }
+            attributeOptions[attrId][v.id] = v;
+        });
+    });
+
+    const [selectedAttributes, setSelectedAttributes] = useState(() => {
+        const map = {};
+        item.attribute_values.forEach((v) => {
+            map[v.attribute.id] = v.id;
+        });
+        return map;
+    });
+
+    const [lastChangedAttrId, setLastChangedAttrId] = useState(null);
+
+    const handleAttributeChange = (attributeId, valueId) => {
+        setSelectedAttributes((prev) => ({
+            ...prev,
+            [attributeId]: valueId,
+        }));
+        setLastChangedAttrId(attributeId);
+    };
+
+    useEffect(() => {
+        if (!lastChangedAttrId) return;
+
+        const selectedIds = Object.values(selectedAttributes).map(Number);
+
+        const matched = product.items.find((i) => {
+            const itemIds = i.attribute_values.map((v) => v.id);
+            return selectedIds.every((id) => itemIds.includes(id));
+        });
+
+        if (matched && matched.id !== item.id) {
+            router.visit(route("product.show", [product.id, matched.id]));
+        } else {
+            const fallback = product.items.find((i) =>
+                i.attribute_values.some(
+                    (v) =>
+                        v.attribute.id === lastChangedAttrId &&
+                        v.id === selectedAttributes[lastChangedAttrId]
+                )
+            );
+
+            if (fallback && fallback.id !== item.id) {
+                router.visit(route("product.show", [product.id, fallback.id]));
+            }
+        }
+    }, [selectedAttributes]);
+
     return (
         <div className="max-w-5xl mx-auto p-6">
-            <h1 className="text-2xl font-bold text-sky-800 mb-1">
-                {product.name}
-            </h1>
-            <p className="text-gray-500 mb-3">{product.category.name}</p>
-            <p className="text-xl text-sky-700 font-semibold mb-2">
-                ${item.price}
-            </p>
-
-            <p className="text-gray-700 mb-4">{product.description}</p>
-
-            {item.photos.length > 0 && (
-                <div className="flex gap-3 overflow-x-auto mb-6">
-                    {item.photos.map((photo) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    {selectedPhoto && (
                         <img
-                            key={photo.id}
-                            src={photo.photo_url}
-                            className="h-56 rounded shadow-md object-cover"
+                            src={selectedPhoto.photo_url}
+                            onClick={() => setShowModal(true)}
+                            className="w-full h-96 object-cover rounded shadow cursor-pointer mb-4"
                         />
-                    ))}
+                    )}
+
+                    {item.photos.length > 1 && (
+                        <div className="flex gap-2 overflow-x-auto">
+                            {item.photos.map((photo) => (
+                                <img
+                                    key={photo.id}
+                                    src={photo.photo_url}
+                                    onClick={() => setSelectedPhoto(photo)}
+                                    className={`h-20 w-20 object-cover rounded border cursor-pointer transition ${
+                                        selectedPhoto.id === photo.id
+                                            ? "border-sky-600 ring-2 ring-sky-300"
+                                            : "border-gray-300 hover:border-sky-400"
+                                    }`}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
-            )}
+
+                <div className="flex flex-col justify-start gap-4 text-center">
+                    <h2 className="text-2xl font-bold text-sky-800">
+                        {product.name}
+                    </h2>
+                    <p className="text-gray-500 mb-3">
+                        {product.category.name}
+                    </p>
+                    <p className="text-xl text-sky-700 font-semibold mb-2">
+                        ${item.price}
+                    </p>
+
+                    {Object.entries(attributeOptions).map(
+                        ([attrId, values]) => (
+                            <div key={attrId}>
+                                <span className="block font-semibold mb-1">
+                                    {Object.values(values)[0].attribute.name}
+                                </span>
+                                <div className="flex flex-wrap gap-2">
+                                    {Object.values(values).map((v) => (
+                                        <button
+                                            key={v.id}
+                                            onClick={() =>
+                                                handleAttributeChange(
+                                                    Number(attrId),
+                                                    v.id
+                                                )
+                                            }
+                                            className={`px-3 py-1 border rounded  ${
+                                                selectedAttributes[attrId] ===
+                                                v.id
+                                                    ? "bg-sky-600 text-white border-sky-600"
+                                                    : "bg-white text-gray-700 border-gray-300 hover:bg-sky-100"
+                                            }`}
+                                        >
+                                            {v.value}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )
+                    )}
+                </div>
+            </div>
+
+            <h3 className="text-lg font-semibold text-sky-700 mt-6 ">
+                Description
+            </h3>
+            <p className="text-gray-700 mb-4">{product.description}</p>
 
             {product.features.length > 0 && (
                 <div className="mb-6">
@@ -36,8 +153,8 @@ export default function ShowProduct() {
                         {product.features.map((feature) => (
                             <li key={feature.id}>
                                 <span className="font-medium">
-                                    {feature.name}:{" "}
-                                </span>{" "}
+                                    {feature.name}:
+                                </span>
                                 {feature.pivot.value}
                             </li>
                         ))}
@@ -48,7 +165,7 @@ export default function ShowProduct() {
             {item.attribute_values.length > 0 && (
                 <div className="mb-4">
                     <h3 className="text-lg font-semibold text-sky-700 mb-2">
-                        Product Features
+                        Item Attributes
                     </h3>
                     {item.attribute_values.map((attr) => (
                         <div key={attr.id}>
@@ -84,6 +201,18 @@ export default function ShowProduct() {
                     </Link>
                 ))}
             </div>
+
+            {showModal && (
+                <div
+                    onClick={() => setShowModal(false)}
+                    className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center"
+                >
+                    <img
+                        src={selectedPhoto.photo_url}
+                        className="max-h-[90%] rounded shadow-lg"
+                    />
+                </div>
+            )}
         </div>
     );
 }
