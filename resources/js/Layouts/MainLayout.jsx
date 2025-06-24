@@ -1,5 +1,6 @@
 import { Link, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
+import Footer from "./Footer";
 
 export default function MainLayout({ children }) {
     const { flash, auth, layoutLinks, categories } = usePage().props;
@@ -141,6 +142,8 @@ export default function MainLayout({ children }) {
                 )}
                 {children}
             </main>
+
+            <Footer />
         </>
     );
 }
