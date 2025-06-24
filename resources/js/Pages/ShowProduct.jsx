@@ -139,7 +139,7 @@ export default function ShowProduct() {
                 </div>
             </div>
 
-            <h3 className="text-lg font-semibold text-sky-700 mt-6 ">
+            <h3 className="text-lg font-semibold text-sky-700 mt-6">
                 Description
             </h3>
             <p className="text-gray-700 mb-4">{product.description}</p>
@@ -149,31 +149,21 @@ export default function ShowProduct() {
                     <h3 className="text-lg font-semibold text-sky-700 mb-2">
                         Product Features
                     </h3>
-                    <ul className="list-disc list-inside text-sm text-gray-700">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         {product.features.map((feature) => (
-                            <li key={feature.id}>
-                                <span className="font-medium">
-                                    {feature.name}:
-                                </span>
-                                {feature.pivot.value}
+                            <li
+                                key={feature.id}
+                                className="bg-sky-50 border border-sky-200 rounded-lg p-4 shadow"
+                            >
+                                <h4 className="font-semibold text-sky-800 mb-1">
+                                    {feature.name}
+                                </h4>
+                                <p className="text-sm text-gray-700">
+                                    {feature.pivot.value}
+                                </p>
                             </li>
                         ))}
                     </ul>
-                </div>
-            )}
-
-            {item.attribute_values.length > 0 && (
-                <div className="mb-4">
-                    <h3 className="text-lg font-semibold text-sky-700 mb-2">
-                        Item Attributes
-                    </h3>
-                    {item.attribute_values.map((attr) => (
-                        <div key={attr.id}>
-                            <div>
-                                {attr.attribute.name} - {attr.value}
-                            </div>
-                        </div>
-                    ))}
                 </div>
             )}
 
@@ -191,13 +181,25 @@ export default function ShowProduct() {
                                 : "bg-white hover:bg-sky-100"
                         }`}
                     >
-                        {Array.isArray(variant.photos) && variant.photos[0] && (
-                            <img
-                                src={variant.photos[0].photo_url}
-                                className="inline-block h-12 w-12 mr-2 rounded object-cover"
-                            />
-                        )}
-                        ${variant.price}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                            {Array.isArray(variant.photos) &&
+                                variant.photos[0] && (
+                                    <img
+                                        src={variant.photos[0].photo_url}
+                                        className="inline-block h-12 w-12 mr-2 rounded object-cover"
+                                    />
+                                )}
+
+                            <div className="flex flex-col">
+                                <div>${variant.price}</div>
+                                {variant.attribute_values.map((v) => (
+                                    <div key={v.id} className="text-sm">
+                                        {v.value}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        {console.log(variant)}
                     </Link>
                 ))}
             </div>
