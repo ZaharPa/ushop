@@ -18,7 +18,7 @@ export default function MainLayout({ children }) {
     }, [flash.success]);
 
     return (
-        <>
+        <div className="min-h-screen flex flex-col">
             <header className="sticky top-0 z-40">
                 <div className="flex justify-center gap-2 md:gap-8 lg:gap-16 bg-sky-500 text-emerald-200 shadow-xs text-lg py-1">
                     <Link
@@ -29,7 +29,7 @@ export default function MainLayout({ children }) {
                     </Link>
                     <div className="flex gap-4">
                         <Link
-                            href="#"
+                            href={route("aboutUs")}
                             className="hover:underline hover:text-emerald-100"
                         >
                             About us
@@ -134,7 +134,7 @@ export default function MainLayout({ children }) {
                     ))}
                 </div>
             </header>
-            <main>
+            <main className="flex-1">
                 {flash.success && showFlash && (
                     <div className="fixed top-25 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 border border-dashed border-emerald-400 font-medium text-center p-6 m-3 bg-emerald-50 text-emerald-900 text-lg">
                         {flash.success}
@@ -144,6 +144,6 @@ export default function MainLayout({ children }) {
             </main>
 
             <Footer />
-        </>
+        </div>
     );
 }

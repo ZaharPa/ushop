@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
@@ -56,6 +57,9 @@ Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index
 
 Route::get('/product/{product}/item/{item}', ShowProductController::class)
     ->name('product.show');
+
+Route::get('/about-us', AboutUsController::class)
+    ->name('aboutUs');
 
 Route::middleware(['auth', 'verified', 'is_admin'])
     ->prefix('admin')
