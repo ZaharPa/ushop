@@ -35,7 +35,7 @@ export default function MainLayout({ children }) {
                             About us
                         </Link>
                         <Link
-                            href="#"
+                            href={route("help")}
                             className="hover:underline hover:text-emerald-100"
                         >
                             Help
