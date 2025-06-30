@@ -48,6 +48,11 @@ class Product extends Model
         return $this->hasMany(ProductFeature::class);
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function scopeFilter(Builder $query, array $filters): Builder
     {
         return $query->when(
