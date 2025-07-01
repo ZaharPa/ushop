@@ -1,4 +1,5 @@
 import { Link, router, usePage } from "@inertiajs/react";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function ShowProduct() {
@@ -8,6 +9,9 @@ export default function ShowProduct() {
         item.photos.length > 0 ? item.photos[0] : null
     );
     const [showModal, setShowModal] = useState(false);
+
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState("");
 
     const attributeOptions = {};
     product.items.forEach((i) => {
@@ -64,6 +68,25 @@ export default function ShowProduct() {
             }
         }
     }, [selectedAttributes]);
+
+    useEffect(() => {
+        axios.get(`/api/products/${product.id}/comments`).then((res) => {
+            setComments(res.data);
+        });
+    }, [product.id]);
+
+    const submitComment = (e) => {
+        e.preventDefault();
+        axios
+            .post(route("comments.store"), {
+                product_id: product.id,
+                content: newComment,
+            })
+            .then((res) => {
+                setComments([res.data, ...comments]);
+                setNewComment("");
+            });
+    };
 
     return (
         <div className="max-w-5xl mx-auto p-6">
@@ -199,7 +222,6 @@ export default function ShowProduct() {
                                 ))}
                             </div>
                         </div>
-                        {console.log(variant)}
                     </Link>
                 ))}
             </div>
@@ -215,6 +237,40 @@ export default function ShowProduct() {
                     />
                 </div>
             )}
+
+            <div className="mt-8">
+                <h3 className="text-lg font-semibold text-sky-700 mb-2">
+                    Comments
+                </h3>
+
+                {usePage().props.auth?.user && (
+                    <form onSubmit={submitComment} className="mt-4">
+                        <textarea
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
+                            required
+                            className="w-full border rounded p-2 mb-2"
+                            placeholder="Write a comment"
+                        />
+                        <button type="submit" className="btn-admin">
+                            Submit
+                        </button>
+                    </form>
+                )}
+
+                {comments.length === 0 ? (
+                    <p className="text-gray-500">No comments yet.</p>
+                ) : (
+                    comments.map((comment) => (
+                        <div key={comment.id} className="mb-4 border-b pb-2">
+                            <div className="text-sm text-gray-700">
+                                {comment.user.name}
+                            </div>
+                            <div>{comment.content}</div>
+                        </div>
+                    ))
+                )}
+            </div>
         </div>
     );
 }

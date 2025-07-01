@@ -16,7 +16,7 @@ class CommentController extends Controller
             ->latest()
             ->get();
 
-        return response()->json([$comments]);
+        return response()->json($comments);
     }
 
     public function store(Request $request)
