@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CommentController extends Controller
 {
@@ -33,5 +34,14 @@ class CommentController extends Controller
         ]);
 
         return response()->json($comment->load('user:id,name'), 201);
+    }
+
+    public function destroy(Comment $comment)
+    {
+        Gate::authorize('delete', $comment);
+
+        $comment->delete();
+
+        return response()->noContent();
     }
 }

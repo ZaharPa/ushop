@@ -1,9 +1,10 @@
 import { Link, router, usePage } from "@inertiajs/react";
 import axios from "axios";
+import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ShowProduct() {
-    const { product, item } = usePage().props;
+    const { product, item, auth } = usePage().props;
 
     const [selectedPhoto, setSelectedPhoto] = useState(
         item.photos.length > 0 ? item.photos[0] : null
@@ -86,6 +87,12 @@ export default function ShowProduct() {
                 setComments([res.data, ...comments]);
                 setNewComment("");
             });
+    };
+
+    const deleteComment = (id) => {
+        axios.delete(route("comments.destroy", id)).then(() => {
+            setComments((prev) => prev.filter((c) => c.id !== id));
+        });
     };
 
     return (
@@ -262,11 +269,24 @@ export default function ShowProduct() {
                     <p className="text-gray-500">No comments yet.</p>
                 ) : (
                     comments.map((comment) => (
-                        <div key={comment.id} className="mb-4 border-b pb-2">
+                        <div
+                            key={comment.id}
+                            className="mb-4 border-b pb-2 relative"
+                        >
                             <div className="text-sm text-gray-700">
                                 {comment.user.name}
                             </div>
                             <div>{comment.content}</div>
+                            {(auth?.user?.is_admin ||
+                                auth?.user?.id === comment.user_id) && (
+                                <button
+                                    onClick={() => deleteComment(comment.id)}
+                                    className="absolute top-0 right-0 text-red-700 hover:text-red-500 text-sm cursor-pointer"
+                                    aria-label="Delete comment"
+                                >
+                                    <X size={18} />
+                                </button>
+                            )}
                         </div>
                     ))
                 )}
