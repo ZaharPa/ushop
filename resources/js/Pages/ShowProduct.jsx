@@ -14,6 +14,8 @@ export default function ShowProduct() {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
 
+    const [cartMessage, setCartMessage] = useState("");
+
     const attributeOptions = {};
     product.items.forEach((i) => {
         i.attribute_values.forEach((v) => {
@@ -95,8 +97,26 @@ export default function ShowProduct() {
         });
     };
 
+    const addToCart = (itemId) => {
+        axios
+            .post(route("cart.add"), { item_id: itemId })
+            .then(() => {
+                setCartMessage("Product added to cart");
+                setTimeout(() => setCartMessage(""), 3000);
+            })
+            .catch(() => {
+                setCartMessage("Failed to add to cart");
+                setTimeout(() => setCartMessage(""), 3000);
+            });
+    };
+
     return (
         <div className="max-w-5xl mx-auto p-6">
+            {cartMessage && (
+                <div className="fixed top-4 right-4 bg-sky-700 text-white px-4 py-2 rounded shadow">
+                    {cartMessage}
+                </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                     {selectedPhoto && (
@@ -166,6 +186,13 @@ export default function ShowProduct() {
                             </div>
                         )
                     )}
+
+                    <button
+                        onClick={() => addToCart(item.id)}
+                        className="btn-primary"
+                    >
+                        Add to cart
+                    </button>
                 </div>
             </div>
 
