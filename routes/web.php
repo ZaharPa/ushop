@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\LayoutController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\MainPageController;
@@ -64,6 +65,13 @@ Route::get('/about-us', AboutUsController::class)
 
 Route::get('/help', HelpController::class)
     ->name('help');
+
+Route::middleware(['auth'])->controller(CartController::class)->group(function () {
+    Route::get('/cart', 'show')->name('cart.show');
+    Route::post('/cart', 'add')->name('cart.add');
+    Route::patch('/cart/{item}', 'update')->name('cart.update');
+    Route::delete('/cart/{item}', 'remove')->name('cart.remove');
+});
 
 Route::middleware(['auth', 'verified', 'is_admin'])
     ->prefix('admin')

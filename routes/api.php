@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Admin\Api\CategoryFeatureController;
 use App\Http\Controllers\Admin\Api\ProductAttributeController;
-use App\Http\Controllers\Api\AddToCartController;
 use App\Http\Controllers\Api\CommentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +20,3 @@ Route::middleware(['web', 'auth'])->post('/comments', [CommentController::class,
 
 Route::middleware(['web', 'auth'])->delete('/comments/{comment}', [CommentController::class, 'destroy'])
     ->name('comments.destroy');
-
-Route::middleware(['web', 'auth'])->post('/add-to-cart', AddToCartController::class)
-    ->name('cart.add');
