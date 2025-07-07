@@ -113,7 +113,7 @@ export default function ShowProduct() {
     return (
         <div className="max-w-5xl mx-auto p-6">
             {cartMessage && (
-                <div className="fixed top-4 right-4 bg-sky-700 text-white px-4 py-2 rounded shadow">
+                <div className="fixed z-50 top-4 right-4 bg-emerald-700 text-white px-4 py-2 rounded shadow">
                     {cartMessage}
                 </div>
             )}
@@ -186,6 +186,10 @@ export default function ShowProduct() {
                             </div>
                         )
                     )}
+
+                    <div className="text-gray-500 text-sm mb-2">
+                        Quantity: {item.quantity}
+                    </div>
 
                     <button
                         onClick={() => addToCart(item.id)}

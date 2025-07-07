@@ -66,12 +66,7 @@ Route::get('/about-us', AboutUsController::class)
 Route::get('/help', HelpController::class)
     ->name('help');
 
-Route::middleware(['auth'])->controller(CartController::class)->group(function () {
-    Route::get('/cart', 'show')->name('cart.show');
-    Route::post('/cart', 'add')->name('cart.add');
-    Route::patch('/cart/{item}', 'update')->name('cart.update');
-    Route::delete('/cart/{item}', 'remove')->name('cart.remove');
-});
+Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
 
 Route::middleware(['auth', 'verified', 'is_admin'])
     ->prefix('admin')

@@ -54,7 +54,7 @@ export default function MainLayout({ children }) {
                             />
                         </div>
                     </div>
-                    <Link href="#">
+                    <Link href={route("cart.show")}>
                         <img
                             src="https://img.icons8.com/?size=23&id=53721&format=png&color=000000"
                             className="bg-white p-1 rounded-full"
