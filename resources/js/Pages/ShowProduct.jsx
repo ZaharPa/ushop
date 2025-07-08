@@ -15,6 +15,7 @@ export default function ShowProduct() {
     const [newComment, setNewComment] = useState("");
 
     const [cartMessage, setCartMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const attributeOptions = {};
     product.items.forEach((i) => {
@@ -104,19 +105,29 @@ export default function ShowProduct() {
                 setCartMessage("Product added to cart");
                 setTimeout(() => setCartMessage(""), 3000);
             })
-            .catch(() => {
-                setCartMessage("Failed to add to cart");
-                setTimeout(() => setCartMessage(""), 3000);
+            .catch((error) => {
+                if (error.response?.status === 422) {
+                    setErrorMessage(error.response.data.message);
+                    setTimeout(() => setErrorMessage(""), 3000);
+                } else {
+                    setErrorMessage("Failed to add to cart");
+                    setTimeout(() => setErrorMessage(""), 3000);
+                }
             });
     };
 
     return (
         <div className="max-w-5xl mx-auto p-6">
             {cartMessage && (
-                <div className="fixed z-50 top-4 right-4 bg-emerald-700 text-white px-4 py-2 rounded shadow">
+                <div className="top-right-alert bg-green-700">
                     {cartMessage}
                 </div>
             )}
+
+            {errorMessage && (
+                <div className="top-right-alert">{errorMessage}</div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                     {selectedPhoto && (

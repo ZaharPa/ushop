@@ -1,8 +1,10 @@
 import { router, usePage } from "@inertiajs/react";
 import axios from "axios";
+import { useState } from "react";
 
 export default function Cart() {
     const { items } = usePage().props;
+    const [errorMessage, setErrorMessage] = useState("");
 
     const updateQuantity = (id, quantity) => {
         axios
@@ -11,6 +13,12 @@ export default function Cart() {
             })
             .then(() => {
                 router.reload({ only: ["items"] });
+            })
+            .catch((error) => {
+                if (error.response?.status === 422) {
+                    setErrorMessage(error.response.data.message);
+                    setTimeout(() => setErrorMessage(""), 3000);
+                }
             });
     };
 
@@ -22,6 +30,10 @@ export default function Cart() {
 
     return (
         <div>
+            {errorMessage && (
+                <div className="top-right-alert">{errorMessage}</div>
+            )}
+
             <h2 className="text-2xl font-bold text-sky-800">Your Cart</h2>
 
             {items.length === 0 ? (

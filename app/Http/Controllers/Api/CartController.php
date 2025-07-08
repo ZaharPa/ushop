@@ -15,12 +15,18 @@ class CartController extends Controller
             'item_id' => 'required|integer|exists:items,id',
         ]);
 
-        $itemId = $request->input('item_id');
+        $item = Item::findOrFail($request->item_id);
 
         $cart = session()->get('cart', []);
+        $current = $cart[$item->id] ?? 0;
 
-        $cart[$itemId] = ($cart[$itemId] ?? 0) + 1;
+        if ($current + 1 > $item->quantity) {
+            return response()->json([
+                'message' => 'Not enough stock',
+            ], 422);
+        }
 
+        $cart[$item->id] = $current + 1;
         session()->put('cart', $cart);
 
         return response()->json(['status' => 'added']);
@@ -31,6 +37,12 @@ class CartController extends Controller
         $request->validate([
             'quantity' => 'required|integer|min:1',
         ]);
+
+        if ($request->quantity > $item->quantity) {
+            return response()->json([
+                'message' => 'Not enough stock',
+            ], 422);
+        }
 
         $cart = session()->get('cart', []);
 
