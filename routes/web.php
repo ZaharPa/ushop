@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\RegistrationConrtoller;
@@ -67,6 +68,9 @@ Route::get('/help', HelpController::class)
     ->name('help');
 
 Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
+
+Route::resource('checkout', CheckoutController::class)
+    ->only(['index', 'store']);
 
 Route::middleware(['auth', 'verified', 'is_admin'])
     ->prefix('admin')

@@ -1,4 +1,4 @@
-import { router, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import axios from "axios";
 import { useState } from "react";
 
@@ -76,7 +76,9 @@ export default function Cart() {
                         </div>
                     ))}
 
-                    <button className="btn-admin">Checkout</button>
+                    <Link href={route("checkout.index")} className="btn-admin">
+                        Checkout
+                    </Link>
                 </>
             )}
         </div>
