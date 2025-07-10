@@ -9,7 +9,7 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        $cart = session()->get('cart');
+        $cart = session()->get('cart', []);
         $items = Item::with('product')->find(array_keys($cart));
 
         $items = $items->map(function ($item) use ($cart) {
