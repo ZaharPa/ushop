@@ -35,6 +35,11 @@ class Item extends Model
         return $this->hasOne(Discount::class);
     }
 
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
     public function attributeValues(): BelongsToMany
     {
         return $this->belongsToMany(AttributeValue::class, 'attribute_items')
