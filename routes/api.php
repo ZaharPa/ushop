@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Api\CategoryFeatureController;
 use App\Http\Controllers\Admin\Api\ProductAttributeController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,7 @@ Route::middleware(['web', 'auth'])->controller(CartController::class)->group(fun
     Route::patch('/cart/{item}', 'update')->name('cart.update');
     Route::delete('/cart/{item}', 'remove')->name('cart.remove');
 });
+
+Route::post('/payment/cash', [PaymentController::class, 'cash'])->name('payment.cash');
+Route::post('/payment/card', [PaymentController::class, 'card'])->name('payment.card');
+Route::post('/payment/paypal', [PaymentController::class, 'paypal'])->name('payment.paypal');
