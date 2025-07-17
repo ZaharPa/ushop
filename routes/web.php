@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\LayoutController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
@@ -71,6 +72,11 @@ Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
 
 Route::resource('checkout', CheckoutController::class)
     ->only(['index', 'store']);
+
+Route::get('/payment/success', [PaymentController::class, 'success'])
+    ->name('payment.success');
+Route::get('/payment/cancel', [PaymentController::class, 'cancel'])
+    ->name('payment.cancel');
 
 Route::middleware(['auth', 'verified', 'is_admin'])
     ->prefix('admin')

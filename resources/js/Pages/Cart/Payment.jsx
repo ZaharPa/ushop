@@ -13,11 +13,17 @@ export default function Payment() {
                 .then(() => router.visit(route("payment.success")));
         } else if (method === "card") {
             axios
-                .post(route("payment.card"), { order_id: order.id })
+                .post(route("payment.card"), {
+                    order_id: order.id,
+                    amount: order.total_price,
+                })
                 .then((res) => (window.location.href = res.data.redirect_url));
         } else if (method === "paypal") {
             axios
-                .post(route("payment.paypal"), { order_id: order.id })
+                .post(route("payment.paypal"), {
+                    order_id: order.id,
+                    amount: order.total_price,
+                })
                 .then((res) => (window.location.href = res.data.redirect_url));
         }
     };
