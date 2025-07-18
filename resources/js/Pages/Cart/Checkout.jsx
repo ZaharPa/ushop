@@ -12,6 +12,11 @@ export default function Checkout() {
         email: "",
     });
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        post(route("checkout.store"));
+    };
+
     return (
         <div className="max-w-4xl mx-auto p-4 flex flex-col md:flex-row md:items-start gap-6">
             <div className="md:w-2/3">
@@ -22,7 +27,10 @@ export default function Checkout() {
                 <div className="text-sm text-gray-500 italic mb-4">
                     * - required field
                 </div>
-                <form className="flex flex-col space-y-4 text-sky-800">
+                <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-col space-y-4 text-sky-800"
+                >
                     <InputField
                         label="Your Name*"
                         name="name"

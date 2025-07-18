@@ -38,7 +38,7 @@ class PaymentController extends Controller
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => url('/payment/success?session_id={CHECKOUT_SESSION_ID'),
+            'success_url' => url('/payment/success?session_id={CHECKOUT_SESSION_ID}'),
             'cancel_url' => url('/payment/cancel'),
             'metadata' => [
                 'order_id' => $request->order_id
@@ -48,16 +48,18 @@ class PaymentController extends Controller
         return response()->json(['redirect_url' => $session->url]);
     }
 
-    public function paypal() {}
-
     public function success(Request $request)
     {
+        Stripe::setApiKey(config('services.stripe.secret'));
+
         $session = Session::retrieve($request->session_id);
         $orderId = $session->metadata->order_id;
 
         $order = Order::findOrFail($orderId);
         $order->status = 'paid';
         $order->save();
+
+        session()->forget('cart');
 
         return inertia('Cart/Success');
     }

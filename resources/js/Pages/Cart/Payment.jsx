@@ -1,5 +1,6 @@
 import { router, usePage } from "@inertiajs/react";
 import axios from "axios";
+import { useState } from "react";
 
 export default function Payment() {
     const { order } = usePage().props;
@@ -18,13 +19,6 @@ export default function Payment() {
                     amount: order.total_price,
                 })
                 .then((res) => (window.location.href = res.data.redirect_url));
-        } else if (method === "paypal") {
-            axios
-                .post(route("payment.paypal"), {
-                    order_id: order.id,
-                    amount: order.total_price,
-                })
-                .then((res) => (window.location.href = res.data.redirect_url));
         }
     };
 
@@ -34,7 +28,7 @@ export default function Payment() {
                 <h3 className="text-lg font-semibold mb-2">
                     Select Payment Method
                 </h3>
-                <div className="space-y-2">
+                <div className="flex gap-4 items-center">
                     <label>
                         <input
                             type="radio"
@@ -42,7 +36,7 @@ export default function Payment() {
                             checked={method === "cash"}
                             onChange={() => setMethod("cash")}
                         />
-                        <span>Cash on Delivary</span>
+                        <span className="p-1">Cash on Delivary</span>
                     </label>
                     <label>
                         <input
@@ -51,16 +45,7 @@ export default function Payment() {
                             checked={method === "card"}
                             onChange={() => setMethod("card")}
                         />
-                        <span>Credit/Debit Cart</span>
-                    </label>
-                    <label>
-                        <input
-                            type="radio"
-                            value="paypal"
-                            checked={method === "paypal"}
-                            onChange={() => setMethod("paypal")}
-                        />
-                        <span>PayPal</span>
+                        <span className="p-1">Credit/Debit Cart</span>
                     </label>
                 </div>
             </div>

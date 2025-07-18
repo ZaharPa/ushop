@@ -1,6 +1,7 @@
 import { Link, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import Footer from "./Footer";
+import { ShoppingCart } from "lucide-react";
 
 export default function MainLayout({ children }) {
     const { flash, auth, layoutLinks, categories } = usePage().props;
@@ -54,12 +55,11 @@ export default function MainLayout({ children }) {
                             />
                         </div>
                     </div>
-                    <Link href={route("cart.show")}>
-                        <img
-                            src="https://img.icons8.com/?size=23&id=53721&format=png&color=000000"
-                            className="bg-white p-1 rounded-full"
-                            alt="Cart"
-                        />
+                    <Link
+                        href={route("cart.show")}
+                        className="w-8 h-8 flex items-center justify-center bg-white rounded-full"
+                    >
+                        <ShoppingCart className="w-6 h-6 text-blue-600 hover:text-emerald-500" />
                     </Link>
                     {auth.user ? (
                         <Link

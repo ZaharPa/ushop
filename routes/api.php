@@ -31,4 +31,3 @@ Route::middleware(['web', 'auth'])->controller(CartController::class)->group(fun
 
 Route::post('/payment/cash', [PaymentController::class, 'cash'])->name('payment.cash');
 Route::post('/payment/card', [PaymentController::class, 'card'])->name('payment.card');
-Route::post('/payment/paypal', [PaymentController::class, 'paypal'])->name('payment.paypal');
