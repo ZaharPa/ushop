@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\AttributeValueController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\LayoutController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Api\PaymentController;
@@ -124,4 +125,7 @@ Route::middleware(['auth', 'verified', 'is_admin'])
 
         Route::resource('slider', SliderController::class)
             ->only(['index', 'store', 'update', 'destroy']);
+
+        Route::resource('order', OrderController::class)
+            ->only(['index', 'show', 'update']);
     });
