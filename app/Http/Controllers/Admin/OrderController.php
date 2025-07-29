@@ -11,7 +11,8 @@ class OrderController extends Controller
     public function index()
     {
         return inertia('Admin/Order/Index', [
-            'orders' => Order::with(['user', 'items.item'])
+            'orders' => Order::orderBy('created_at', 'desc')
+                ->paginate(10)
         ]);
     }
 
@@ -25,12 +26,12 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $request->validate([
-            'status' => 'required|in:pending,processing,completed,cancelled',
+            'status' => 'required|in:pending,confirmed,paid,shipped,delivered,cancelled',
         ]);
 
         $order->update($request->only('status'));
 
-        return redirect()->route('admin.order.index')
+        return redirect()->route('admin.order.show', $order->id)
             ->with('success', 'Order status updated successfully!');
     }
 }

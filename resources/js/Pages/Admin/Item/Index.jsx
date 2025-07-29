@@ -48,6 +48,10 @@ export default function Index() {
                         </div>
                     </li>
                 ))}
+
+                <li className="mt-6 mx-auto w-fit">
+                    <Pagination links={orders.links} />
+                </li>
             </ul>
         </AdminLayout>
     );
