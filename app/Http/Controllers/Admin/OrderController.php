@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderStatusUpdated;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -19,7 +21,7 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         return inertia('Admin/Order/Show', [
-            'order' => $order->load(['user', 'items.item'])
+            'order' => $order->load(['user', 'items.item.product'])
         ]);
     }
 
@@ -30,6 +32,8 @@ class OrderController extends Controller
         ]);
 
         $order->update($request->only('status'));
+
+        Mail::to($order->email)->send(new OrderStatusUpdated($order));
 
         return redirect()->route('admin.order.show', $order->id)
             ->with('success', 'Order status updated successfully!');
