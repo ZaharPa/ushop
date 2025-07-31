@@ -1,7 +1,8 @@
 import { Link, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import Footer from "./Footer";
-import { ShoppingCart } from "lucide-react";
+import { Search, ShoppingCart } from "lucide-react";
+import SearchBox from "@/Components/SearchBox";
 
 export default function MainLayout({ children }) {
     const { flash, auth, layoutLinks, categories } = usePage().props;
@@ -44,15 +45,7 @@ export default function MainLayout({ children }) {
                     </div>
                     <div>
                         <div className="relative w-full max-w-md mx-auto">
-                            <input
-                                type="text"
-                                placeholder="Seacrh ..."
-                                className="w-full text-sky-600 pl-2  bg-white rounded-2xl border border-gray-500 shadow-sm focus:border-emerald-200 transition"
-                            />
-                            <img
-                                src="https://img.icons8.com/?size=25&id=KPmthqkeTgDN&format=png&color=000000"
-                                className="absolute right-3 top-1 "
-                            />
+                            <SearchBox />
                         </div>
                     </div>
                     <Link
