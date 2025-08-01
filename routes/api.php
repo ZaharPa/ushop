@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Api\ProductAttributeController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,6 @@ Route::middleware(['web', 'auth'])->controller(CartController::class)->group(fun
 
 Route::post('/payment/cash', [PaymentController::class, 'cash'])->name('payment.cash');
 Route::post('/payment/card', [PaymentController::class, 'card'])->name('payment.card');
+
+Route::get('/search-suggestions', SearchController::class)
+    ->name('search.suggestions');
