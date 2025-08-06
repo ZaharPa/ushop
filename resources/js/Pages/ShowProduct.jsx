@@ -164,7 +164,16 @@ export default function ShowProduct() {
                         {product.category.name}
                     </p>
                     <p className="text-xl text-sky-700 font-semibold mb-2">
-                        ${item.price}
+                        {item.discount ? (
+                            <span className="text-red-600">
+                                $
+                                {item.price -
+                                    item.price *
+                                        (item.discount.percentage / 100)}
+                            </span>
+                        ) : (
+                            <span>${item.price}</span>
+                        )}
                     </p>
 
                     {Object.entries(attributeOptions).map(
@@ -263,7 +272,20 @@ export default function ShowProduct() {
                                 )}
 
                             <div className="flex flex-col">
-                                <div>${variant.price}</div>
+                                <div>
+                                    {variant.discount ? (
+                                        <span className="text-red-600">
+                                            $
+                                            {variant.price -
+                                                variant.price *
+                                                    (variant.discount
+                                                        .percentage /
+                                                        100)}
+                                        </span>
+                                    ) : (
+                                        <span>${variant.price}</span>
+                                    )}
+                                </div>
                                 {variant.attribute_values.map((v) => (
                                     <div key={v.id} className="text-sm">
                                         {v.value}

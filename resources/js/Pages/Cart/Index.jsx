@@ -48,7 +48,17 @@ export default function Cart() {
                             <div>
                                 <div>{item.product.name}</div>
                                 <div className="text-gray-500 text-sm">
-                                    ${item.price}
+                                    {item.discount ? (
+                                        <span className="text-red-600">
+                                            $
+                                            {item.price -
+                                                item.price *
+                                                    (item.discount.percentage /
+                                                        100)}
+                                        </span>
+                                    ) : (
+                                        <span>${item.price}</span>
+                                    )}
                                 </div>
                             </div>
 

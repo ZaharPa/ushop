@@ -17,11 +17,13 @@ class ShowProductController extends Controller
             'features',
             'items.attributeValues.attribute',
             'items.photos',
+            'items.discount',
         ]);
 
         $item->load([
             'attributeValues.attribute',
             'photos',
+            'discount'
         ]);
 
         return inertia('ShowProduct', [

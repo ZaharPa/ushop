@@ -112,7 +112,17 @@ export default function Checkout() {
                     <div key={item.id} className="text-sm px-2 py-1">
                         <div>{item.product.name}</div>
                         <div className="text-gray-600">
-                            ${item.price} - {item.quantity}
+                            {item.discount ? (
+                                <span className="text-red-600">
+                                    $
+                                    {item.price -
+                                        item.price *
+                                            (item.discount.percentage / 100)}
+                                </span>
+                            ) : (
+                                <span>${item.price}</span>
+                            )}
+                            - {item.quantity}
                         </div>
                     </div>
                 ))}

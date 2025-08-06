@@ -17,8 +17,8 @@ return new class extends Migration
 
             $table->unsignedTinyInteger('percentage')->default(0);
 
-            $table->date('start_date')->nulable();
-            $table->date('end_date')->nulable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
 
             $table->boolean('is_active')->default(true);
         });

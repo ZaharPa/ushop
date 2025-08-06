@@ -10,7 +10,7 @@ class CartController extends Controller
     public function show()
     {
         $cart = session('cart', []);
-        $items = Item::with('product')->find(array_keys($cart));
+        $items = Item::with(['product', 'discount'])->find(array_keys($cart));
 
         $items = $items->map(function ($item) use ($cart) {
             $item->quantity = $cart[$item->id];

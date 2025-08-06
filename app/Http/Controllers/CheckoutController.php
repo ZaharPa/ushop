@@ -13,7 +13,7 @@ class CheckoutController extends Controller
     public function index()
     {
         $cart = session()->get('cart', []);
-        $items = Item::with('product')->find(array_keys($cart));
+        $items = Item::with(['product', 'discount'])->find(array_keys($cart));
 
         $items = $items->map(function ($item) use ($cart) {
             $item->quantity = $cart[$item->id];
@@ -36,10 +36,22 @@ class CheckoutController extends Controller
         ]);
 
         $cart = session('cart', []);
-        $items = Item::find(array_keys($cart));
+        $items = Item::with('discount')->find(array_keys($cart));
 
         $total_price = $items->sum(function ($item) use ($cart) {
-            return $item->price * $cart[$item->id];
+            $quantity = $cart[$item->id];
+
+            $price = $item->price;
+
+            if (
+                $item->discount && $item->discount->is_active &&
+                (!$item->discount->start_data || $item->discount->start_date <= now()) &&
+                (!$item->discount->start_data || $item->discount->start_date <= now())
+            ) {
+                $price -= $price * ($item->discount->percentage / 100);
+            }
+
+            return $price * $quantity;
         });
 
         DB::transaction(function () use ($request, $cart, $items, $total_price, &$order) {
@@ -54,12 +66,24 @@ class CheckoutController extends Controller
             ]);
 
             foreach ($items as $item) {
+                $quantity = $cart[$item->id];
+
+                $price = $item->price;
+
+                if (
+                    $item->discount && $item->discount->is_active &&
+                    (!$item->discount->start_data || $item->discount->start_date <= now()) &&
+                    (!$item->discount->start_data || $item->discount->start_date <= now())
+                ) {
+                    $price -= $price * ($item->discount->percentage / 100);
+                }
+
                 OrderItem::create([
                     'order_id' => $order->id,
                     'item_id' => $item->id,
                     'price' => $item->price,
-                    'quantity' => $cart[$item->id],
-                    'subtotal' => $item->price * $cart[$item->id],
+                    'quantity' => $quantity,
+                    'subtotal' => $price * $quantity,
                 ]);
             }
         });
