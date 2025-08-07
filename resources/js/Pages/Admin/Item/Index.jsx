@@ -1,3 +1,4 @@
+import Pagination from "@/Components/Pagination";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, usePage } from "@inertiajs/react";
 
@@ -50,7 +51,7 @@ export default function Index() {
                 ))}
 
                 <li className="mt-6 mx-auto w-fit">
-                    <Pagination links={orders.links} />
+                    <Pagination links={items.links} />
                 </li>
             </ul>
         </AdminLayout>

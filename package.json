@@ -16,10 +16,12 @@
     },
     "dependencies": {
         "@inertiajs/react": "^2.0.5",
+        "dayjs": "^1.11.13",
         "lucide-react": "^0.515.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
         "react-google-recaptcha": "^3.1.0",
+        "recharts": "^3.1.2",
         "ziggy-js": "^2.5.2"
     }
 }
