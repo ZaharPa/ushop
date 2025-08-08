@@ -10,11 +10,26 @@ use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
+    private function decreaseQuantity($order)
+    {
+        foreach ($order->items as $orderItem) {
+            $item = $orderItem->item;
+            if ($item) {
+                $item->quantity -= $orderItem->quantity;
+                if ($item->quantity < 0) {
+                    $item->quantity = 0;
+                }
+                $item->save();
+            }
+        }
+    }
     public function cash(Request $request)
     {
         $order = Order::findOrFail($request->order_id);
         $order->status = 'confirmed';
         $order->save();
+
+        $this->decreaseQuantity($order);
 
         session()->forget('cart');
 
@@ -58,6 +73,8 @@ class PaymentController extends Controller
         $order = Order::findOrFail($orderId);
         $order->status = 'paid';
         $order->save();
+
+        $this->decreaseQuantity($order);
 
         session()->forget('cart');
 
