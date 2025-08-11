@@ -6,8 +6,12 @@ import {
     Bar,
     BarChart,
     CartesianGrid,
+    Cell,
+    Legend,
     Line,
     LineChart,
+    Pie,
+    PieChart,
     ResponsiveContainer,
     Tooltip,
     XAxis,
@@ -15,8 +19,15 @@ import {
 } from "recharts";
 
 export default function Dashboard() {
-    const { ordersByDay, incomeByDay, topItems, defaultRange } =
-        usePage().props;
+    const {
+        ordersByDay,
+        incomeByDay,
+        topItems,
+        defaultRange,
+        newCustomers,
+        repeatCustomers,
+        anonymousCustomers,
+    } = usePage().props;
 
     const [start, setStart] = useState(defaultRange.start);
     const [end, setEnd] = useState(defaultRange.end);
@@ -26,6 +37,18 @@ export default function Dashboard() {
         orders: ordersByDay[date],
         income: incomeByDay[date] || 0,
     }));
+
+    const pieData = [
+        { name: "New Customers", value: newCustomers },
+        { name: "Repeat Customers", value: repeatCustomers },
+        { name: "Anonymous Customers", value: anonymousCustomers },
+    ];
+    const colors = ["#0088FE", "#00C49F", "#FFBB28"];
+
+    const totalOrders = data.reduce((sum, day) => sum + day.orders, 0);
+    const totalIncome = data.reduce((sum, day) => sum + day.income, 0);
+    const avgOrderValue =
+        totalOrders > 0 ? (totalIncome / totalOrders).toFixed(2) : 0;
 
     return (
         <AdminLayout>
@@ -50,6 +73,21 @@ export default function Dashboard() {
                 >
                     Apply
                 </button>
+            </div>
+
+            <div className="mb-4 grid grid-cols-3 gap-4">
+                <div className="shadow rounded p-4 text-center text-lg">
+                    Total Orders -
+                    <span className="font-bold ml-2">{totalOrders}</span>
+                </div>
+                <div className="shadow rounded p-4 text-center text-lg">
+                    Total Income -
+                    <span className="font-bold ml-2">{totalIncome}</span>
+                </div>
+                <div className="shadow rounded p-4 text-center text-lg">
+                    Average Order Value -
+                    <span className="font-bold ml-2">{avgOrderValue}</span>
+                </div>
             </div>
 
             <div className="mb-4 w-full max-w-[900px] mx-auto">
@@ -100,6 +138,35 @@ export default function Dashboard() {
                             name="Quantity"
                         />
                     </BarChart>
+                </ResponsiveContainer>
+            </div>
+
+            <div className="mb-4 w-full max-w-[900px] mx-auto">
+                <h2 className="h2-center">Customers Type</h2>
+                <ResponsiveContainer width="100%" height={400}>
+                    <PieChart>
+                        <Pie
+                            data={pieData}
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={100}
+                            fill="#8884d8"
+                            dataKey="value"
+                            label={({ name, percent }) =>
+                                `${name} ${(percent * 100).toFixed(0)}%`
+                            }
+                            labelLine={false}
+                        >
+                            {pieData.map((entry, index) => (
+                                <Cell
+                                    key={`cell-${index}`}
+                                    fill={colors[index]}
+                                />
+                            ))}
+                        </Pie>
+                        <Tooltip formatter={(value) => value} />
+                        <Legend />
+                    </PieChart>
                 </ResponsiveContainer>
             </div>
         </AdminLayout>
