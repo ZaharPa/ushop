@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Comment;
+use App\Models\Item;
+use App\Models\Product;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 
@@ -14,36 +17,17 @@ class MainPageController extends Controller
         return inertia('MainPage/Index', [
             'slides' => Slider::where('active', true)->orderBy('order')->get(),
             'categories' => Category::all(),
+            'latestProducts' => Product::with(['items' => fn($q) => $q->orderBy('price')->with('discount')])
+                ->withMin('items', 'price')
+                ->orderByRaw('items_min_price IS NULL, items_min_price ASC')
+                ->take(8)
+                ->get(),
+            'latestComments' => Comment::with(['user', 'product'])->latest()->take(5)->get(),
+            'popularItems' => Item::with(['product', 'photos'])
+                ->withCount('orderItems')
+                ->orderBy('order_items_count', 'desc')
+                ->take(6)
+                ->get(),
         ]);
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show(string $id)
-    {
-        //
-    }
-
-    public function edit(string $id)
-    {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
     }
 }
