@@ -64,6 +64,28 @@ export default function Index() {
                     ))}
                 </div>
             </section>
+
+            <section>
+                <h2 className="h2-center mb-2">Latest Comments</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
+                    {latestComments.map((comment) => (
+                        <div
+                            key={comment.id}
+                            className="bg-sky-600 text-white p-4 border rounded-lg shadow border-gray-400"
+                        >
+                            <p className="text-sm font-semibold">
+                                {comment.user.name}
+                            </p>
+                            <p className="text-xs text-gray-300">
+                                {new Date(
+                                    comment.created_at
+                                ).toLocaleDateString()}
+                            </p>
+                            <p className="text-gray-200">{comment.content}</p>
+                        </div>
+                    ))}
+                </div>
+            </section>
         </div>
     );
 }
