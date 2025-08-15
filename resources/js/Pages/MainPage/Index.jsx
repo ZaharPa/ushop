@@ -11,7 +11,7 @@ export default function Index() {
 
             <CategorySlider categories={categories} />
 
-            <section>
+            <section className="mt-4">
                 <h2 className="h2-center mb-2">Latest Product</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
                     {latestProducts.map((product) => (
@@ -21,7 +21,7 @@ export default function Index() {
                                 product.id,
                                 product.items?.[0] || "",
                             ])}
-                            className="p-2 border border-sky-700 rounded-lg overflow-hidden hover:border-2 hover:shadow-xl transition-all duration-200"
+                            className="p-2 border border-sky-500 rounded-lg overflow-hidden hover:shadow-lg transition"
                         >
                             <img
                                 src={product.photo_url}
@@ -65,23 +65,74 @@ export default function Index() {
                 </div>
             </section>
 
-            <section>
+            <section className="mt-4">
+                <h2 className="h2-center mb-2">Popular Items</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
+                    {popularItems.map((item) => (
+                        <Link
+                            key={item.id}
+                            href={route("product.show", [
+                                item.product.id,
+                                item.id,
+                            ])}
+                            className="border border-sky-400 shadow rounded-lg p-3 hover:shadow-lg transition"
+                        >
+                            {item.photos[0] && (
+                                <img
+                                    src={item.photos[0]?.photo_url}
+                                    className="w-full h-40 object-cover rounded"
+                                />
+                            )}
+                            <h3 className="mt-2 text-lg font-semibold text-sky-700">
+                                {item.product.name}
+                            </h3>
+                            <p className="text-sm text-gray-500">
+                                {item.discount ? (
+                                    <span className="text-red-600">
+                                        $
+                                        {item.price -
+                                            item.price *
+                                                (item.discount.percentage /
+                                                    100)}
+                                    </span>
+                                ) : (
+                                    <span>${item.price}</span>
+                                )}
+                            </p>
+                            <p className="text-xs text-gray-400">
+                                Orders: {item.order_items_count}
+                            </p>
+                        </Link>
+                    ))}
+                </div>
+            </section>
+
+            <section className="mt-4">
                 <h2 className="h2-center mb-2">Latest Comments</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
                     {latestComments.map((comment) => (
                         <div
                             key={comment.id}
-                            className="bg-sky-600 text-white p-4 border rounded-lg shadow border-gray-400"
+                            className="p-4 border border-sky-400 rounded-lg shadow"
                         >
                             <p className="text-sm font-semibold">
                                 {comment.user.name}
                             </p>
-                            <p className="text-xs text-gray-300">
+                            <p className="text-xs text-gray-600">
                                 {new Date(
                                     comment.created_at
                                 ).toLocaleDateString()}
                             </p>
-                            <p className="text-gray-200">{comment.content}</p>
+                            <p className="text-gray-700">{comment.content}</p>
+                            <Link
+                                href={route("product.show", [
+                                    comment.product.id,
+                                    comment.product.items?.[0] || "",
+                                ])}
+                                className="text-sky-600 hover:underline hover:font-semibold mt-1 text-lg"
+                            >
+                                {comment.product.name}
+                            </Link>
                         </div>
                     ))}
                 </div>

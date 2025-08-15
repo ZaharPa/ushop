@@ -22,11 +22,11 @@ class MainPageController extends Controller
                 ->orderByRaw('items_min_price IS NULL, items_min_price ASC')
                 ->take(8)
                 ->get(),
-            'latestComments' => Comment::with(['user', 'product'])->latest()->take(5)->get(),
-            'popularItems' => Item::with(['product', 'photos'])
+            'latestComments' => Comment::with(['user', 'product.items'])->latest()->take(5)->get(),
+            'popularItems' => Item::with(['product', 'photos', 'discount'])
                 ->withCount('orderItems')
                 ->orderBy('order_items_count', 'desc')
-                ->take(6)
+                ->take(8)
                 ->get(),
         ]);
     }
