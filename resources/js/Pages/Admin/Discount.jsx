@@ -1,10 +1,12 @@
+import DiscountList from "@/Components/DiscountList";
 import Pagination from "@/Components/Pagination";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function Discount() {
-    const { discounts, items, errors } = usePage().props;
+    const { activeDisc, upcomingDisc, expiredDisc, items, errors } =
+        usePage().props;
 
     const [showForm, setShowForm] = useState(false);
     const [chosenDiscount, setChosenDiscount] = useState(null);
@@ -83,44 +85,6 @@ export default function Discount() {
             <button onClick={handleNewDiscount} className="btn-primary">
                 Create Discount
             </button>
-            <h2 className="h2-center">Discounts</h2>
-            <ul>
-                <li className="grid grid-cols-7 gap-4 mb-2 text-center font-medium text-lg">
-                    <div>Id</div>
-                    <div className="col-span-2">Item</div>
-                    <div>Percent</div>
-                    <div>Start</div>
-                    <div>End</div>
-                    <div></div>
-                </li>
-                {discounts.data.map((discount) => (
-                    <li
-                        key={discount.id}
-                        className="grid grid-cols-7 gap-4 mb-2 text-center"
-                    >
-                        <div>{discount.id}</div>
-                        <div className="col-span-2">
-                            {discount.item.product.name} - {discount.item.id}
-                        </div>
-                        <div>{discount.percentage}</div>
-                        <div>{discount.start_date}</div>
-                        <div>{discount.end_date}</div>
-                        <div>
-                            <button
-                                onClick={() => handleChange(discount)}
-                                className="btn-admin"
-                            >
-                                Edit
-                            </button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-
-            <div className="flex justify-center">
-                <Pagination links={discounts.links} />
-            </div>
-
             {showForm && (
                 <div className="dotted-form">
                     <form
@@ -242,6 +206,29 @@ export default function Discount() {
                     </form>
                 </div>
             )}
+            <section>
+                <h2 className="h2-center">Active Discounts</h2>
+                <DiscountList discounts={activeDisc} onEdit={handleChange} />
+                <div className="flex justify-center">
+                    <Pagination links={activeDisc.links} />
+                </div>
+            </section>
+
+            <section>
+                <h2 className="h2-center">Upcoming Discounts</h2>
+                <DiscountList discounts={upcomingDisc} onEdit={handleChange} />
+                <div className="flex justify-center">
+                    <Pagination links={upcomingDisc.links} />
+                </div>
+            </section>
+
+            <section>
+                <h2 className="h2-center">Expired Discounts</h2>
+                <DiscountList discounts={expiredDisc} onEdit={handleChange} />
+                <div className="flex justify-center">
+                    <Pagination links={expiredDisc.links} />
+                </div>
+            </section>
         </AdminLayout>
     );
 }

@@ -12,8 +12,28 @@ class DiscountController extends Controller
 
     public function index()
     {
+        $today = now()->format('Y-m-d');
+
+        $active = Discount::with('item.product')
+            ->where('start_date', '<=', $today)
+            ->where('end_date', '>=', $today)
+            ->orderBy('start_date', 'asc')
+            ->paginate(10, ['*'], 'active_discount_page');
+
+        $upcoming = Discount::with('item.product')
+            ->where('start_date', '>', $today)
+            ->orderBy('start_date', 'asc')
+            ->paginate(10, ['*'], 'upcoming_discount_page');
+
+        $expired = Discount::with('item.product')
+            ->where('end_date', '<', $today)
+            ->orderBy('end_date', 'desc')
+            ->paginate(10, ['*'], 'expired_discount_page');
+
         return inertia('Admin/Discount', [
-            'discounts' => Discount::with('item.product')->paginate(20),
+            'activeDisc' => $active,
+            'upcomingDisc' => $upcoming,
+            'expiredDisc' => $expired,
             'items' => Item::with('product')->get(),
         ]);
     }
