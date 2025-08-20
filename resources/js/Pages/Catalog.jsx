@@ -47,10 +47,34 @@ export default function Catalog() {
                             <p className="text-sm text-sky-500">
                                 {product.category?.name}
                             </p>
-                            <p className="text-sky-800 font-bold mt-2">
-                                {product.items_min_price !== null
-                                    ? `Start from - $${product.items_min_price}`
-                                    : "Not available"}
+                            <p className="mt-2">
+                                {firstItem ? (
+                                    firstItem.discount ? (
+                                        <>
+                                            <span className="line-through text-gray-400 mr-2">
+                                                ${firstItem.price}
+                                            </span>
+                                            <span className="text-red-500 font-semibold">
+                                                $
+                                                {firstItem.price -
+                                                    firstItem.price *
+                                                        (
+                                                            firstItem.discount
+                                                                .percentage /
+                                                            100
+                                                        ).toFixed(2)}
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <span className="text-sky-800 font-bold">
+                                            ${firstItem.price}
+                                        </span>
+                                    )
+                                ) : (
+                                    <span className="text-gray-400 italic">
+                                        Not available
+                                    </span>
+                                )}
                             </p>
                         </Link>
                     );

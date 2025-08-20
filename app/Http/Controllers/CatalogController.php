@@ -28,7 +28,7 @@ class CatalogController extends Controller
             'categories' => Category::all(),
             'products' => Product::with([
                 'category',
-                'items' => fn($q) => $q->orderBy('price'),
+                'items' => fn($q) => $q->orderBy('price')->with('discount'),
             ])
                 ->withMin('items', 'price')
                 ->when($query, fn($q) => $q->where('name', 'like', "%$query%"))
