@@ -3,13 +3,107 @@ import Slider from "@/Components/Slider";
 import { Link, usePage } from "@inertiajs/react";
 
 export default function Index() {
-    const { slides, categories, latestProducts, latestComments, popularItems } =
-        usePage().props;
+    const {
+        slides,
+        categories,
+        latestProducts,
+        latestComments,
+        popularItems,
+        discountedItems,
+    } = usePage().props;
     return (
         <div>
             <Slider slides={slides} />
 
             <CategorySlider categories={categories} />
+
+            <section className="mt-4">
+                <h2 className="h2-center mb-2">Popular Items</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
+                    {popularItems.map((item) => (
+                        <Link
+                            key={item.id}
+                            href={route("product.show", [
+                                item.product.id,
+                                item.id,
+                            ])}
+                            className="border border-sky-400 shadow rounded-lg p-3 hover:shadow-lg transition"
+                        >
+                            {item.photos[0] && (
+                                <img
+                                    src={item.photos[0]?.photo_url}
+                                    className="w-full h-40 object-cover rounded"
+                                />
+                            )}
+                            <h3 className="mt-2 text-lg font-semibold text-sky-700">
+                                {item.product.name}
+                            </h3>
+                            <p className="text-sm text-gray-500">
+                                {item.discount ? (
+                                    <span className="text-red-600">
+                                        $
+                                        {item.price -
+                                            item.price *
+                                                (item.discount.percentage /
+                                                    100)}
+                                    </span>
+                                ) : (
+                                    <span>${item.price}</span>
+                                )}
+                            </p>
+                            <p className="text-xs text-gray-400">
+                                Orders: {item.order_items_count}
+                            </p>
+                        </Link>
+                    ))}
+                </div>
+            </section>
+
+            <section className="mt-4 max-w-screen mx-auto px-4 py-8 bg-sky-700">
+                <h2 className="h2-center mt-1 text-gray-100">Hot Discounts</h2>
+                <div className="overflow-x-auto">
+                    <div className="flex space-x-4 p-2">
+                        {discountedItems.map((item) => (
+                            <Link
+                                key={item.id}
+                                href={route("product.show", [
+                                    item.product.id,
+                                    item.id,
+                                ])}
+                                className="min-w-[140px] bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg hover:bg-blue-100 transition duration-200 p-4 text-center"
+                            >
+                                {item.product.photo_url && (
+                                    <div className="h-30 w-full overflow-hidden rounded-t-lg">
+                                        <img
+                                            src={item.product.photo_url}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                )}
+                                <h3 className="mt-2 text-lg font-semibold text-sky-600">
+                                    {item.product.name}
+                                </h3>
+                                <p className="text-sm text-gray-600">
+                                    <span className="line-through mr-2">
+                                        ${item.price}
+                                    </span>
+                                    <span className="text-red-600 font-bold">
+                                        $
+                                        {(
+                                            item.price -
+                                            item.price *
+                                                (item.discount.percentage / 100)
+                                        ).toFixed(2)}
+                                    </span>
+                                </p>
+                                <p className="text-xs text-gray-400">
+                                    Save {item.discount.percentage}%!
+                                </p>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </section>
 
             <section className="mt-4">
                 <h2 className="h2-center mb-2">Latest Product</h2>
@@ -60,48 +154,6 @@ export default function Index() {
                                     )}
                                 </p>
                             </div>
-                        </Link>
-                    ))}
-                </div>
-            </section>
-
-            <section className="mt-4">
-                <h2 className="h2-center mb-2">Popular Items</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
-                    {popularItems.map((item) => (
-                        <Link
-                            key={item.id}
-                            href={route("product.show", [
-                                item.product.id,
-                                item.id,
-                            ])}
-                            className="border border-sky-400 shadow rounded-lg p-3 hover:shadow-lg transition"
-                        >
-                            {item.photos[0] && (
-                                <img
-                                    src={item.photos[0]?.photo_url}
-                                    className="w-full h-40 object-cover rounded"
-                                />
-                            )}
-                            <h3 className="mt-2 text-lg font-semibold text-sky-700">
-                                {item.product.name}
-                            </h3>
-                            <p className="text-sm text-gray-500">
-                                {item.discount ? (
-                                    <span className="text-red-600">
-                                        $
-                                        {item.price -
-                                            item.price *
-                                                (item.discount.percentage /
-                                                    100)}
-                                    </span>
-                                ) : (
-                                    <span>${item.price}</span>
-                                )}
-                            </p>
-                            <p className="text-xs text-gray-400">
-                                Orders: {item.order_items_count}
-                            </p>
                         </Link>
                     ))}
                 </div>

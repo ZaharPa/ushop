@@ -28,6 +28,14 @@ class MainPageController extends Controller
                 ->orderBy('order_items_count', 'desc')
                 ->take(8)
                 ->get(),
+            'discountedItems' => Item::with(['product', 'discount'])
+                ->whereHas('discount', function ($query) {
+                    $today = now()->format('Y-m-d');
+                    $query->where('start_date', '<=', $today)
+                        ->where('end_date', '>=', $today);
+                })
+                ->take(8)
+                ->get(),
         ]);
     }
 }
