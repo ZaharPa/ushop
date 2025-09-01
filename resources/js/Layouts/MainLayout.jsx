@@ -55,14 +55,24 @@ export default function MainLayout({ children }) {
                         <ShoppingCart className="w-6 h-6 text-blue-600 hover:text-emerald-500" />
                     </Link>
                     {auth.user ? (
-                        <Link
-                            href={route("logout")}
-                            method="delete"
-                            as="button"
-                            className="hover:underline hover:text-emerald-100"
-                        >
-                            Log Out
-                        </Link>
+                        <>
+                            {auth.user.is_admin && (
+                                <Link
+                                    href={route("admin.dashboard")}
+                                    className="hover:underline hover:text-emerald-100"
+                                >
+                                    Admin Panel
+                                </Link>
+                            )}
+                            <Link
+                                href={route("logout")}
+                                method="delete"
+                                as="button"
+                                className="hover:underline hover:text-emerald-100"
+                            >
+                                Log Out
+                            </Link>
+                        </>
                     ) : (
                         <div className="flex gap-2">
                             <Link
