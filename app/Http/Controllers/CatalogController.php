@@ -21,8 +21,6 @@ class CatalogController extends Controller
 
         $filters['showUnavailable'] = filter_var($filters['showUnavailable'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
-        $query = $request->input('query');
-
         return inertia('Catalog', [
             'filters' => $filters,
             'categories' => Category::all(),
@@ -31,7 +29,6 @@ class CatalogController extends Controller
                 'items' => fn($q) => $q->orderBy('price')->with('discount'),
             ])
                 ->withMin('items', 'price')
-                ->when($query, fn($q) => $q->where('name', 'like', "%$query%"))
                 ->filter($filters)
                 ->orderByRaw('items_min_price IS NULL, items_min_price ASC')
                 ->paginate(10),

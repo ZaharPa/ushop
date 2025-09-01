@@ -1,4 +1,4 @@
-import { useForm } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
 
 export default function FilterProduct({
     filters,
@@ -14,7 +14,7 @@ export default function FilterProduct({
         max_price: filters.max_price || "",
         showUnavailable: filters.showUnavailable || false,
     });
-    console.log(filters);
+
     const handleFilter = (e) => {
         e.preventDefault();
         get(route(pageRoute), {
@@ -23,20 +23,6 @@ export default function FilterProduct({
         });
     };
 
-    const handleReset = () => {
-        setData({
-            name: "",
-            category: "",
-            sort: "",
-            min_price: "",
-            max_price: "",
-            showUnavailable: false,
-        });
-
-        get(route(pageRoute), {
-            preserveState: false,
-        });
-    };
     return (
         <form
             onSubmit={handleFilter}
@@ -116,8 +102,8 @@ export default function FilterProduct({
                     {processing ? "Applying..." : "Filter"}
                 </button>
                 <button
-                    type="reset"
-                    onClick={handleReset}
+                    type="button"
+                    onClick={() => router.get(route(pageRoute))}
                     className="btn-reset"
                 >
                     Reset

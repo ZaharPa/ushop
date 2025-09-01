@@ -60,9 +60,9 @@ export default function Index() {
                         </div>
                         <div className="col-span-1 flex flex-col gap-1">
                             {product.features.map((feature) => (
-                                <li key={feature.id}>
+                                <div key={feature.id}>
                                     {feature.name} {feature.pivot.value}
-                                </li>
+                                </div>
                             ))}
                         </div>
                         <div className="col-span-1">

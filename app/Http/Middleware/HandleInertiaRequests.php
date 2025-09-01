@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -43,7 +44,8 @@ class HandleInertiaRequests extends Middleware
                 'user' =>  fn() => $request->user()
                     ? $request->user()->only('id', 'name', 'email', 'is_admin')
                     : null,
-            ]
+            ],
+            'site_name' => fn() => Setting::where('key', 'site_name')->value('value')
         ]);
     }
 }

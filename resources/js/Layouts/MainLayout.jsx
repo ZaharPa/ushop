@@ -5,7 +5,7 @@ import { Search, ShoppingCart } from "lucide-react";
 import SearchBox from "@/Components/SearchBox";
 
 export default function MainLayout({ children }) {
-    const { flash, auth, layoutLinks, categories } = usePage().props;
+    const { flash, auth, site_name, layoutLinks, categories } = usePage().props;
     const [showFlash, setShowFlash] = useState(true);
     const [catalogOpen, setCatalogOpen] = useState(false);
 
@@ -27,7 +27,7 @@ export default function MainLayout({ children }) {
                         href={route("main")}
                         className="text-xl font-bold hover:text-emerald-100 hover:underline"
                     >
-                        USHOP
+                        {site_name || "USHOP"}
                     </Link>
                     <div className="flex gap-4">
                         <Link
