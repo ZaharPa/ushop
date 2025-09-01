@@ -56,7 +56,7 @@ export default function MainLayout({ children }) {
                     </Link>
                     {auth.user ? (
                         <>
-                            {auth.user.is_admin && (
+                            {Boolean(auth.user.is_admin) && (
                                 <Link
                                     href={route("admin.dashboard")}
                                     className="hover:underline hover:text-emerald-100"
