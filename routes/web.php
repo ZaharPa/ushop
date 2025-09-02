@@ -21,6 +21,7 @@ use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\RefundController;
 use App\Http\Controllers\RegistrationConrtoller;
 use App\Http\Controllers\ShowProductController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -68,6 +69,9 @@ Route::get('/about-us', AboutUsController::class)
 
 Route::get('/help', HelpController::class)
     ->name('help');
+
+Route::resource('refund', RefundController::class)
+    ->only(['create', 'store']);
 
 Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
 
