@@ -1,4 +1,5 @@
 import FAQItem from "@/Components/FAQItem";
+import { Link } from "@inertiajs/react";
 
 export default function Help() {
     return (
@@ -34,6 +35,12 @@ export default function Help() {
                     answer=" You can return products withun 14 days if it doesn't match
                     the description or has defects."
                 />
+                <Link
+                    href={route("refund.create")}
+                    className="text-sky-700 font-medium mt-4 text-lg hover:text-sky-600 hover:underline"
+                >
+                    Form of refund products
+                </Link>
             </section>
 
             <section className="mb-6">

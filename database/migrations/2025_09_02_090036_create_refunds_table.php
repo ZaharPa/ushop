@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('order_id')->constrained();
-            $table->foreignId('user_id')->constrained()->nullable();
+            $table->foreignId('user_id')->nullable()->constrained();
 
             $table->decimal('amount', 8, 2);
             $table->text('details');

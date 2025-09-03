@@ -11,6 +11,7 @@ class Refund extends Model
         'order_id',
         'user_id',
         'amount',
+        'details',
         'reason',
         'status',
     ];
