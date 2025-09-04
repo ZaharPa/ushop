@@ -21,6 +21,7 @@ export default function AdminLayout({ children }) {
                 <AdminLinks label="Orders" routeName="admin.order.index" />
                 <AdminLinks label="Discount" routeName="admin.discount.index" />
                 <AdminLinks label="Slider" routeName="admin.slider.index" />
+                <AdminLinks label="Refunds" routeName="admin.refund.index" />
                 <AdminLinks label="Settings" routeName="admin.settings.index" />
             </aside>
             <main className="ml-64 p-6 bg-gray-100 min-h-screen w-full">
