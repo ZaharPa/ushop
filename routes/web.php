@@ -136,4 +136,7 @@ Route::middleware(['auth', 'verified', 'is_admin'])
 
         Route::resource('refund', AdminRefundController::class)
             ->only(['index', 'update']);
+
+        Route::post('/refund/{refund}/notify', [AdminRefundController::class, 'notify'])
+            ->name('refund.notify');
     });

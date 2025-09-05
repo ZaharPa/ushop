@@ -4,6 +4,7 @@ export default function Refund() {
     const { errors } = usePage().props;
     const { data, setData, post, processing } = useForm({
         order_id: "",
+        email: "",
         details: "",
         reason: "",
     });
@@ -29,6 +30,20 @@ export default function Refund() {
                         <div className="text-red-500 my-1">
                             {errors.order_id}
                         </div>
+                    )}
+                </div>
+
+                <div className="mb-4">
+                    <span>Email - </span>
+                    <input
+                        type="email"
+                        value={data.email}
+                        onChange={(e) => setData("email", e.target.value)}
+                        className="input-admin w-1/2"
+                    />
+
+                    {errors.email && (
+                        <div className="text-red-500 my-1">{errors.email}</div>
                     )}
                 </div>
 

@@ -17,6 +17,7 @@ class RefundController extends Controller
     {
         $request->validate([
             'order_id' => 'required|exists:orders,id',
+            'email' => 'required|email',
             'details' => 'required|string',
             'reason' => 'nullable|string',
         ]);
@@ -27,6 +28,7 @@ class RefundController extends Controller
             'order_id' => $order->id,
             'user_id' => auth()->id() ?? null,
             'amount' => $order->total_price,
+            'email' => $request->email,
             'details' => $request->details,
             'reason' => $request->reason,
             'status' => 'pending',
