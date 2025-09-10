@@ -1,6 +1,6 @@
 import { Link, router, usePage } from "@inertiajs/react";
 import axios from "axios";
-import { X } from "lucide-react";
+import { Star, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ShowProduct() {
@@ -13,6 +13,10 @@ export default function ShowProduct() {
 
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
+
+    const [rating, setRating] = useState(0);
+    const [hoverRating, setHoverRating] = useState(0);
+    const [messageRating, setMessageRating] = useState("");
 
     const [cartMessage, setCartMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -116,6 +120,18 @@ export default function ShowProduct() {
             });
     };
 
+    const handleRating = async (value) => {
+        setRating(value);
+        try {
+            await axios.post(route("product.rating"), {
+                product_id: product.id,
+                rating: value,
+            });
+            setMessageRating("Rating submitted successfully");
+        } catch (error) {
+            setMessageRating("Failed to submit rating");
+        }
+    };
     return (
         <div className="max-w-5xl mx-auto p-6">
             {cartMessage && (
@@ -306,6 +322,38 @@ export default function ShowProduct() {
                         src={selectedPhoto.photo_url}
                         className="max-h-[90%] rounded shadow-lg"
                     />
+                </div>
+            )}
+
+            {usePage().props.auth?.user && (
+                <div className="mt-6">
+                    <h3 className="text-lg font-semibold text-sky-700 mb-2">
+                        Leave your rating
+                    </h3>
+                    <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((value) => (
+                            <Star
+                                key={value}
+                                size={24}
+                                className={`cursor-pointer ${
+                                    value <= (hoverRating || rating)
+                                        ? "text-yellow-400"
+                                        : "text-gray-300"
+                                }`}
+                                onClick={() => handleRating(value)}
+                                onMouseEnter={() => setHoverRating(value)}
+                                onMouseLeave={() => setHoverRating(0)}
+                            />
+                        ))}
+                        <span className="ml-2 text-gray-700">
+                            {rating > 0 ? `${rating} / 5 ` : "No rating yet"}
+                        </span>
+                    </div>
+                    {messageRating && (
+                        <p className="mt-2 text-sm text-green-600">
+                            {messageRating}
+                        </p>
+                    )}
                 </div>
             )}
 
