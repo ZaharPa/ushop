@@ -4,7 +4,7 @@ import { Star, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ShowProduct() {
-    const { product, item, auth } = usePage().props;
+    const { product, item, ratingUser, auth } = usePage().props;
 
     const [selectedPhoto, setSelectedPhoto] = useState(
         item.photos.length > 0 ? item.photos[0] : null
@@ -14,7 +14,7 @@ export default function ShowProduct() {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
 
-    const [rating, setRating] = useState(0);
+    const [rating, setRating] = useState(ratingUser.rating);
     const [hoverRating, setHoverRating] = useState(0);
     const [messageRating, setMessageRating] = useState("");
 
@@ -237,6 +237,13 @@ export default function ShowProduct() {
             </div>
 
             <h3 className="text-lg font-semibold text-sky-700 mt-6">
+                Rating -
+                <span className="text-yellow-500">
+                    {product.average_rating}
+                </span>
+            </h3>
+
+            <h3 className="text-lg font-semibold text-sky-700 mt-3">
                 Description
             </h3>
             <p className="text-gray-700 mb-4">{product.description}</p>

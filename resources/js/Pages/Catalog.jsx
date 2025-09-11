@@ -1,6 +1,7 @@
 import FilterProduct from "@/Components/FilterProduct";
 import Pagination from "@/Components/Pagination";
 import { Link, usePage } from "@inertiajs/react";
+import { Star } from "lucide-react";
 
 export default function Catalog() {
     const { products, categories, filters } = usePage().props;
@@ -44,6 +45,20 @@ export default function Catalog() {
                             <h3 className="text-lg font-semibold text-sky-700">
                                 {product.name}
                             </h3>
+                            <p className="text-sm text-yellow-500">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <Star
+                                        key={star}
+                                        size={14}
+                                        className={
+                                            star <=
+                                            Math.round(product.average_rating)
+                                                ? "text-yellow-400 inline-block mr-0.5"
+                                                : "text-gray-600 inline-block mr-0.5"
+                                        }
+                                    />
+                                ))}
+                            </p>
                             <p className="text-sm text-sky-500">
                                 {product.category?.name}
                             </p>

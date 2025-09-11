@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\Rating;
 use Illuminate\Http\Request;
 
@@ -24,6 +25,12 @@ class RatingController extends Controller
                 'rating' => $request->rating,
             ]
         );
+
+        $avg = Rating::where('product_id', $request->product_id)->avg('rating');
+
+        Product::where('id', $request->product_id)->update([
+            'average_rating' => $avg,
+        ]);
 
         return response()->json(['message' => 'Success']);
     }

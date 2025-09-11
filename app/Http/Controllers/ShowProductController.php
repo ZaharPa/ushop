@@ -26,9 +26,14 @@ class ShowProductController extends Controller
             'discount'
         ]);
 
+        $rating = auth()->check()
+            ? $product->ratings()->where('user_id', auth()->id())->first()
+            : null;
+
         return inertia('ShowProduct', [
             'product' => $product,
             'item' => $item,
+            'ratingUser' => $rating,
         ]);
     }
 }
