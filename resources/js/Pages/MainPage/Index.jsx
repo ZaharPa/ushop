@@ -1,6 +1,8 @@
 import CategorySlider from "@/Components/CategorySlider";
 import Slider from "@/Components/Slider";
 import { Link, usePage } from "@inertiajs/react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function Index() {
     const {
@@ -10,10 +12,58 @@ export default function Index() {
         latestComments,
         popularItems,
         discountedItems,
+        auth,
     } = usePage().props;
+
+    const [recommendations, setRecommendations] = useState([]);
+
+    useEffect(() => {
+        const fetchRecommendations = async () => {
+            try {
+                const response = await axios.get(
+                    route("product.recommendations")
+                );
+                setRecommendations(response.data);
+            } catch (error) {
+                console.error("Error fetching recommendations:", error);
+            }
+        };
+
+        if (auth.user) {
+            fetchRecommendations();
+        }
+    });
+
     return (
         <div>
             <Slider slides={slides} />
+
+            {auth.user && (
+                <>
+                    <div className="bg-green-100 border border-green-400 text-green-700 p-4 text-center">
+                        Recommendation
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {recommendations.map((product) => (
+                            <Link
+                                key={product.id}
+                                href={route("product.show", [product.id])}
+                                className="border border-sky-400 shadow rounded"
+                            >
+                                {product.photo_url && (
+                                    <img
+                                        src={product.photo_url}
+                                        className="w-full h-40 object-cover"
+                                    />
+                                )}
+                                <h3 className="mt-2 text-lg font-semibold text-sky-700">
+                                    {product.name}
+                                </h3>
+                            </Link>
+                        ))}
+                    </div>
+                </>
+            )}
 
             <CategorySlider categories={categories} />
 

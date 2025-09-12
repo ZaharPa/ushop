@@ -14,7 +14,7 @@ export default function ShowProduct() {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
 
-    const [rating, setRating] = useState(ratingUser.rating);
+    const [rating, setRating] = useState(ratingUser?.rating ?? 0);
     const [hoverRating, setHoverRating] = useState(0);
     const [messageRating, setMessageRating] = useState("");
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\RatingController;
+use App\Http\Controllers\Api\RecommandationController;
 use App\Http\Controllers\Api\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,3 +40,6 @@ Route::get('/search-suggestions', SearchController::class)
 
 Route::middleware(['web', 'auth'])->post('/product-rating', [RatingController::class, 'store'])
     ->name('product.rating');
+
+Route::middleware(['web', 'auth'])->get('/product/recommendations', [RecommandationController::class, 'store'])
+    ->name('product.recommendations');
