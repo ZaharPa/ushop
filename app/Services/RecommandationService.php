@@ -27,24 +27,15 @@ class RecommandationService
     {
         $similarUsers = $this->findSimilarUsers($userId);
 
-        return Product::select(
-            'products.id',
-            'products.name',
-            'products.description',
-            'products.average_rating',
-            'products.photo',
-            'products.category_id',
-            DB::raw('AVG(rating) as avg_rating')
-        )
-            ->join('ratings', 'products.id', '=', 'ratings.product_id')
-            ->whereIn('ratings.user_id', $similarUsers)
-            ->whereNotIn('products.id', function ($query) use ($userId) {
-                $query->select('product_id')
-                    ->from('ratings')
-                    ->where('user_id', $userId);
+        return Product::with('items:id,product_id')
+            ->withAvg('ratings', 'rating')
+            ->whereHas('ratings', function ($query) use ($similarUsers) {
+                $query->whereIn('user_id', $similarUsers);
             })
-            ->groupBy('products.id', 'products.name', 'products.description', 'products.average_rating', 'products.photo', 'products.category_id')
-            ->orderByDesc('avg_rating')
+            ->whereDoesntHave('ratings', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->orderByDesc('ratings_avg_rating')
             ->take(10)
             ->get();
     }

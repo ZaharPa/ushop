@@ -32,23 +32,24 @@ export default function Index() {
         if (auth.user) {
             fetchRecommendations();
         }
-    });
-
+    }, [auth.user]);
+    console.log(recommendations);
     return (
         <div>
             <Slider slides={slides} />
 
             {auth.user && (
-                <>
-                    <div className="bg-green-100 border border-green-400 text-green-700 p-4 text-center">
-                        Recommendation
-                    </div>
+                <div className="bg-green-100 border border-green-400 text-green-700 p-4 text-center">
+                    <h2 className="h2-center">Recommendation</h2>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {recommendations.map((product) => (
                             <Link
                                 key={product.id}
-                                href={route("product.show", [product.id])}
-                                className="border border-sky-400 shadow rounded"
+                                href={route("product.show", [
+                                    product.id,
+                                    product.items?.[0],
+                                ])}
+                                className="border border-sky-400 shadow rounded bg-green-50 hover:bg-sky-200"
                             >
                                 {product.photo_url && (
                                     <img
@@ -62,7 +63,7 @@ export default function Index() {
                             </Link>
                         ))}
                     </div>
-                </>
+                </div>
             )}
 
             <CategorySlider categories={categories} />

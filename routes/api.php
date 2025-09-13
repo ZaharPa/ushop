@@ -41,5 +41,5 @@ Route::get('/search-suggestions', SearchController::class)
 Route::middleware(['web', 'auth'])->post('/product-rating', [RatingController::class, 'store'])
     ->name('product.rating');
 
-Route::middleware(['web', 'auth'])->get('/product/recommendations', [RecommandationController::class, 'store'])
+Route::middleware(['web', 'auth'])->get('/product/recommendations', [RecommandationController::class, 'index'])
     ->name('product.recommendations');

@@ -15,7 +15,7 @@ class RecommandationController extends Controller
         $this->recommandationService = $recommandationService;
     }
 
-    public function getRecommendations()
+    public function index()
     {
         $userId = auth()->id();
 
