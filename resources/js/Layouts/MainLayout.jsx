@@ -1,13 +1,14 @@
 import { Link, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import Footer from "./Footer";
-import { Search, ShoppingCart } from "lucide-react";
+import { CircleUserRound, ShoppingCart } from "lucide-react";
 import SearchBox from "@/Components/SearchBox";
 
 export default function MainLayout({ children }) {
     const { flash, auth, site_name, layoutLinks, categories } = usePage().props;
     const [showFlash, setShowFlash] = useState(true);
     const [catalogOpen, setCatalogOpen] = useState(false);
+    const [userMenu, setUserMenu] = useState(false);
 
     useEffect(() => {
         if (flash.success) {
@@ -64,14 +65,33 @@ export default function MainLayout({ children }) {
                                     Admin Panel
                                 </Link>
                             )}
-                            <Link
-                                href={route("logout")}
-                                method="delete"
-                                as="button"
-                                className="hover:underline hover:text-emerald-100"
-                            >
-                                Log Out
-                            </Link>
+                            <div className="relative">
+                                <CircleUserRound
+                                    className="w-8 h-8 text-emerald-200"
+                                    onMouseEnter={() => setUserMenu(!userMenu)}
+                                />
+                                {userMenu && (
+                                    <div className="absolute top-full right-0 w-30 z-50 bg-white text-sky-800 rounded shadow flex flex-col items-start p-2 mt-1">
+                                        <Link
+                                            href={route("profile.show")}
+                                            onClick={() => setUserMenu(false)}
+                                            className="block w-full p-1 hover:bg-teal-50 hover:text-sky-900"
+                                        >
+                                            {auth.user.name}
+                                        </Link>
+
+                                        <Link
+                                            href={route("logout")}
+                                            method="delete"
+                                            as="button"
+                                            onClick={() => setUserMenu(false)}
+                                            className="block w-full p-1 hover:bg-teal-50 hover:text-sky-900"
+                                        >
+                                            Log Out
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
                         </>
                     ) : (
                         <div className="flex gap-2">

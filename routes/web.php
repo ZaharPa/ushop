@@ -22,6 +22,7 @@ use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RefundController;
 use App\Http\Controllers\RegistrationConrtoller;
 use App\Http\Controllers\ShowProductController;
@@ -29,11 +30,19 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [MainPageController::class, 'index'])->name('main');
+Route::get('/main', [MainPageController::class, 'index'])->name('main');
+Route::redirect('/', '/main')->name('/');
 
 Route::get('login', [AuthController::class, 'create'])->name('login');
 Route::post('login', [AuthController::class, 'store'])->name('login.store');
 Route::delete('logout', [AuthController::class, 'destroy'])->name('logout');
+
+Route::get('/profile', [ProfileController::class, 'show'])
+    ->name('profile.show');
+Route::post('/profile/newEmail', [ProfileController::class, 'storeNewEmail'])
+    ->name('profile.newEmail');
+Route::post('/profile/newPass', [ProfileController::class, 'storeNewPass'])
+    ->name('profile.newPass');
 
 Route::resource('register', RegistrationConrtoller::class)
     ->only(['create', 'store']);
