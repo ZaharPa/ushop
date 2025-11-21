@@ -42,7 +42,7 @@ export default function Index() {
                             <Link
                                 href={route("admin.item.edit", item.id)}
                                 type="button"
-                                className="btn-admin"
+                                className="btn-primary"
                             >
                                 Edit
                             </Link>

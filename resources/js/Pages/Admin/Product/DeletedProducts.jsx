@@ -52,7 +52,7 @@ export default function DeletedProducts() {
                                         )
                                     );
                                 }}
-                                className="btn-admin"
+                                className="btn-primary"
                             >
                                 Restore
                             </button>

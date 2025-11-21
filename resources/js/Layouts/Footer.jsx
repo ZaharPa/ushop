@@ -2,7 +2,7 @@ import { Link } from "@inertiajs/react";
 
 export default function Footer() {
     return (
-        <footer className="bg-sky-900 text-white mt-8 py-2">
+        <footer className="bg-black text-white mt-8 py-2">
             <div className="max-w-full mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm">
                 <p>&copy; {new Date().getFullYear()} ZP. All right reserved.</p>
 

@@ -46,7 +46,7 @@ export default function Refund() {
                                         onClick={() =>
                                             changeStatus(refund.id, "rejected")
                                         }
-                                        className="btn-delete"
+                                        className="btn-danger"
                                     >
                                         Reject
                                     </button>
@@ -56,7 +56,7 @@ export default function Refund() {
                                     onClick={() =>
                                         changeStatus(refund.id, "pending")
                                     }
-                                    className="btn-reset"
+                                    className="btn-secondary"
                                 >
                                     Reset
                                 </button>
@@ -70,7 +70,7 @@ export default function Refund() {
                                             : refund.id
                                     )
                                 }
-                                className="btn-admin ml-2"
+                                className="btn-primary ml-2"
                             >
                                 Send Email
                             </button>

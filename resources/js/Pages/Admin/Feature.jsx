@@ -65,7 +65,7 @@ export default function Feature() {
                                     setData("name", feature.name);
                                     setChosenFeature(feature);
                                 }}
-                                className="btn-admin py-0"
+                                className="btn-primary py-0"
                             >
                                 Edit
                             </button>
@@ -74,7 +74,7 @@ export default function Feature() {
                                     setShowConfirm(true);
                                     setChosenFeature(feature);
                                 }}
-                                className="btn-delete py-0"
+                                className="btn-danger py-0"
                             >
                                 Delete
                             </button>
@@ -101,7 +101,7 @@ export default function Feature() {
                     <button
                         type="submit"
                         disabled={processing}
-                        className="btn-admin"
+                        className="btn-primary"
                     >
                         {chosenFeature ? "Update" : "Add"}
                     </button>
@@ -113,7 +113,7 @@ export default function Feature() {
                             setChosenFeature();
                             setData("name", "");
                         }}
-                        className="btn-reset"
+                        className="btn-secondary"
                     >
                         Reset
                     </button>

@@ -78,7 +78,7 @@ export default function Cart() {
 
                                 <button
                                     onClick={() => remove(item.id)}
-                                    className="btn-delete"
+                                    className="btn-danger"
                                 >
                                     Remove
                                 </button>
@@ -86,7 +86,10 @@ export default function Cart() {
                         </div>
                     ))}
 
-                    <Link href={route("checkout.index")} className="btn-admin">
+                    <Link
+                        href={route("checkout.index")}
+                        className="btn-primary"
+                    >
                         Checkout
                     </Link>
                 </>

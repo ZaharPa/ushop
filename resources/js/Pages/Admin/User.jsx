@@ -75,14 +75,14 @@ export default function User() {
                                 <>
                                     <button
                                         onClick={() => handleChange(user)}
-                                        className="btn-admin"
+                                        className="btn-primary"
                                     >
                                         Edit
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => handleDelete(user.id)}
-                                        className="btn-delete"
+                                        className="btn-danger"
                                     >
                                         Delete
                                     </button>
@@ -161,7 +161,7 @@ export default function User() {
                             actions={
                                 <button
                                     onClick={() => handleRestore(user.id)}
-                                    className="btn-admin"
+                                    className="btn-primary"
                                 >
                                     Restore
                                 </button>

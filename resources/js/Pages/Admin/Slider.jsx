@@ -155,7 +155,7 @@ export default function Slider() {
                         <div>
                             <button
                                 onClick={() => handleChange(slide)}
-                                className="btn-admin py-0"
+                                className="btn-primary py-0"
                             >
                                 Edit
                             </button>
@@ -295,7 +295,7 @@ export default function Slider() {
                                 <button
                                     type="button"
                                     onClick={() => handleDelete(chosenSlide)}
-                                    className="btn-delete"
+                                    className="btn-danger"
                                 >
                                     Delete
                                 </button>
@@ -307,7 +307,7 @@ export default function Slider() {
                                     setShowForm(false);
                                     reset();
                                 }}
-                                className="btn-reset"
+                                className="btn-secondary"
                             >
                                 Reset
                             </button>

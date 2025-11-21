@@ -8,9 +8,9 @@ export default function AdminLinks({ label, routeName }) {
     return (
         <Link
             href={route(routeName)}
-            className={`hover:underline hover:text-emerald-100 ${
+            className={`transition-colors duration-150 hover:underline hover:text-sky-100 ${
                 url === getCurrentUrl(routeName)
-                    ? "font-medium text-emerald-100 text-lg"
+                    ? "font-semibold text-white text-lg"
                     : ""
             }`}
         >

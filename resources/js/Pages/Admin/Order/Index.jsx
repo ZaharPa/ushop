@@ -31,7 +31,7 @@ export default function Index() {
                                 <Link
                                     href={route("admin.order.show", order.id)}
                                     type="button"
-                                    className="btn-admin"
+                                    className="btn-primary"
                                 >
                                     View
                                 </Link>

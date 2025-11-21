@@ -18,7 +18,7 @@ export default function Index() {
 
                 <Link
                     href={route("admin.product.deleteProducts")}
-                    className="btn-reset"
+                    className="btn-secondary"
                 >
                     List of Deleted Products
                 </Link>
@@ -69,7 +69,7 @@ export default function Index() {
                             <Link
                                 href={route("admin.product.edit", product.id)}
                                 type="button"
-                                className="btn-admin"
+                                className="btn-primary"
                             >
                                 Edit
                             </Link>

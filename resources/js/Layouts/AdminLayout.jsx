@@ -3,7 +3,7 @@ import AdminLinks from "@/Components/AdminLinks";
 export default function AdminLayout({ children }) {
     return (
         <div className="flex">
-            <aside className="w-64 bg-sky-900 text-emerald-300 h-screen fixed p-4 flex flex-col text-center gap-4">
+            <aside className="w-40 xl:w-64 bg-sky-900 text-sky-200 h-screen fixed p-4 flex flex-col text-center tracking-wide  gap-4">
                 <AdminLinks label="Dashboard" routeName="admin.dashboard" />
                 <AdminLinks label="Layouts" routeName="admin.layout.index" />
                 <AdminLinks
@@ -24,7 +24,7 @@ export default function AdminLayout({ children }) {
                 <AdminLinks label="Refunds" routeName="admin.refund.index" />
                 <AdminLinks label="Settings" routeName="admin.settings.index" />
             </aside>
-            <main className="ml-64 p-6 bg-gray-100 min-h-screen w-full">
+            <main className="ml-40 xl:ml-64 p-6 bg-gray-100 min-h-screen w-full">
                 {children}
             </main>
         </div>

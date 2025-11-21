@@ -82,7 +82,7 @@ export default function Setting() {
                         {setting.value}
                         <button
                             onClick={() => handleChange(setting)}
-                            className="btn-admin m-0 px-1 py-0 ml-2"
+                            className="btn-primary m-0 px-1 py-0 ml-2"
                         >
                             Edit
                         </button>
@@ -130,7 +130,7 @@ export default function Setting() {
                         <button
                             onClick={handleDelete}
                             type="button"
-                            className="btn-delete"
+                            className="btn-danger"
                         >
                             Delete
                         </button>
@@ -141,7 +141,7 @@ export default function Setting() {
                                 reset();
                             }}
                             type="button"
-                            className="btn-reset"
+                            className="btn-secondary"
                         >
                             Reset
                         </button>

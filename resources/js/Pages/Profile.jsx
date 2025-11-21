@@ -39,12 +39,15 @@ export default function Profile() {
             <div className="flex gap-4">
                 <button
                     onClick={() => setEmailForm(true)}
-                    className="btn-admin"
+                    className="btn-primary"
                 >
                     Change Email
                 </button>
 
-                <button onClick={() => setPassForm(true)} className="btn-admin">
+                <button
+                    onClick={() => setPassForm(true)}
+                    className="btn-primary"
+                >
                     Change Password
                 </button>
 
@@ -199,7 +202,7 @@ export default function Profile() {
                             <button
                                 type="button"
                                 onClick={() => closeForm()}
-                                className="btn-reset"
+                                className="btn-secondary"
                             >
                                 Cancel
                             </button>

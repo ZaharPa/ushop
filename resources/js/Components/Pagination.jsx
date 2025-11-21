@@ -41,8 +41,8 @@ export default function Pagination({ links }) {
                     href={link.url}
                     dangerouslySetInnerHTML={{ __html: link.label }}
                     className={`px-4 py-2 rounded text-gray-50
-                            hover:bg-emerald-400 hover:text-gray-800 transition duration-200 ${
-                                link.active ? "bg-emerald-500" : "bg-sky-700 "
+                            hover:bg-sky-500 transition duration-200 ${
+                                link.active ? "bg-sky-600" : "bg-sky-800 "
                             }`}
                 />
             ) : (

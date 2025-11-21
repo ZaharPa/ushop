@@ -240,7 +240,7 @@ export default function Form({
                     onClick={() => reset()}
                     type="reset"
                     disabled={processing}
-                    className="btn-reset"
+                    className="btn-secondary"
                 >
                     Reset
                 </button>
@@ -251,7 +251,7 @@ export default function Form({
                             setShowConfirm(true);
                         }}
                         type="button"
-                        className="btn-delete"
+                        className="btn-danger"
                     >
                         Delete
                     </button>

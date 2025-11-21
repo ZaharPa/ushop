@@ -15,8 +15,9 @@ export default function Slider({ slides }) {
 
     const prevSlide = () => setCurrent((current - 1 + length) % length);
     const nextSlide = () => setCurrent((current + 1) % length);
+
     return (
-        <div className="relative w-full max-w-screen-xl mx-auto h-[300px] overflow-hidden">
+        <div className="relative w-full max-w-screen-xl mx-auto h-[200px] md:h-[300px] lg:h-[400px] overflow-hidden">
             {slides.map((slide, index) => (
                 <div
                     key={slide.id}
@@ -29,16 +30,19 @@ export default function Slider({ slides }) {
                         className="w-full h-full object-cover"
                     />
 
-                    <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-1 pb-5">
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm text-white px-2 pb-4">
                         <div className="max-w-4xl mx-auto text-center">
-                            <h2 className="text-2xl font-bold">
+                            <h2 className="text-xl font-bold drop-shadow-md">
                                 {slide.title}
                             </h2>
-                            <p className="mt-1 mb-2 max-w-2xl">
+                            <p className="mt-0.5 mb-1 text-sm drop-shadow-sm">
                                 {slide.description}
                             </p>
                             {slide.link && (
-                                <Link href={slide.link} className="btn-admin">
+                                <Link
+                                    href={slide.link}
+                                    className="btn-primary px-3 py-1 text-sm"
+                                >
                                     Learn More
                                 </Link>
                             )}
@@ -65,7 +69,7 @@ export default function Slider({ slides }) {
                     <button
                         key={index}
                         onClick={() => setCurrent(index)}
-                        className={`w-3 h-3 rounded-full ${
+                        className={`w-2 h-2 rounded-full ${
                             index === current ? "bg-white" : "bg-white/50"
                         }`}
                     />

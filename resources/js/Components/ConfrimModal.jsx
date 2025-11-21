@@ -9,11 +9,11 @@ export default function ConfrimModal({ show, onConfrim, onCancel, message }) {
                     <button
                         onClick={onConfrim}
                         type="button"
-                        className="btn-delete"
+                        className="btn-danger"
                     >
                         Yes
                     </button>
-                    <button onClick={onCancel} className="btn-reset">
+                    <button onClick={onCancel} className="btn-secondary">
                         No
                     </button>
                 </div>

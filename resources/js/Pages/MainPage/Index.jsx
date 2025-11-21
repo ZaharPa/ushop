@@ -39,7 +39,7 @@ export default function Index() {
             <Slider slides={slides} />
 
             {auth.user && (
-                <div className="bg-green-100 border border-green-400 text-green-700 p-4 text-center">
+                <div className="bg-sky-50 border border-sky-300 text-sky-900 p-4 text-center">
                     <h2 className="h2-center">Recommendation</h2>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {recommendations.map((product) => (
@@ -49,7 +49,7 @@ export default function Index() {
                                     product.id,
                                     product.items?.[0],
                                 ])}
-                                className="border border-sky-400 shadow rounded bg-green-50 hover:bg-sky-200"
+                                className="card-product"
                             >
                                 {product.photo_url && (
                                     <img
@@ -78,7 +78,7 @@ export default function Index() {
                                 item.product.id,
                                 item.id,
                             ])}
-                            className="border border-sky-400 shadow rounded-lg p-3 hover:shadow-lg transition"
+                            className="card-product"
                         >
                             {item.photos[0] && (
                                 <img
@@ -166,7 +166,7 @@ export default function Index() {
                                 product.id,
                                 product.items?.[0] || "",
                             ])}
-                            className="p-2 border border-sky-500 rounded-lg overflow-hidden hover:shadow-lg transition"
+                            className="card-product"
                         >
                             <img
                                 src={product.photo_url}
@@ -210,18 +210,18 @@ export default function Index() {
                 </div>
             </section>
 
-            <section className="mt-4">
+            <section className="mt-6">
                 <h2 className="h2-center mb-2">Latest Comments</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
                     {latestComments.map((comment) => (
                         <div
                             key={comment.id}
-                            className="p-4 border border-sky-400 rounded-lg shadow"
+                            className="p-4 border border-gray-300 rounded-lg bg-white hover:shadow-md transition shadow"
                         >
-                            <p className="text-sm font-semibold">
+                            <p className="text-sm font-semibold text-sky-800">
                                 {comment.user.name}
                             </p>
-                            <p className="text-xs text-gray-600">
+                            <p className="text-xs text-gray-500">
                                 {new Date(
                                     comment.created_at
                                 ).toLocaleDateString()}
@@ -232,7 +232,7 @@ export default function Index() {
                                     comment.product.id,
                                     comment.product.items?.[0] || "",
                                 ])}
-                                className="text-sky-600 hover:underline hover:font-semibold mt-1 text-lg"
+                                className="text-sky-700 hover:text-sky-900 hover:underline mt-1 text-lg"
                             >
                                 {comment.product.name}
                             </Link>

@@ -96,7 +96,7 @@ export default function Layout() {
                         <div>
                             <button
                                 onClick={() => handleChange(link)}
-                                className="btn-admin py-0"
+                                className="btn-primary py-0"
                             >
                                 Edit
                             </button>
@@ -193,7 +193,7 @@ export default function Layout() {
                             <button
                                 onClick={handleDelete}
                                 type="button"
-                                className="btn-delete"
+                                className="btn-danger"
                             >
                                 Delete
                             </button>
@@ -206,7 +206,7 @@ export default function Layout() {
                                 setChosenLink(null);
                                 reset();
                             }}
-                            className="btn-reset"
+                            className="btn-secondary"
                         >
                             Reset
                         </button>

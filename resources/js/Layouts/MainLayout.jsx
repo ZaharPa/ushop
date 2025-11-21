@@ -21,53 +21,46 @@ export default function MainLayout({ children }) {
     }, [flash.success]);
 
     return (
-        <div className="min-h-screen flex flex-col">
-            <header className="sticky top-0 z-40">
-                <div className="flex justify-center gap-2 md:gap-8 lg:gap-16 bg-sky-500 text-emerald-200 shadow-xs text-lg py-1">
+        <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
+            <header className="sticky top-0 z-40 bg-sky-600/90 backdrop-blur-md shadow-md">
+                <div className="flex items-center justify-between px-4 py-2 md:px-8 lg-px-16 text-white shadow-sm text-base md:text-lg">
                     <Link
                         href={route("main")}
-                        className="text-xl font-bold hover:text-emerald-100 hover:underline"
+                        className="text-xl md:text-2xl mr-4 font-bold header-link "
                     >
                         {site_name || "USHOP"}
                     </Link>
                     <div className="flex gap-4">
-                        <Link
-                            href={route("aboutUs")}
-                            className="hover:underline hover:text-emerald-100"
-                        >
+                        <Link href={route("aboutUs")} className="header-link">
                             About us
                         </Link>
-                        <Link
-                            href={route("help")}
-                            className="hover:underline hover:text-emerald-100"
-                        >
+                        <Link href={route("help")} className="header-link ">
                             Help
                         </Link>
                     </div>
-                    <div>
-                        <div className="relative w-full max-w-md mx-auto">
-                            <SearchBox />
-                        </div>
+
+                    <div className="flex-1 max-w-md mx-4">
+                        <SearchBox />
                     </div>
-                    <Link
-                        href={route("cart.show")}
-                        className="w-8 h-8 flex items-center justify-center bg-white rounded-full"
-                    >
-                        <ShoppingCart className="w-6 h-6 text-blue-600 hover:text-emerald-500" />
-                    </Link>
+                    <div className="flex items-center gap-4">
+                        <Link href={route("cart.show")}>
+                            <ShoppingCart className="w-7 h-7 header-link" />
+                        </Link>
+                    </div>
+
                     {auth.user ? (
-                        <>
+                        <div className="relative flex items-center gap-4">
                             {Boolean(auth.user.is_admin) && (
                                 <Link
                                     href={route("admin.dashboard")}
-                                    className="hover:underline hover:text-emerald-100"
+                                    className="header-link "
                                 >
                                     Admin Panel
                                 </Link>
                             )}
                             <div className="relative">
                                 <CircleUserRound
-                                    className="w-8 h-8 text-emerald-200"
+                                    className="w-8 h-8 header-link cursor-pointer transition-colors"
                                     onMouseEnter={() => setUserMenu(!userMenu)}
                                 />
                                 {userMenu && (
@@ -75,7 +68,7 @@ export default function MainLayout({ children }) {
                                         <Link
                                             href={route("profile.show")}
                                             onClick={() => setUserMenu(false)}
-                                            className="block w-full p-1 hover:bg-teal-50 hover:text-sky-900"
+                                            className="block px-4 py-2 hover:bg-gray-100 transition-colors"
                                         >
                                             {auth.user.name}
                                         </Link>
@@ -85,26 +78,23 @@ export default function MainLayout({ children }) {
                                             method="delete"
                                             as="button"
                                             onClick={() => setUserMenu(false)}
-                                            className="block w-full p-1 hover:bg-teal-50 hover:text-sky-900"
+                                            className="block px-4 py-2 hover:bg-gray-100 transition-colors"
                                         >
                                             Log Out
                                         </Link>
                                     </div>
                                 )}
                             </div>
-                        </>
+                        </div>
                     ) : (
                         <div className="flex gap-2">
-                            <Link
-                                href={route("login")}
-                                className="hover:underline hover:text-emerald-100"
-                            >
+                            <Link href={route("login")} className="header-link">
                                 Login
                             </Link>
-                            <span>|</span>
+                            <span className="text-emerald-50">|</span>
                             <Link
                                 href={route("register.create")}
-                                className="hover:underline hover:text-emerald-100"
+                                className="header-link"
                             >
                                 Register
                             </Link>
@@ -112,7 +102,7 @@ export default function MainLayout({ children }) {
                     )}
                 </div>
 
-                <div className="relative flex justify-around px-4 md:px-8 lg:px-16 bg-sky-700 text-emerald-100">
+                <div className="relative flex justify-around px-4 md:px-8 lg:px-16 bg-sky-700 text-sky-50">
                     <div
                         className="relative"
                         onMouseEnter={() => setCatalogOpen(true)}
@@ -123,10 +113,10 @@ export default function MainLayout({ children }) {
                         </span>
 
                         {catalogOpen && (
-                            <div className="absolute top-full left-0 w-48 bg-white text-sky-800 rounded text-sm grid grid-cols-2 gap-1 ">
+                            <div className="absolute top-full left-0 w-48 bg-white border font-semibold text-sky-800 rounded text-sm grid grid-cols-2 lg:grid-cols-3 gap-1 ">
                                 <Link
                                     href={route("catalog.index")}
-                                    className="col-span-2 block p-2 font-semibold  bg-teal-50 hover:bg-teal-100 hover:text-sky-900 text-center"
+                                    className="col-span-2 lg:col-span-3 block p-2 hover:bg-sky-100 hover:text-sky-900 text-center"
                                 >
                                     All Products
                                 </Link>
@@ -137,7 +127,7 @@ export default function MainLayout({ children }) {
                                             route("catalog.index") +
                                             `?category=${category.slug}`
                                         }
-                                        className="block p-1 bg-teal-50 hover:bg-teal-100 hover:text-sky-900 text-center"
+                                        className="block p-1 hover:bg-sky-100 hover:text-sky-900 text-center"
                                     >
                                         {category.name}
                                     </Link>

@@ -156,7 +156,7 @@ export default function Categories() {
                             )}
                             <button
                                 onClick={() => handleChange(category)}
-                                className="btn-admin"
+                                className="btn-primary"
                             >
                                 Choose
                             </button>
@@ -350,7 +350,7 @@ export default function Categories() {
                                     onClick={() =>
                                         handleDelete(chosenCategory.id)
                                     }
-                                    className="btn-delete"
+                                    className="btn-danger"
                                 >
                                     Delete
                                 </button>
@@ -362,7 +362,7 @@ export default function Categories() {
                                     setShowForm(false);
                                     reset();
                                 }}
-                                className="btn-reset"
+                                className="btn-secondary"
                             >
                                 Reset
                             </button>

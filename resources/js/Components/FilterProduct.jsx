@@ -26,17 +26,17 @@ export default function FilterProduct({
     return (
         <form
             onSubmit={handleFilter}
-            className="flex flex-wrap w-full justify-center gap-2 mb-3"
+            className="flex flex-wrap w-full justify-center gap-2 mb-3 bg-white border border-sky-200 shadow-sm rounded-lg p-4"
         >
             <input
                 type="text"
                 placeholder="Name product"
                 value={data.name}
                 onChange={(e) => setData("name", e.target.value)}
-                className="input-admin w-3/4"
+                className="input-admin bg-sky-50 w-3/4"
             />
             <select
-                className="w-1/5 input-admin"
+                className="w-1/5 input-admin bg-sky-50"
                 value={data.category}
                 onChange={(e) => setData("category", e.target.value)}
             >
@@ -55,7 +55,7 @@ export default function FilterProduct({
                         placeholder="Min price"
                         value={data.min_price}
                         onChange={(e) => setData("min_price", e.target.value)}
-                        className="input-admin w-1/5"
+                        className="input-admin w-1/5 bg-sky-50"
                     />
 
                     <input
@@ -63,13 +63,13 @@ export default function FilterProduct({
                         placeholder="Max price"
                         value={data.max_price}
                         onChange={(e) => setData("max_price", e.target.value)}
-                        className="input-admin w-1/5"
+                        className="input-admin w-1/5 bg-sky-50"
                     />
 
                     <select
                         value={data.sort}
                         onChange={(e) => setData("sort", e.target.value)}
-                        className="input-admin w-1/5"
+                        className="input-admin w-1/5 bg-sky-50"
                     >
                         <option value="">Sort by</option>
                         <option value="price_asc">Min Price</option>
@@ -97,14 +97,14 @@ export default function FilterProduct({
                 <button
                     type="submit"
                     disabled={processing}
-                    className="btn-admin"
+                    className="btn-primary"
                 >
                     {processing ? "Applying..." : "Filter"}
                 </button>
                 <button
                     type="button"
                     onClick={() => router.get(route(pageRoute))}
-                    className="btn-reset"
+                    className="btn-secondary"
                 >
                     Reset
                 </button>

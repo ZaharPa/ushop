@@ -185,7 +185,7 @@ export default function Discount() {
                                 <button
                                     onClick={handleDelete}
                                     type="button"
-                                    className="btn-delete"
+                                    className="btn-danger"
                                 >
                                     Delete
                                 </button>
@@ -198,7 +198,7 @@ export default function Discount() {
                                     setChosenDiscount(null);
                                     reset();
                                 }}
-                                className="btn-reset"
+                                className="btn-secondary"
                             >
                                 Reset
                             </button>

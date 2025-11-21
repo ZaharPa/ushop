@@ -24,7 +24,7 @@ export default function DiscountList({ discounts, onEdit }) {
                     <div>
                         <button
                             onClick={() => onEdit(discount)}
-                            className="btn-admin"
+                            className="btn-primary"
                         >
                             Edit
                         </button>

@@ -378,7 +378,7 @@ export default function ShowProduct() {
                             className="w-full border rounded p-2 mb-2"
                             placeholder="Write a comment"
                         />
-                        <button type="submit" className="btn-admin">
+                        <button type="submit" className="btn-primary">
                             Submit
                         </button>
                     </form>

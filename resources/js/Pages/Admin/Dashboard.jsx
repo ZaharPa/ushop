@@ -69,7 +69,7 @@ export default function Dashboard() {
                     onClick={() =>
                         (window.location.href = `?start=${start}&end=${end}`)
                     }
-                    className="btn-admin"
+                    className="btn-primary"
                 >
                     Apply
                 </button>

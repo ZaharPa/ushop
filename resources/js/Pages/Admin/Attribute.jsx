@@ -107,7 +107,7 @@ export default function Attribute() {
                                             );
                                             setChosenAttribute(attribute);
                                         }}
-                                        className="btn-admin py-0"
+                                        className="btn-primary py-0"
                                     >
                                         Edit
                                     </button>
@@ -116,7 +116,7 @@ export default function Attribute() {
                                             setShowConfirm(true);
                                             setChosenAttribute(attribute);
                                         }}
-                                        className="btn-delete py-0"
+                                        className="btn-danger py-0"
                                     >
                                         Delete
                                     </button>
@@ -195,7 +195,7 @@ export default function Attribute() {
                     <button
                         type="submit"
                         disabled={processing}
-                        className="btn-admin"
+                        className="btn-primary"
                     >
                         {chosenAttribute ? "Update" : "Add"}
                     </button>
@@ -207,7 +207,7 @@ export default function Attribute() {
                             setChosenAttribute();
                             setData("attribute", "");
                         }}
-                        className="btn-reset"
+                        className="btn-secondary"
                     >
                         Reset
                     </button>
