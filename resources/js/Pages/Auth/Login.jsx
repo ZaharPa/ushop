@@ -1,8 +1,12 @@
 import { Link, useForm } from "@inertiajs/react";
 import InputField from "../../Components/InputField";
 import ReCAPTCHA from "react-google-recaptcha";
+import { route } from "ziggy-js";
+import { useEffect, useRef } from "react";
 
 export default function Login() {
+    const captchaRef = useRef();
+
     const { data, setData, post, processing, errors } = useForm({
         email: "",
         password: "",
@@ -14,6 +18,13 @@ export default function Login() {
         e.preventDefault();
         post(route("login.store"));
     };
+
+    useEffect(() => {
+        if (errors.email || errors.captcha || errors.password) {
+            captchaRef.current?.reset();
+            setData("captcha", "");
+        }
+    }, [errors]);
 
     return (
         <div className="form-block">
@@ -56,12 +67,20 @@ export default function Login() {
                 </div>
 
                 <ReCAPTCHA
+                    ref={captchaRef}
                     sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
                     onChange={(token) => setData("captcha", token)}
                 />
                 {errors.captcha && (
                     <span className="text-red-500">{errors.captcha}</span>
                 )}
+
+                <Link
+                    href={route("password.request")}
+                    className="emphasis-text mx-auto"
+                >
+                    Forget your password?
+                </Link>
 
                 <button
                     type="submit"
@@ -74,7 +93,7 @@ export default function Login() {
                     Don't have an account? Click
                     <Link
                         href={route("register.create")}
-                        className="emphasis-text"
+                        className="emphasis-text px-0.5"
                     >
                         here
                     </Link>

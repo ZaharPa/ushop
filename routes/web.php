@@ -20,11 +20,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RefundController;
 use App\Http\Controllers\RegistrationConrtoller;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ShowProductController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -68,6 +70,16 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     return back()->with('success', 'Verification email sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/forgot-password', [ForgetPasswordController::class, 'create'])
+    ->name('password.request');
+Route::post('/forget-password', [ForgetPasswordController::class, 'store'])
+    ->name('password.email');
+
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'create'])
+    ->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'store'])
+    ->name('password.update');
 
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
 

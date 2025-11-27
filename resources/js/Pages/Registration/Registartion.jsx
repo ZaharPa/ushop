@@ -1,8 +1,11 @@
 import { Link, useForm } from "@inertiajs/react";
 import InputField from "../../Components/InputField";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useEffect, useRef } from "react";
 
 export default function Registration() {
+    const captchaRef = useRef();
+
     const { data, setData, post, processing, errors } = useForm({
         name: "",
         email: "",
@@ -15,6 +18,13 @@ export default function Registration() {
         e.preventDefault();
         post(route("register.store"));
     };
+
+    useEffect(() => {
+        if (errors.email || errors.captcha || errors.password) {
+            captchaRef.current?.reset();
+            setData("captcha", "");
+        }
+    }, [errors]);
 
     return (
         <div className="form-block">
@@ -72,6 +82,7 @@ export default function Registration() {
                 />
 
                 <ReCAPTCHA
+                    ref={captchaRef}
                     sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
                     onChange={(token) => setData("captcha", token)}
                 />
