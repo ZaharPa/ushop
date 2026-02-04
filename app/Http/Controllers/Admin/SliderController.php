@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller
@@ -38,6 +39,8 @@ class SliderController extends Controller
             'active' => $request->active,
         ]);
 
+        Cache::forget('main_page_data');
+
         return back()->with('success', 'Slide created successfully!');
     }
 
@@ -66,6 +69,8 @@ class SliderController extends Controller
             'link' => $request->link,
             'active' => $request->active,
         ]);
+
+        Cache::forget('main_page_data');
 
         return back()->with('success', 'Slide updated successfully!');
     }
