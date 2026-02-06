@@ -21,7 +21,7 @@ export default function Index() {
         const fetchRecommendations = async () => {
             try {
                 const response = await axios.get(
-                    route("product.recommendations")
+                    route("product.recommendations"),
                 );
                 setRecommendations(response.data);
             } catch (error) {
@@ -29,42 +29,38 @@ export default function Index() {
             }
         };
 
-        if (auth.user) {
-            fetchRecommendations();
-        }
-    }, [auth.user]);
-    console.log(recommendations);
+        fetchRecommendations();
+    }, []);
+
     return (
         <div>
             <Slider slides={slides} />
 
-            {auth.user && (
-                <div className="bg-sky-50 border border-sky-300 text-sky-900 p-4 text-center">
-                    <h2 className="h2-center">Recommendation</h2>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {recommendations.map((product) => (
-                            <Link
-                                key={product.id}
-                                href={route("product.show", [
-                                    product.id,
-                                    product.items?.[0],
-                                ])}
-                                className="card-product"
-                            >
-                                {product.photo_url && (
-                                    <img
-                                        src={product.photo_url}
-                                        className="w-full h-40 object-cover"
-                                    />
-                                )}
-                                <h3 className="mt-2 text-lg font-semibold text-sky-700">
-                                    {product.name}
-                                </h3>
-                            </Link>
-                        ))}
-                    </div>
+            <div className="bg-sky-50 border border-sky-300 text-sky-900 p-4 text-center">
+                <h2 className="h2-center">Recommendation</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {recommendations.map((product) => (
+                        <Link
+                            key={product.id}
+                            href={route("product.show", [
+                                product.id,
+                                product.items?.[0],
+                            ])}
+                            className="card-product"
+                        >
+                            {product.photo_url && (
+                                <img
+                                    src={product.photo_url}
+                                    className="w-full h-40 object-cover"
+                                />
+                            )}
+                            <h3 className="mt-2 text-lg font-semibold text-sky-700">
+                                {product.name}
+                            </h3>
+                        </Link>
+                    ))}
                 </div>
-            )}
+            </div>
 
             <CategorySlider categories={categories} />
 
@@ -194,7 +190,7 @@ export default function Index() {
                                             <span>
                                                 $
                                                 {Number(
-                                                    product.items[0].price
+                                                    product.items[0].price,
                                                 ).toFixed(2)}
                                             </span>
                                         )
@@ -223,7 +219,7 @@ export default function Index() {
                             </p>
                             <p className="text-xs text-gray-500">
                                 {new Date(
-                                    comment.created_at
+                                    comment.created_at,
                                 ).toLocaleDateString()}
                             </p>
                             <p className="text-gray-700">{comment.content}</p>

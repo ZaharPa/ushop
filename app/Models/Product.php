@@ -58,6 +58,11 @@ class Product extends Model
         return $this->hasMany(Rating::class);
     }
 
+    public function views(): HasMany
+    {
+        return $this->hasMany(ProductView::class);
+    }
+
     public function scopeFilter(Builder $query, array $filters): Builder
     {
         return $query->when(

@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\RefundController as AdminRefundController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\RecommandationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
@@ -104,6 +105,9 @@ Route::get('/payment/success', [PaymentController::class, 'success'])
     ->name('payment.success');
 Route::get('/payment/cancel', [PaymentController::class, 'cancel'])
     ->name('payment.cancel');
+
+Route::get('/product/recommendations', [RecommandationController::class, 'index'])
+    ->name('product.recommendations');
 
 Route::middleware(['auth', 'verified', 'is_admin'])
     ->prefix('admin')
