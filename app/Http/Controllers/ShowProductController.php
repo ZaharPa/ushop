@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Product;
 use App\Models\ProductView;
+use App\Traits\HasRecentlyViewed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ShowProductController extends Controller
 {
+    use HasRecentlyViewed;
+
     public function __invoke(Product $product, Item $item)
     {
         abort_unless($item->product_id === $product->id, 404);
@@ -38,6 +41,7 @@ class ShowProductController extends Controller
             'product' => $product,
             'item' => $item,
             'ratingUser' => $rating,
+            'recentlyViewed' => $this->getRecentlyViewed(),
         ]);
     }
 

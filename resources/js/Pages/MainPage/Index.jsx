@@ -1,4 +1,5 @@
 import CategorySlider from "@/Components/CategorySlider";
+import RecentlyViewed from "@/Components/RecentlyViewed";
 import Slider from "@/Components/Slider";
 import { Link, usePage } from "@inertiajs/react";
 import axios from "axios";
@@ -13,6 +14,7 @@ export default function Index() {
         popularItems,
         discountedItems,
         auth,
+        recentlyViewed,
     } = usePage().props;
 
     const [recommendations, setRecommendations] = useState([]);
@@ -235,6 +237,10 @@ export default function Index() {
                         </div>
                     ))}
                 </div>
+            </section>
+
+            <section className="mt-6">
+                <RecentlyViewed recentlyViewed={recentlyViewed} />
             </section>
         </div>
     );

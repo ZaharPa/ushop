@@ -1,13 +1,14 @@
+import RecentlyViewed from "@/Components/RecentlyViewed";
 import { Link, router, usePage } from "@inertiajs/react";
 import axios from "axios";
 import { Star, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ShowProduct() {
-    const { product, item, ratingUser, auth } = usePage().props;
+    const { product, item, ratingUser, auth, recentlyViewed } = usePage().props;
 
     const [selectedPhoto, setSelectedPhoto] = useState(
-        item.photos.length > 0 ? item.photos[0] : null
+        item.photos.length > 0 ? item.photos[0] : null,
     );
     const [showModal, setShowModal] = useState(false);
 
@@ -67,8 +68,8 @@ export default function ShowProduct() {
                 i.attribute_values.some(
                     (v) =>
                         v.attribute.id === lastChangedAttrId &&
-                        v.id === selectedAttributes[lastChangedAttrId]
-                )
+                        v.id === selectedAttributes[lastChangedAttrId],
+                ),
             );
 
             if (fallback && fallback.id !== item.id) {
@@ -205,7 +206,7 @@ export default function ShowProduct() {
                                             onClick={() =>
                                                 handleAttributeChange(
                                                     Number(attrId),
-                                                    v.id
+                                                    v.id,
                                                 )
                                             }
                                             className={`px-3 py-1 border rounded  ${
@@ -220,7 +221,7 @@ export default function ShowProduct() {
                                     ))}
                                 </div>
                             </div>
-                        )
+                        ),
                     )}
 
                     <div className="text-gray-500 text-sm mb-2">
@@ -363,6 +364,10 @@ export default function ShowProduct() {
                     )}
                 </div>
             )}
+
+            <section className="mt-6">
+                <RecentlyViewed recentlyViewed={recentlyViewed} />
+            </section>
 
             <div className="mt-8">
                 <h3 className="text-lg font-semibold text-sky-700 mb-2">

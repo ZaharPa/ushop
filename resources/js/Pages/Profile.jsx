@@ -1,9 +1,11 @@
 import Pagination from "@/Components/Pagination";
+import RecentlyViewed from "@/Components/RecentlyViewed";
 import { Link, router, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function Profile() {
-    const { user, activeOrders, historyOrders, errors } = usePage().props;
+    const { user, activeOrders, historyOrders, errors, recentlyViewed } =
+        usePage().props;
 
     const [emailForm, setEmailForm] = useState(false);
     const [newEmail, setNewEmail] = useState("");
@@ -82,7 +84,7 @@ export default function Profile() {
                                             >
                                                 {item.item.product.name.slice(
                                                     0,
-                                                    10
+                                                    10,
                                                 )}
                                             </Link>
                                             {i < order.items.length - 1 && (
@@ -124,13 +126,13 @@ export default function Profile() {
                                                             item.item.product
                                                                 .id,
                                                             item.item.id,
-                                                        ]
+                                                        ],
                                                     )}
                                                     className="hover:text-sky-600"
                                                 >
                                                     {item.item.product.name.slice(
                                                         0,
-                                                        10
+                                                        10,
                                                     )}
                                                 </Link>
                                                 {i < order.items.length - 1 && (
@@ -152,6 +154,10 @@ export default function Profile() {
                     )}
                 </div>
             </div>
+
+            <section className="mt-6">
+                <RecentlyViewed recentlyViewed={recentlyViewed} />
+            </section>
 
             {(emailForm || passForm) && (
                 <div

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\HasRecentlyViewed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
+    use HasRecentlyViewed;
+
     public function show()
     {
         $user = auth()->user();
@@ -19,6 +22,7 @@ class ProfileController extends Controller
             'user' => $user,
             'activeOrders' => $activeOrders,
             'historyOrders' => $historyOrders,
+            'recentlyViewed' => $this->getRecentlyViewed(),
         ]);
     }
 

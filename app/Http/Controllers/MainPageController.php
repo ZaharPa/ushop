@@ -7,11 +7,13 @@ use App\Models\Comment;
 use App\Models\Item;
 use App\Models\Product;
 use App\Models\Slider;
+use App\Traits\HasRecentlyViewed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class MainPageController extends Controller
 {
+    use HasRecentlyViewed;
 
     public function index()
     {
@@ -38,6 +40,7 @@ class MainPageController extends Controller
                     })
                     ->take(8)
                     ->get(),
+                'recentlyViewed' => $this->getRecentlyViewed(),
             ];
         });
         return inertia('MainPage/Index', $data);

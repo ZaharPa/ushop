@@ -44,15 +44,19 @@ class ProductViewService
             return ProductView::with(['product.items', 'product.category'])
                 ->where('session_id', session()->getId())
                 ->orderByDesc('viewed_at')
+                ->get()
+                ->unique('product_id')
                 ->take($limit)
-                ->get();
+                ->values();
         }
 
         return ProductView::with(['product.items', 'product.category'])
             ->where('user_id', $userId)
             ->orderByDesc('viewed_at')
+            ->get()
+            ->unique('product_id')
             ->take($limit)
-            ->get();
+            ->values();
     }
 
     public function getMostViewedProducts($days = 30, $limit = 10)
