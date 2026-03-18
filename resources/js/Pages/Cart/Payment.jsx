@@ -1,5 +1,6 @@
 import { router, usePage } from "@inertiajs/react";
 import axios from "axios";
+import { Banknote, CheckCircle, CreditCard } from "lucide-react";
 import { useState } from "react";
 
 export default function Payment() {
@@ -23,44 +24,105 @@ export default function Payment() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-4 flex flex-col md:flex-row md:items-start gap-6">
-            <div className="md:w-2/3">
-                <h3 className="text-lg font-semibold mb-2">
-                    Select Payment Method
-                </h3>
-                <div className="flex gap-4 items-center">
-                    <label>
-                        <input
-                            type="radio"
-                            value="cash"
-                            checked={method === "cash"}
-                            onChange={() => setMethod("cash")}
-                        />
-                        <span className="p-1">Cash on Delivary</span>
-                    </label>
-                    <label>
-                        <input
-                            type="radio"
-                            value="card"
-                            checked={method === "card"}
-                            onChange={() => setMethod("card")}
-                        />
-                        <span className="p-1">Credit/Debit Cart</span>
-                    </label>
-                </div>
-            </div>
-            <div className="md:w-1/3 rounded shadow p-4 h-fit">
-                <h3 className="text-lg font-semibold mb-2">Order Summary</h3>
-                <div>{order.name}</div>
-                <div>{order.address}</div>
-                <div>{order.total_price}</div>
+        <div className="max-w-5xl mx-auto p-4 md:p-6">
+            <h1 className="text-3xl font-bold text-gray-900 mb-8">Payment</h1>
 
-                <button
-                    onClick={() => handlePayment()}
-                    className="mt-4 btn-primary"
-                >
-                    Pay Now
-                </button>
+            <div className="grid grid-cols-1 md:grid-cols-3 mb-8">
+                <div className="md:col-span-2">
+                    <div className="bg-white border border-sky-200 rounded-xl p-6 shadow-md">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                            Select Payment Method
+                        </h3>
+
+                        <div className="space-y-3">
+                            <label
+                                className={`flex items-center gap-3 p-4 border rounded-lg cursor-pointer transition-all ${
+                                    method === "card"
+                                        ? "border-sky-500 bg-sky-50"
+                                        : "border-gray-200 hover:bg-gray-50"
+                                }`}
+                            >
+                                <input
+                                    type="radio"
+                                    value="card"
+                                    checked={method === "card"}
+                                    onChange={() => setMethod("card")}
+                                    className="w-5 h-5"
+                                />
+                                <CreditCard
+                                    size={24}
+                                    className="text-sky-600"
+                                />
+                                <span className="flex-1 font-semibold">
+                                    Credit/Debit Card
+                                </span>
+                                {method === "card" && (
+                                    <CheckCircle
+                                        size={20}
+                                        className="text-sky-600"
+                                    />
+                                )}
+                            </label>
+
+                            <label
+                                className={`flex items-center gap-3 p-4 border rounded-lg cursor-pointer transition-all ${
+                                    method === "cash"
+                                        ? "border-sky-500 bg-sky-50"
+                                        : "border-gray-200 hover:bg-gray-50"
+                                }`}
+                            >
+                                <input
+                                    type="radio"
+                                    value="cash"
+                                    checked={method === "cash"}
+                                    onChange={() => setMethod("cash")}
+                                    className="w-5 h-5"
+                                />
+                                <Banknote size={24} className="text-sky-600" />
+                                <span className="flex-1 font-semibold">
+                                    Cash on Delivary
+                                </span>
+                                {method === "cash" && (
+                                    <CheckCircle
+                                        size={20}
+                                        className="text-sky-600"
+                                    />
+                                )}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div className="bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-xl p-6 shadow-md">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            Order Summary
+                        </h3>
+                        <div className="space-y-3 text-sm mb-6">
+                            <div>
+                                <span className="text-gray-600">Name:</span>
+                                <p className="font-semibold">{order.name}</p>
+                            </div>
+                            <div>
+                                <span className="text-gray-600">Address:</span>
+                                <p className="font-semibold">{order.address}</p>
+                            </div>
+                            <div>
+                                <span className="text-gray-600">Total:</span>
+                                <p className="font-semibold">
+                                    ${Number(order.total_price).toFixed(2)}
+                                </p>
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={() => handlePayment()}
+                            className="mt-4 btn-primary"
+                        >
+                            Pay Now
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );

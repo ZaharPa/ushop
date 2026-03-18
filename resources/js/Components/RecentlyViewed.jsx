@@ -2,29 +2,33 @@ import { Link } from "@inertiajs/react";
 
 export default function RecentlyViewed({ recentlyViewed }) {
     return (
-        <div className="bg-sky-50 border border-sky-300 text-sky-900 p-4 text-center">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
             <h2 className="h2-center">Your History</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {recentlyViewed.map((item) => (
-                    <Link
-                        key={item.product.id}
-                        href={route("product.show", [
-                            item.product.id,
-                            item.product.items?.[0],
-                        ])}
-                        className="card-product"
-                    >
-                        {item.product.photo_url && (
-                            <img
-                                src={item.product.photo_url}
-                                className="w-full h-40 object-cover"
-                            />
-                        )}
-                        <h3 className="mt-2 text-lg font-semibold text-sky-700">
-                            {item.product.name}
-                        </h3>
-                    </Link>
-                ))}
+            <div className="overflow-x-auto pb-4">
+                <div className="flex space-x-4 md:space-x-6">
+                    {recentlyViewed.map((item) => (
+                        <Link
+                            key={item.product.id}
+                            href={route("product.show", [
+                                item.product.id,
+                                item.product.items?.[0],
+                            ])}
+                            className="card-product max-w-[120px] md:max-w-[160px] flex-shrink-0"
+                        >
+                            {item.product.photo_url && (
+                                <div className="aspect-square w-full overflow-hidden rounded-lg mb-3">
+                                    <img
+                                        src={item.product.photo_url}
+                                        className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                                    />
+                                </div>
+                            )}
+                            <h3 className="text-sm font-semibold text-sky-700 line-clamp-2">
+                                {item.product.name}
+                            </h3>
+                        </Link>
+                    ))}
+                </div>
             </div>
         </div>
     );

@@ -4,7 +4,7 @@ export default function UserRow({ user, actions }) {
             <div className="col-span-1">{user.id}</div>
             <div className="col-span-3 lg:col-span-4">{user.name}</div>
             <div className="col-span-4">{user.email}</div>
-            <div className="col-span-2 flex">{actions}</div>
+            <div className="col-span-2 flex gap-2">{actions}</div>
         </li>
     );
 }

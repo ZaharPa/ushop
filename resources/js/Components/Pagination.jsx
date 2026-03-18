@@ -40,21 +40,26 @@ export default function Pagination({ links }) {
                     key={i}
                     href={link.url}
                     dangerouslySetInnerHTML={{ __html: link.label }}
-                    className={`px-4 py-2 rounded text-gray-50
-                            hover:bg-sky-500 transition duration-200 ${
-                                link.active ? "bg-sky-600" : "bg-sky-800 "
-                            }`}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                        link.active
+                            ? "bg-sky-600 text-white shadow-md scale-105"
+                            : "bg-sky-800 text-gray-50 hover:bg-sky-500 hover:shadow-md "
+                    }`}
                 />
             ) : (
                 <span
                     key={i}
-                    className="px-4 py-2 rounded bg-gray-300 text-gray-700"
+                    className="px-4 py-2 rounded bg-gray-300 text-gray-500"
                 >
                     ...
                 </span>
-            )
+            ),
         );
     };
 
-    return <div className="flex flex-wrap gap-2 mt-4">{renderLinks()}</div>;
+    return (
+        <div className="flex flex-wrap justify-center items-center gap-2 mt-4">
+            {renderLinks()}
+        </div>
+    );
 }

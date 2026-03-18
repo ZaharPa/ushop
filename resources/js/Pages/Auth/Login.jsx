@@ -3,6 +3,7 @@ import InputField from "../../Components/InputField";
 import ReCAPTCHA from "react-google-recaptcha";
 import { route } from "ziggy-js";
 import { useEffect, useRef } from "react";
+import { LogIn } from "lucide-react";
 
 export default function Login() {
     const captchaRef = useRef();
@@ -28,11 +29,11 @@ export default function Login() {
 
     return (
         <div className="form-block">
-            <h1 className="text-2xl text-center p-2 mb-6">Login</h1>
-            <form
-                onSubmit={handleSubmit}
-                className="flex flex-col space-y-4 text-emerald-900"
-            >
+            <div className="flex items-center justify-center gap-3 mb-6">
+                <LogIn size={32} className="text-sky-600" />
+                <h1 className="text-3xl text-center text-gray-800">Login</h1>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
                 <InputField
                     label="Email"
                     type="email"
@@ -49,15 +50,21 @@ export default function Login() {
                     onChange={(e) => setData("password", e.target.value)}
                 />
 
-                <div>
-                    <span className="mt-2 ">Remember me</span>
+                <div className="flex items-center gap-2">
                     <input
                         type="checkbox"
                         name="remember"
+                        id="remember"
                         checked={data.remember}
                         onChange={(e) => setData("remember", e.target.checked)}
-                        className="w-10 h-4"
+                        className="w-4 h-4 text-sky-600 border border-gray-300 rounded focus:ring focus:ring-sky-500"
                     />
+                    <span
+                        htmlFor="remember"
+                        className="text-sm text-gray-700 cursor-pointer"
+                    >
+                        Remember me
+                    </span>
                 </div>
 
                 <div className="text-center">
@@ -72,32 +79,34 @@ export default function Login() {
                     onChange={(token) => setData("captcha", token)}
                 />
                 {errors.captcha && (
-                    <span className="text-red-500">{errors.captcha}</span>
+                    <p className="text-red-500">{errors.captcha}</p>
                 )}
 
-                <Link
-                    href={route("password.request")}
-                    className="emphasis-text mx-auto"
-                >
-                    Forget your password?
-                </Link>
-
-                <button
-                    type="submit"
-                    disabled={processing}
-                    className="btn-primary"
-                >
-                    {processing ? "Logging in..." : "Sign in"}
-                </button>
-                <div className="text-center mt-2">
-                    Don't have an account? Click
+                <div className="grid grid-cols-1 gap-4">
                     <Link
-                        href={route("register.create")}
-                        className="emphasis-text px-0.5"
+                        href={route("password.request")}
+                        className="emphasis-text mx-auto block"
                     >
-                        here
+                        Forget your password?
                     </Link>
-                    to register
+
+                    <button
+                        type="submit"
+                        disabled={processing}
+                        className="btn-primary"
+                    >
+                        {processing ? "Logging in..." : "Sign in"}
+                    </button>
+                    <div className="text-center mt-2">
+                        Don't have an account? Click
+                        <Link
+                            href={route("register.create")}
+                            className="emphasis-text px-0.5"
+                        >
+                            here
+                        </Link>
+                        to register
+                    </div>
                 </div>
             </form>
         </div>

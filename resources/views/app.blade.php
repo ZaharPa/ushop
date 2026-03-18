@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="scroll-smooth">
 
 <head>
     <meta charset="utf-8" />
@@ -15,7 +15,7 @@
     @inertiaHead
 </head>
 
-<body>
+<body class="antialiased bg-gradient-to-br from-sky-50 via-white to-blue-50 text-gray-900">
     @inertia
 </body>
 

@@ -63,7 +63,7 @@ export default function Attribute() {
                     reset();
                     setValueName(null);
                 },
-            }
+            },
         );
     };
 
@@ -84,7 +84,7 @@ export default function Attribute() {
                     setValueToDelete(null);
                     setShowConfirm(false);
                 },
-            }
+            },
         );
     };
 
@@ -98,12 +98,12 @@ export default function Attribute() {
                         <div className="shadow-xl mb-4">
                             <div className="flex justify-between mx-4 items-center gap-2 shadow-xs">
                                 <span>{attribute.name}</span>
-                                <div>
+                                <div className="flex gap-2">
                                     <button
                                         onClick={() => {
                                             setData(
                                                 "attribute",
-                                                attribute.name
+                                                attribute.name,
                                             );
                                             setChosenAttribute(attribute);
                                         }}
@@ -130,7 +130,7 @@ export default function Attribute() {
                                             onClick={() =>
                                                 confirmDeleteValue(
                                                     value.id,
-                                                    attribute.id
+                                                    attribute.id,
                                                 )
                                             }
                                         >

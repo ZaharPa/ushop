@@ -38,7 +38,7 @@ class AuthController extends Controller
             return back()->withErrors(['captcha' => 'Captcha failed']);
         }
 
-        if (!Auth::attempt($request->only('email', 'password'), $request->has('remember'))) {
+        if (!Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             throw ValidationException::withMessages([
                 'email' => 'Authentification failed'
             ]);

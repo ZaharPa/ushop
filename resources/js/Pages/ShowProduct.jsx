@@ -1,7 +1,7 @@
 import RecentlyViewed from "@/Components/RecentlyViewed";
 import { Link, router, usePage } from "@inertiajs/react";
 import axios from "axios";
-import { Star, X } from "lucide-react";
+import { MessageSquare, Package, Star, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ShowProduct() {
@@ -134,9 +134,9 @@ export default function ShowProduct() {
         }
     };
     return (
-        <div className="max-w-5xl mx-auto p-6">
+        <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
             {cartMessage && (
-                <div className="top-right-alert bg-green-700">
+                <div className="top-right-alert from-green-600 to-green-700 hover:from-green-700 hover:to-green-800">
                     {cartMessage}
                 </div>
             )}
@@ -145,60 +145,108 @@ export default function ShowProduct() {
                 <div className="top-right-alert">{errorMessage}</div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 bg-white border border-gray-200 rounded-xl shadow-xl p-4">
+                <div className="space-y-4">
                     {selectedPhoto && (
-                        <img
-                            src={selectedPhoto.photo_url}
-                            onClick={() => setShowModal(true)}
-                            className="w-full h-96 object-cover rounded shadow cursor-pointer mb-4"
-                        />
+                        <div className="aspect-square overflow-hidden rounded-2xl shadow-xl border-2 border-sky-100">
+                            <img
+                                src={selectedPhoto.photo_url}
+                                onClick={() => setShowModal(true)}
+                                className="w-full h-full object-cover cursor-zoom-in hover:scale-110 transition-transform duration-300"
+                            />
+                        </div>
                     )}
 
                     {item.photos.length > 1 && (
-                        <div className="flex gap-2 overflow-x-auto">
+                        <div className="flex gap-3 overflow-x-auto pb-2">
                             {item.photos.map((photo) => (
-                                <img
+                                <div
                                     key={photo.id}
-                                    src={photo.photo_url}
                                     onClick={() => setSelectedPhoto(photo)}
-                                    className={`h-20 w-20 object-cover rounded border cursor-pointer transition ${
+                                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden  cursor-pointer transition ${
                                         selectedPhoto.id === photo.id
-                                            ? "border-sky-600 ring-2 ring-sky-300"
-                                            : "border-gray-300 hover:border-sky-400"
+                                            ? "ring-4 ring-sky-200 scale-110"
+                                            : "ring-2 ring-gray-100 hover:ring-sky-200"
                                     }`}
-                                />
+                                >
+                                    <img
+                                        src={photo.photo_url}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
                             ))}
                         </div>
                     )}
                 </div>
 
-                <div className="flex flex-col justify-start gap-4 text-center">
-                    <h2 className="text-2xl font-bold text-sky-800">
-                        {product.name}
-                    </h2>
-                    <p className="text-gray-500 mb-3">
-                        {product.category.name}
-                    </p>
-                    <p className="text-xl text-sky-700 font-semibold mb-2">
-                        {item.discount ? (
-                            <span className="text-red-600">
-                                $
-                                {item.price -
-                                    item.price *
-                                        (item.discount.percentage / 100)}
+                <div className="space-y-6">
+                    <div>
+                        <p className="text-gray-500 mb-3">
+                            {product.category.name}
+                        </p>
+
+                        <h2 className="text-2xl font-bold text-sky-800">
+                            {product.name}
+                        </h2>
+
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="flex items-center gap-1">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <Star
+                                        key={star}
+                                        size={20}
+                                        className={
+                                            star <=
+                                            Math.round(product.average_rating)
+                                                ? "fill-yellow-400 text-yellow-400"
+                                                : "text-gray-300"
+                                        }
+                                    />
+                                ))}
+                            </div>
+                            <span className="text-lg font-semibold text-gray-700">
+                                {Number(product.average_rating).toFixed(1)}
                             </span>
-                        ) : (
-                            <span>${item.price}</span>
-                        )}
-                    </p>
+                            <span className="text-sm" text-gray-500>
+                                ({product.ratings_count} ratings)
+                            </span>
+                        </div>
+
+                        <div className="bg-gradient-to-br from-sky-50 to-blue-50 border-2 border-sky-200 rounded-xl p-6 w-fit">
+                            <div className="flex items-baseline gap-3">
+                                {item.discount ? (
+                                    <>
+                                        <span className="text-4xl font-bold text-red-600">
+                                            $
+                                            {(
+                                                item.price -
+                                                item.prive *
+                                                    (item.discount.percentage /
+                                                        100)
+                                            ).toFixed(2)}
+                                        </span>
+                                        <span className="text-2xl line-through text-gray-400">
+                                            ${item.price}
+                                        </span>
+                                        <span className="ml-auto text-lg font-semibold text-green-600 bg-green-100 px-3 py-1 rounded-full">
+                                            Save {item.discount.percentage}%
+                                        </span>
+                                    </>
+                                ) : (
+                                    <span className="text-3xl font-bold text-sky-700">
+                                        ${item.price}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    </div>
 
                     {Object.entries(attributeOptions).map(
                         ([attrId, values]) => (
-                            <div key={attrId}>
-                                <span className="block font-semibold mb-1">
+                            <div key={attrId} className="space-y-3">
+                                <label className="block font-semibold text-sm text-gray-700 mb-1">
                                     {Object.values(values)[0].attribute.name}
-                                </span>
+                                </label>
                                 <div className="flex flex-wrap gap-2">
                                     {Object.values(values).map((v) => (
                                         <button
@@ -209,11 +257,11 @@ export default function ShowProduct() {
                                                     v.id,
                                                 )
                                             }
-                                            className={`px-3 py-1 border rounded  ${
+                                            className={`px-3 py-1 rounded-lg font-medium transition-all duration-200  ${
                                                 selectedAttributes[attrId] ===
                                                 v.id
-                                                    ? "bg-sky-600 text-white border-sky-600"
-                                                    : "bg-white text-gray-700 border-gray-300 hover:bg-sky-100"
+                                                    ? "bg-sky-600 text-white shadow-md scale-105"
+                                                    : "bg-white text-gray-700 border-2 border-gray-300 hover:border-sky-400 hover:bg-sky-50"
                                             }`}
                                         >
                                             {v.value}
@@ -224,8 +272,12 @@ export default function ShowProduct() {
                         ),
                     )}
 
-                    <div className="text-gray-500 text-sm mb-2">
-                        Quantity: {item.quantity}
+                    <div className="flex items-center gap-2 text-gray-600">
+                        <Package size={20} />
+                        <span className="text-sm">
+                            <span className="font-semibold">In Stock:</span>{" "}
+                            {item.quantity} units
+                        </span>
                     </div>
 
                     <button
@@ -237,28 +289,25 @@ export default function ShowProduct() {
                 </div>
             </div>
 
-            <h3 className="text-lg font-semibold text-sky-700 mt-6">
-                Rating -
-                <span className="text-yellow-500">
-                    {product.average_rating}
-                </span>
-            </h3>
-
-            <h3 className="text-lg font-semibold text-sky-700 mt-3">
-                Description
-            </h3>
-            <p className="text-gray-700 mb-4">{product.description}</p>
+            <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8 shadow-sm">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                    Description
+                </h2>
+                <p className="text-gray-700 leading-relaxed">
+                    {product.description}
+                </p>
+            </div>
 
             {product.features.length > 0 && (
-                <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-sky-700 mb-2">
+                <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8 shadow-sm">
+                    <h3 className="text-2xl font-semibold text-gray-900 mb-4">
                         Product Features
                     </h3>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {product.features.map((feature) => (
                             <li
                                 key={feature.id}
-                                className="bg-sky-50 border border-sky-200 rounded-lg p-4 shadow"
+                                className="bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-lg p-4 hover:shadow-md transition-shadow"
                             >
                                 <h4 className="font-semibold text-sky-800 mb-1">
                                     {feature.name}
@@ -272,125 +321,137 @@ export default function ShowProduct() {
                 </div>
             )}
 
-            <h2 className="text-xl font-semibold text-sky-800 mb-2">
-                Other Variants
-            </h2>
-            <div className="flex flex-wrap gap-2">
-                {product.items.map((variant) => (
-                    <Link
-                        key={variant.id}
-                        href={route("product.show", [product.id, variant.id])}
-                        className={`px-3 py-2 rounded border ${
-                            variant.id === item.id
-                                ? "bg-sky-600 text-white"
-                                : "bg-white hover:bg-sky-100"
-                        }`}
-                    >
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-                            {Array.isArray(variant.photos) &&
-                                variant.photos[0] && (
-                                    <img
-                                        src={variant.photos[0].photo_url}
-                                        className="inline-block h-12 w-12 mr-2 rounded object-cover"
-                                    />
-                                )}
-
-                            <div className="flex flex-col">
-                                <div>
-                                    {variant.discount ? (
-                                        <span className="text-red-600">
-                                            $
-                                            {variant.price -
-                                                variant.price *
-                                                    (variant.discount
-                                                        .percentage /
-                                                        100)}
-                                        </span>
-                                    ) : (
-                                        <span>${variant.price}</span>
+            {product.items.length > 1 && (
+                <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8 shadow-sm">
+                    <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+                        Other Variants
+                    </h2>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                        {product.items.map((variant) => (
+                            <Link
+                                key={variant.id}
+                                href={route("product.show", [
+                                    product.id,
+                                    variant.id,
+                                ])}
+                                className={`border-2 rounded-xl p-4 transition-all duration-200 ${
+                                    variant.id === item.id
+                                        ? "bg-sky-50 border-sky-600 shadow-lg"
+                                        : "bg-gray-200 hover:border-sky-400 hover:shadow-md"
+                                }`}
+                            >
+                                {Array.isArray(variant.photos) &&
+                                    variant.photos[0] && (
+                                        <div className="aspect-square overflow-hidden rounded-lg mb-3">
+                                            <img
+                                                src={
+                                                    variant.photos[0].photo_url
+                                                }
+                                                className="h-full w-full object-cover"
+                                            />
+                                        </div>
                                     )}
-                                </div>
-                                {variant.attribute_values.map((v) => (
-                                    <div key={v.id} className="text-sm">
-                                        {v.value}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </Link>
-                ))}
-            </div>
 
-            {showModal && (
-                <div
-                    onClick={() => setShowModal(false)}
-                    className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center"
-                >
-                    <img
-                        src={selectedPhoto.photo_url}
-                        className="max-h-[90%] rounded shadow-lg"
-                    />
+                                <div className="space-y-1">
+                                    <p className="font-bold text-lg text-gray-900">
+                                        {variant.discount ? (
+                                            <>
+                                                <span className="text-red-600">
+                                                    $
+                                                    {Number(
+                                                        variant.price -
+                                                            variant.price *
+                                                                (variant
+                                                                    .discount
+                                                                    .percentage /
+                                                                    100),
+                                                    ).toFixed(2)}
+                                                </span>
+                                                <span className="text-sm line-through text-gray-400 ml-2">
+                                                    ${variant.price}
+                                                </span>
+                                            </>
+                                        ) : (
+                                            <span>${variant.price}</span>
+                                        )}
+                                    </p>
+                                    {variant.attribute_values.map((v) => (
+                                        <div
+                                            key={v.id}
+                                            className="text-sm text-gray-600"
+                                        >
+                                            {v.value}
+                                        </div>
+                                    ))}
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             )}
 
             {usePage().props.auth?.user && (
-                <div className="mt-6">
-                    <h3 className="text-lg font-semibold text-sky-700 mb-2">
+                <div className="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-100 rounded-xl p-6 mb-8 shadow-sm">
+                    <h3 className="text-xl font-semibold text-sky-900 mb-2">
                         Leave your rating
                     </h3>
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-4">
                         {[1, 2, 3, 4, 5].map((value) => (
                             <Star
                                 key={value}
-                                size={24}
-                                className={`cursor-pointer ${
+                                size={32}
+                                className={`cursor-pointer transition-all duration-150 ${
                                     value <= (hoverRating || rating)
-                                        ? "text-yellow-400"
-                                        : "text-gray-300"
+                                        ? "text-yellow-400 fill-yellow-400 scale-110"
+                                        : "text-gray-300 hover:text-yellow-200"
                                 }`}
                                 onClick={() => handleRating(value)}
                                 onMouseEnter={() => setHoverRating(value)}
                                 onMouseLeave={() => setHoverRating(0)}
                             />
                         ))}
-                        <span className="ml-2 text-gray-700">
-                            {rating > 0 ? `${rating} / 5 ` : "No rating yet"}
-                        </span>
                     </div>
+                    <span className=" text-lg ml-2 text-gray-700">
+                        {rating > 0 ? `${rating} / 5 ` : "No rating yet"}
+                    </span>
                     {messageRating && (
-                        <p className="mt-2 text-sm text-green-600">
+                        <p className="mt-2 text-sm font-medium bg-green-50 text-green-600 rounded-xl px-4 py-2 inline-block">
                             {messageRating}
                         </p>
                     )}
                 </div>
             )}
 
-            <section className="mt-6">
-                <RecentlyViewed recentlyViewed={recentlyViewed} />
-            </section>
-
-            <div className="mt-8">
-                <h3 className="text-lg font-semibold text-sky-700 mb-2">
-                    Comments
-                </h3>
+            <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8 shadow-sm">
+                <div className="flex items-center gap-2 mb-6">
+                    <MessageSquare size={24} className="text-sky-600" />
+                    <h3 className="text-xl font-semibold text-gray-900">
+                        Customer`s Reviews
+                    </h3>
+                    <span className="ml-2 text-lg text-gray-500">
+                        ({comments.length})
+                    </span>
+                </div>
 
                 {usePage().props.auth?.user && (
-                    <form onSubmit={submitComment} className="mt-4">
+                    <form onSubmit={submitComment} className="mb-6">
                         <textarea
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
                             required
-                            className="w-full border rounded p-2 mb-2"
+                            className="w-full border-2 border-gray-200 rounded-xl p-2 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 transition-all"
                             placeholder="Write a comment"
                         />
                         <button type="submit" className="btn-primary">
-                            Submit
+                            Post Review
                         </button>
                     </form>
                 )}
 
                 {comments.length === 0 ? (
-                    <p className="text-gray-500">No comments yet.</p>
+                    <p className="text-center text-gray-500 py-8">
+                        No comments yet.
+                    </p>
                 ) : (
                     comments.map((comment) => (
                         <div
@@ -415,6 +476,22 @@ export default function ShowProduct() {
                     ))
                 )}
             </div>
+
+            <section className="mt-6">
+                <RecentlyViewed recentlyViewed={recentlyViewed} />
+            </section>
+
+            {showModal && (
+                <div
+                    onClick={() => setShowModal(false)}
+                    className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center cursor-zoom-out"
+                >
+                    <img
+                        src={selectedPhoto.photo_url}
+                        className="max-h-[90vw] max-w-[90vw] rounded shadow-lg"
+                    />
+                </div>
+            )}
         </div>
     );
 }

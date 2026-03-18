@@ -29,10 +29,7 @@ export default function Registration() {
     return (
         <div className="form-block">
             <h1 className="text-2xl text-center p-2 mb-6">Registration</h1>
-            <form
-                onSubmit={handleSubmit}
-                className="flex flex-col space-y-4 text-emerald-900"
-            >
+            <form onSubmit={handleSubmit} className="space-y-5">
                 <InputField
                     label="Name"
                     name="name"
@@ -91,13 +88,15 @@ export default function Registration() {
                     <span className="text-red-500">{errors.captcha}</span>
                 )}
 
-                <button
-                    type="submit"
-                    disabled={processing}
-                    className="btn-primary mt-4"
-                >
-                    {processing ? "Processing..." : "Sign up"}
-                </button>
+                <div className="flex items-center justify-center">
+                    <button
+                        type="submit"
+                        disabled={processing}
+                        className="btn-primary mt-4"
+                    >
+                        {processing ? "Processing..." : "Sign up"}
+                    </button>
+                </div>
 
                 <div className="text-center mt-2">
                     Do you have an account? Click{" "}

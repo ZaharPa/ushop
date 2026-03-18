@@ -59,7 +59,7 @@ export default function Feature() {
                         className="flex justify-center items-center gap-2"
                     >
                         <span>{feature.name}</span>
-                        <div>
+                        <div className="flex gap-2">
                             <button
                                 onClick={() => {
                                     setData("name", feature.name);
@@ -124,7 +124,7 @@ export default function Feature() {
                 show={showConfirm}
                 onConfrim={deleteFeature}
                 onCancel={() => {
-                    setShowConfirm(false), reset();
+                    (setShowConfirm(false), reset());
                 }}
                 message="Are you sure want to delete this feature?"
             />
