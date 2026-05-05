@@ -121,7 +121,7 @@ export default function Profile() {
                             Order History
                             {historyOrders.data.length > 0 && (
                                 <span className="bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full text-xs font-bold">
-                                    {activeOrders.data.length}
+                                    {historyOrders.data.length}
                                 </span>
                             )}
                         </button>

@@ -117,7 +117,7 @@ export default function Form({
 
             <div className="col-span-2">
                 <label className="text-lg">Attributes</label>
-                <div className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-x-5 gap-y-2 mt-1">
+                <div className="flex flex-wrap gap-5 mt-2">
                     {attributes.map((attribute) => (
                         <div
                             key={attribute.id}
@@ -131,7 +131,7 @@ export default function Form({
                                             type="checkbox"
                                             id={`attribute-${value.id}`}
                                             checked={data.attribute_values.includes(
-                                                value.id
+                                                value.id,
                                             )}
                                             onChange={() =>
                                                 handleAttributeToggle(value.id)
@@ -160,7 +160,12 @@ export default function Form({
 
             <div className="col-span-2">
                 <div>Photos</div>
-                <input type="file" multiple onChange={handlePhotoChange} />
+                <input
+                    type="file"
+                    multiple
+                    onChange={handlePhotoChange}
+                    className="bg-white rounded-lg border border-gray-300 p-1 cursor-pointer"
+                />
 
                 {errors.photos && (
                     <div className="text-red-500 my-1">{errors.photos}</div>
@@ -215,8 +220,8 @@ export default function Form({
                                         setData(
                                             "photos",
                                             data.photos.filter(
-                                                (_, i) => i !== index
-                                            )
+                                                (_, i) => i !== index,
+                                            ),
                                         )
                                     }
                                     className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 text-xs"

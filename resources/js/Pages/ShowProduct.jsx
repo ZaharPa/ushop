@@ -220,7 +220,7 @@ export default function ShowProduct() {
                                             $
                                             {(
                                                 item.price -
-                                                item.prive *
+                                                item.price *
                                                     (item.discount.percentage /
                                                         100)
                                             ).toFixed(2)}

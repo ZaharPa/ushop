@@ -52,7 +52,7 @@ export default function Feature() {
     return (
         <AdminLayout>
             <h2 className="h2-center">Features</h2>
-            <ul className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <ul className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {features.data.map((feature) => (
                     <li
                         key={feature.id}
